@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 public class Offers extends AppCompatActivity {
 
+    //Comentario para el commit 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
