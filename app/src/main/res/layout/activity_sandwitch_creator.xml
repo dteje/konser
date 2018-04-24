@@ -29,6 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="buttonIngredient"
                     android:text="Carne/Pescado"
                     android:textSize="10sp" />
 
@@ -37,6 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="buttonIngredient"
                     android:text="Verduras"
                     android:textSize="10sp" />
 
@@ -45,6 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="buttonIngredient"
                     android:text="Queso"
                     android:textSize="10sp" />
 
@@ -53,6 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="buttonIngredient"
                     android:text="Especial"
                     android:textSize="10sp" />
 
@@ -61,6 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="buttonIngredient"
                     android:text="Salsas"
                     android:textSize="10sp" />
 
