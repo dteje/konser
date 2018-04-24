@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class AdapterData extends RecyclerView.Adapter<AdapterData.ViewHolderData>{
+public class AdapterData extends RecyclerView.Adapter<AdapterData.ViewHolderData> {
 
     ArrayList<String> listData;
 
@@ -41,8 +41,10 @@ public class AdapterData extends RecyclerView.Adapter<AdapterData.ViewHolderData
             data = itemView.findViewById(R.id.idData);
         }
 
-        public void assignData(String aData){
+        public void assignData(String aData) {
             data.setText(aData);
         }
     }
 }
+
+

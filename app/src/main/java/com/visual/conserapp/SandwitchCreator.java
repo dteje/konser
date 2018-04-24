@@ -2,6 +2,7 @@ package com.visual.conserapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -22,6 +23,11 @@ public class SandwitchCreator extends AppCompatActivity {
 
         recycler = (RecyclerView) findViewById(R.id.recyclerIngredientesId);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recycler.getContext(),
+                DividerItemDecoration.VERTICAL);
+        recycler.addItemDecoration(dividerItemDecoration);
+
 
         listData = new ArrayList<String>();
 
@@ -50,7 +56,7 @@ public class SandwitchCreator extends AppCompatActivity {
         recycler.setAdapter(adapter);
     }
 
-    // test modification to go back
+    // test modification to go back 2
 
 
     public void generateCarne (){
