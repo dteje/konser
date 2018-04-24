@@ -45,6 +45,11 @@ public class SandwitchCreator extends AppCompatActivity {
 
     }
 
+    public void modifyAdapter(){
+        AdapterData adapter = new AdapterData(listData);
+        recycler.setAdapter(adapter);
+    }
+
     public void generateCarne (){
 
         listData.clear();
@@ -61,8 +66,7 @@ public class SandwitchCreator extends AppCompatActivity {
         listData.add("Jamón York");
         listData.add("Jamón York");
 
-        AdapterData adapter = new AdapterData(listData);
-        recycler.setAdapter(adapter);
+        modifyAdapter();
     }
 
     public void generateVerduras (){
@@ -81,8 +85,7 @@ public class SandwitchCreator extends AppCompatActivity {
         listData.add("Tomate");
         listData.add("Tomate");
 
-        AdapterData adapter = new AdapterData(listData);
-        recycler.setAdapter(adapter);
+        modifyAdapter();
     }
 
     public void generateQueso (){
@@ -101,8 +104,7 @@ public class SandwitchCreator extends AppCompatActivity {
         listData.add("Manchego");
         listData.add("Manchego");
 
-        AdapterData adapter = new AdapterData(listData);
-        recycler.setAdapter(adapter);
+        modifyAdapter();
     }
 
     public void generateEspecial (){
@@ -121,8 +123,7 @@ public class SandwitchCreator extends AppCompatActivity {
         listData.add("Huevo Frito");
         listData.add("Huevo Frito");
 
-        AdapterData adapter = new AdapterData(listData);
-        recycler.setAdapter(adapter);
+        modifyAdapter();
     }
 
     public void generateSalsas (){
@@ -141,7 +142,6 @@ public class SandwitchCreator extends AppCompatActivity {
         listData.add("Mayonesa");
         listData.add("Mayonesa");
 
-        AdapterData adapter = new AdapterData(listData);
-        recycler.setAdapter(adapter);
+        modifyAdapter();
     }
 }
