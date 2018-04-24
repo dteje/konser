@@ -13,12 +13,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.visual.conserapp.Model.User;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText edtEmail, edtName, edtPass1;
+    EditText edtEmail, edtName, edtPass1, edtPass2;
     Button btnSignUp;
 
     @Override
@@ -29,6 +29,8 @@ public class SignUp extends AppCompatActivity {
         edtEmail = (MaterialEditText) findViewById(R.id.edtEmail);
         edtName = (MaterialEditText) findViewById(R.id.edtName);
         edtPass1 = (MaterialEditText) findViewById(R.id.edtPassword1);
+        edtPass2 = (MaterialEditText) findViewById(R.id.edtPassword2);
+
 
         btnSignUp = (Button) findViewById(R.id.btn_confirmsignup);
 
@@ -42,27 +44,58 @@ public class SignUp extends AppCompatActivity {
                 pd.setMessage("Please wait");
                 pd.show();
 
-                table_user.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child(edtEmail.getText().toString()).exists()){
-                            pd.dismiss();
-                            Toast.makeText(SignUp.this,"Email ya registrado",Toast.LENGTH_SHORT).show();
+                if (isEmailValid() && checkPasswordsMatch()) {
+
+                    table_user.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.child(encodeUserEmail(edtEmail.getText().toString())).exists()) {
+                                pd.dismiss();
+                                Toast.makeText(SignUp.this, "Email ya registrado", Toast.LENGTH_SHORT).show();
+                            } else {
+                                pd.dismiss();
+                                User user = new User(edtName.getText().toString(), edtPass1.getText().toString());
+                                table_user.child(encodeUserEmail(edtEmail.getText().toString())).setValue(user);
+                                Toast.makeText(SignUp.this, "Registrado correctamente", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
                         }
 
-                    else{
-                        pd.dismiss();
-                        User user = new User(edtName.getText().toString(), edtPass1.getText().toString());
-                    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                        }
+                    });
+                }
+                else if(!isEmailValid() && checkPasswordsMatch()){
+                    pd.dismiss();
+                    Toast.makeText(SignUp.this, "Error: formato de e-mail incorrecto", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    pd.dismiss();
+                    Toast.makeText(SignUp.this, "Error: las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
+
+    private boolean isEmailValid() {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(edtEmail.getText().toString()).matches();
+    }
+
+    private boolean checkPasswordsMatch() {
+        String pass1 = edtPass1.getText().toString();
+        String pass2 = edtPass2.getText().toString();
+        return (pass1.equals(pass2));
+    }
+
+    private static String encodeUserEmail(String userEmail) {
+        return userEmail.replace(".", ",");
+    }
+
+    private static String decodeUserEmail(String userEmail) {
+        return userEmail.replace(",", ".");
+    }
+
+
 }
