@@ -7,12 +7,14 @@
     tools:context=".SandwitchCreator">
 
     <LinearLayout
+        android:id="@+id/generalLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="458dp"
+            android:layout_height="344dp"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp">
@@ -20,8 +22,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
 
 
                 <Button
@@ -73,25 +75,33 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="273dp"
                 android:orientation="horizontal">
 
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerIngredientesId"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_height="275dp"
+                    android:layout_marginLeft="10dp" />
 
             </LinearLayout>
         </LinearLayout>
 
         <TextView
-            android:id="@+id/finalSandwitchText"
+            android:id="@+id/textYourSandwitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Your sandwitch: "
             android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/finalSandWitch"
+            android:layout_width="match_parent"
+            android:layout_height="142dp"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:text="" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,12 +19,18 @@ public class SandwitchCreator extends AppCompatActivity {
     ArrayList<String> listData;
     ArrayList<String> listSandWitch;
     RecyclerView recycler;
+    LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sandwitch_creator);
         setTitle("Sandwitch Creator");
+
+        linearLayout = (LinearLayout) findViewById(R.id.generalLinearLayout);
+
+        listData = new ArrayList<String>();
+        listSandWitch = new ArrayList<String>();
 
         recycler = (RecyclerView) findViewById(R.id.recyclerIngredientesId);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -34,29 +41,26 @@ public class SandwitchCreator extends AppCompatActivity {
                 new RecyclerClickListener(this, new RecyclerClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        //Log.d("click item", String.valueOf(position));
-                        //TextView textView = (TextView) view.findViewById(R.id.idData);
-                        //Log.d("test", textView.getText().toString());
                         storeIngredients(view, position);
                     }
 
                 }));
 
-        listData = new ArrayList<String>();
-        listSandWitch = new ArrayList<String>();
-
         generateCarne();
 
     }
 
-    public void storeIngredients(View view, int position){
+    public void storeIngredients(View view, int position) {
         TextView textView = (TextView) view.findViewById(R.id.idData);
         String ingredientName = textView.getText().toString();
         listSandWitch.add(ingredientName);
-        Log.d("listSandwitch", listSandWitch.toString());
+        TextView finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
+        finalSandwitch.setText(listSandWitch.toString());
+
+
     }
 
-    public void recycleDividerManager (){
+    public void recycleDividerManager() {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recycler.getContext(),
                 DividerItemDecoration.VERTICAL);
         recycler.addItemDecoration(dividerItemDecoration);
