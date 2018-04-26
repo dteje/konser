@@ -1,5 +1,6 @@
 package com.visual.conserapp;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -21,6 +22,11 @@ public class SandwitchCreator extends AppCompatActivity {
     RecyclerView recycler;
     LinearLayout linearLayout;
 
+    int numButtons = 5;
+    private Button[] btn = new Button[numButtons];
+    private Button btn_unfocus;
+    private int[] btn_id = {R.id.bMeat, R.id.bVeggies, R.id.bCheese, R.id.bSpecial, R.id.bSauces};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,22 +38,38 @@ public class SandwitchCreator extends AppCompatActivity {
         listData = new ArrayList<String>();
         listSandWitch = new ArrayList<String>();
 
+
         recycler = (RecyclerView) findViewById(R.id.recyclerIngredientesId);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         recycleDividerManager();
 
-        recycler.addOnItemTouchListener( // and the click is handled
+        recycler.addOnItemTouchListener(
                 new RecyclerClickListener(this, new RecyclerClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         storeIngredients(view, position);
                     }
-
                 }));
+
+        for(int i = 0; i < btn.length; i++){
+            btn[i] = (Button) findViewById(btn_id[i]);
+            btn[i].setBackgroundColor(Color.rgb(207, 207, 207));
+        }
+
+        btn_unfocus = btn[0];
+        setFocus(btn_unfocus, btn[0]);
 
         generateCarne();
 
+    }
+
+    private void setFocus(Button btn_unfocus, Button btn_focus){
+        btn_unfocus.setTextColor(Color.rgb(49, 50, 51));
+        btn_unfocus.setBackgroundColor(Color.rgb(207, 207, 207));
+        btn_focus.setTextColor(Color.rgb(255, 255, 255));
+        btn_focus.setBackgroundColor(Color.rgb(3, 106, 150));
+        this.btn_unfocus = btn_focus;
     }
 
     public void storeIngredients(View view, int position) {
@@ -71,18 +93,23 @@ public class SandwitchCreator extends AppCompatActivity {
 
         switch (view.getId()) {
             case R.id.bMeat:
+                setFocus(btn_unfocus, btn[0]);
                 generateCarne();
                 break;
             case R.id.bVeggies:
+                setFocus(btn_unfocus, btn[1]);
                 generateVerduras();
                 break;
             case R.id.bCheese:
+                setFocus(btn_unfocus, btn[2]);
                 generateQueso();
                 break;
             case R.id.bSpecial:
+                setFocus(btn_unfocus, btn[3]);
                 generateEspecial();
                 break;
             case R.id.bSauces:
+                setFocus(btn_unfocus, btn[4]);
                 generateSalsas();
                 break;
         }
@@ -93,8 +120,6 @@ public class SandwitchCreator extends AppCompatActivity {
         AdapterData adapter = new AdapterData(listData);
         recycler.setAdapter(adapter);
     }
-
-    // test modification to go back 2
 
 
     public void generateCarne() {
