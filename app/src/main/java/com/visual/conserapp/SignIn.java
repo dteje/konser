@@ -1,6 +1,7 @@
 package com.visual.conserapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,11 +15,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Model.User;
+
+import io.paperdb.Paper;
+import com.rey.material.widget.CheckBox;
 
 public class SignIn extends AppCompatActivity {
     EditText edtEmail, edtPassword, edtName;
     Button btnSignIn;
+    com.rey.material.widget.CheckBox cb_remember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +34,10 @@ public class SignIn extends AppCompatActivity {
         edtEmail = (MaterialEditText) findViewById(R.id.edtEmail);
         edtName = (MaterialEditText) findViewById(R.id.edtName);
         edtPassword = (MaterialEditText) findViewById(R.id.edtPassword);
-
         btnSignIn = (Button) findViewById(R.id.btn_confirmsignin);
+        cb_remember = (com.rey.material.widget.CheckBox) findViewById(R.id.chbRemember);
+
+        Paper.init(this);
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
@@ -37,6 +45,12 @@ public class SignIn extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(cb_remember.isChecked()) {
+                    Paper.book().write(Common.USER_KEY, encodeUserEmail(edtEmail.getText().toString()));
+                    Paper.book().write(Common.PWD_KEY, edtPassword.getText().toString());
+                }
+
 
                 final ProgressDialog pd = new ProgressDialog(SignIn.this);
                 pd.setMessage("Espere por favor...");
@@ -52,7 +66,10 @@ public class SignIn extends AppCompatActivity {
                             pd.dismiss();
                             User user = dataSnapshot.child(encodeUserEmail(edtEmail.getText().toString())).getValue(User.class);
                             if (user.getPassword().equals(edtPassword.getText().toString())) {
-                                Toast.makeText(SignIn.this, "Acceso correcto", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(SignIn.this,Home.class);
+                                Common.currentUser = user;
+                                startActivity(intent);
+                                finish();
                             } else {
                                 Toast.makeText(SignIn.this, "Password incorrecto", Toast.LENGTH_SHORT).show();
                             }
@@ -60,8 +77,10 @@ public class SignIn extends AppCompatActivity {
                             Toast.makeText(SignIn.this, "Usuario no registrado", Toast.LENGTH_SHORT).show();
                         }
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
+
                     }
                 });
             }
