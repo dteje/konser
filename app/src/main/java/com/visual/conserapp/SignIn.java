@@ -65,6 +65,7 @@ public class SignIn extends AppCompatActivity {
 
                             pd.dismiss();
                             User user = dataSnapshot.child(encodeUserEmail(edtEmail.getText().toString())).getValue(User.class);
+                            user.setEmail(encodeUserEmail(edtEmail.getText().toString()));
                             if (user.getPassword().equals(edtPassword.getText().toString())) {
                                 Intent intent = new Intent(SignIn.this,Home.class);
                                 Common.currentUser = user;
