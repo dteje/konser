@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/cart_id2"
+        android:id="@+id/cart_id"
         android:icon="@drawable/cart"
         android:onClick="onNavSuperior"
         android:orderInCategory="03"
         android:title=""
         app:showAsAction="always" />
     <item
-        android:id="@+id/offers_id2"
+        android:id="@+id/offers_id"
         android:icon="@drawable/offers"
         android:onClick="onNavSuperior"
         android:orderInCategory="02"

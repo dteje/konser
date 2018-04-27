@@ -26,6 +26,8 @@ public class SandwitchCreator extends AppCompatActivity {
     RecyclerView recycler;
     LinearLayout linearLayout;
 
+    Intent cartIntent;
+
     int numButtons = 5;
     private Button[] btn = new Button[numButtons];
     private Button btn_unfocus;
@@ -76,11 +78,13 @@ public class SandwitchCreator extends AppCompatActivity {
         return true;
     }
 
+    // Arreglar esto junto a addToCart, para que ambos pasen el mismo intent
+
     public boolean onNavSuperior(MenuItem menuitem){
         View view = menuitem.getActionView();
         int id = menuitem.getItemId();
         Intent intent;
-        if(id == R.id.cart_id)  intent = new Intent(this,Cart.class);
+        if(id == R.id.cart_id)  intent = cartIntent;
         else intent = new Intent(this,Offers.class);
         startActivity(intent);
 
@@ -108,8 +112,8 @@ public class SandwitchCreator extends AppCompatActivity {
 
     public void addToCart(View view) {
 
-        Intent intent = new Intent(getBaseContext(), Cart.class);
-        intent.putExtra("ListFinalSandwitch", listSandWitch);
+        cartIntent = new Intent(getBaseContext(), Cart.class);
+        cartIntent.putExtra("list", listSandWitch.toString());
         //startActivity(intent);  // remove so that it does not go directly to that activity
 
     }
