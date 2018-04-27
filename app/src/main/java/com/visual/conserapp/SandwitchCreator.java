@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -72,6 +73,17 @@ public class SandwitchCreator extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.sandwitch_creator_menu, menu);
+        return true;
+    }
+
+    public boolean onNavSuperior(MenuItem menuitem){
+        View view = menuitem.getActionView();
+        int id = menuitem.getItemId();
+        Intent intent;
+        if(id == R.id.cart_id)  intent = new Intent(this,Cart.class);
+        else intent = new Intent(this,Offers.class);
+        startActivity(intent);
+
         return true;
     }
 
