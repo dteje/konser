@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/cart_id2"
+        android:icon="@drawable/cart"
+        android:onClick="onNavSuperior"
+        android:orderInCategory="03"
+        android:title=""
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/offers_id2"
+        android:icon="@drawable/offers"
+        android:onClick="onNavSuperior"
+        android:orderInCategory="02"
+        android:title=""
+        app:showAsAction="always" />
+
+</menu>

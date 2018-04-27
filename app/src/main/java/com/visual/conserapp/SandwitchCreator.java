@@ -1,5 +1,6 @@
 package com.visual.conserapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -52,7 +55,7 @@ public class SandwitchCreator extends AppCompatActivity {
                     }
                 }));
 
-        for(int i = 0; i < btn.length; i++){
+        for (int i = 0; i < btn.length; i++) {
             btn[i] = (Button) findViewById(btn_id[i]);
             btn[i].setBackgroundColor(Color.rgb(207, 207, 207));
         }
@@ -64,7 +67,16 @@ public class SandwitchCreator extends AppCompatActivity {
 
     }
 
-    private void setFocus(Button btn_unfocus, Button btn_focus){
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.sandwitch_creator_menu, menu);
+        return true;
+    }
+
+
+    private void setFocus(Button btn_unfocus, Button btn_focus) {
         btn_unfocus.setTextColor(Color.rgb(49, 50, 51));
         btn_unfocus.setBackgroundColor(Color.rgb(207, 207, 207));
         btn_focus.setTextColor(Color.rgb(255, 255, 255));
@@ -79,6 +91,14 @@ public class SandwitchCreator extends AppCompatActivity {
         TextView finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
         finalSandwitch.setText(listSandWitch.toString());
 
+
+    }
+
+    public void addToCart(View view) {
+
+        Intent intent = new Intent(getBaseContext(), Cart.class);
+        intent.putExtra("ListFinalSandwitch", listSandWitch);
+        //startActivity(intent);  // remove so that it does not go directly to that activity
 
     }
 
