@@ -6,20 +6,32 @@ package com.visual.conserapp.Model;
 
 public class Ingredient {
 
-    String name;
+    String Name;
+    String CategoryID;
     double pricebuy;
     double pricesell;
 
-    public Ingredient(String name) {
-        this.name = name;
+    public String getCategoryID() {
+        return CategoryID;
+    }
+
+    public void setCategoryID(String categoryID) {
+        CategoryID = categoryID;
+    }
+
+
+
+    public Ingredient(){}
+    public Ingredient(String name, String CategoryID) {
+        this.Name = name; this.CategoryID = CategoryID;
     }
 
     public String getName() {
-        return name;
+        return this.Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.Name = name;
     }
 
     public double getPricebuy() {

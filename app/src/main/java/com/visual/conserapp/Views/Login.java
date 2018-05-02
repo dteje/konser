@@ -65,13 +65,13 @@ public class Login extends AppCompatActivity {
 
         final String email = encodeUserEmail(emailp);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference table_user = database.getReference("User");
+        final DatabaseReference users = database.getReference("User");
 
         /*final ProgressDialog pd = new ProgressDialog(Login.this);
         pd.setMessage("Espere por favor...");
         pd.show();*/
 
-        table_user.addValueEventListener(new ValueEventListener() {
+        users.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
