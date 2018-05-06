@@ -70,6 +70,25 @@ public class SandwitchCreator extends AppCompatActivity {
 
     }
 
+    public void removeLastElement(View view){
+        int id = view.getId();
+        if(listSandWitch.size() != 0) {
+            if (id == R.id.removeLastButton) {
+                listSandWitch.remove(listSandWitch.size() - 1);
+            }
+            printIngredients();
+        }
+    }
+
+    public void removeAllElements(View view){
+        int id = view.getId();
+        if(listSandWitch.size() != 0){
+            if(id == R.id.removeAllButton){
+                listSandWitch.clear();
+            }
+        }
+        printIngredients();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,10 +123,12 @@ public class SandwitchCreator extends AppCompatActivity {
         TextView textView = (TextView) view.findViewById(R.id.idData);
         String ingredientName = textView.getText().toString();
         listSandWitch.add(ingredientName);
+        printIngredients();
+    }
+
+    public void printIngredients(){
         TextView finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
         finalSandwitch.setText(listSandWitch.toString());
-
-
     }
 
     public void addToCart(View view) {

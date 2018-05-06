@@ -119,6 +119,31 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/removeLastButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="removeLastElement"
+                    android:text="Remove Last" />
+
+                <Button
+                    android:id="@+id/removeAllButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="removeAllElements"
+                    android:text="Remove All" />
+
+            </LinearLayout>
+
+
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/addToCart"
                 android:layout_width="77dp"
@@ -130,6 +155,9 @@
                 android:clickable="true"
                 android:onClick="addToCart"
                 app:srcCompat="@drawable/cart_plus" />
+
+
+
         </LinearLayout>
     </LinearLayout>
 
