@@ -39,6 +39,7 @@ public class SandwitchCreator extends AppCompatActivity {
         setContentView(R.layout.activity_sandwitch_creator);
         setTitle("Sandwitch Creator");
 
+
         linearLayout = (LinearLayout) findViewById(R.id.generalLinearLayout);
 
         listData = new ArrayList<String>();
