@@ -133,7 +133,6 @@ public class SandwitchCreator extends AppCompatActivity {
 
         cartIntent = new Intent(getBaseContext(), Cart.class);
         cartIntent.putExtra("list", listSandWitch.toString());
-        //startActivity(intent);  // remove so that it does not go directly to that activity
 
     }
 
