@@ -89,7 +89,6 @@ public class SandwitchCreator extends AppCompatActivity {
         }
         printIngredients();
     }
-    //test commit
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
