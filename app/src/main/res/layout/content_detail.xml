@@ -106,7 +106,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="9"
-                            android:text="2,50"
+                            android:text="2500"
                             android:textColor="@color/colorPrimary"
                             android:textSize="18dp"
                             android:textStyle="bold" />

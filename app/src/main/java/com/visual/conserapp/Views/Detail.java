@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.firebase.database.DataSnapshot;
@@ -19,8 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
+import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
 
 import java.io.File;
@@ -37,9 +40,13 @@ public class Detail extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference foods;
 
+    Food food;
+    String food_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -54,15 +61,26 @@ public class Detail extends AppCompatActivity {
 
         image = (ImageView) findViewById(R.id.img_sandwich);
 
+        elegantNumberButton = (ElegantNumberButton) findViewById(R.id.btn_detail_number);
+
         btn_add = (FloatingActionButton) findViewById(R.id.btn_addSandwich);
 
-        elegantNumberButton = (ElegantNumberButton) findViewById(R.id.btn_detail_number);
+
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Database(getBaseContext()).addToCart(new Order(food_id,food.getName(),elegantNumberButton.getNumber().toString(),
+                        food.getPrice(),food.getDiscount()));
+                Toast.makeText(Detail.this,"Añadido al carrito!", Toast.LENGTH_SHORT).show();
+            }
+
+        });
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_bar);
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.ExpandedAppbar);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsedAppbar);
 
-        String food_id = "100";
+        food_id = "100";
         getDetails(food_id);
     }
 
@@ -70,7 +88,7 @@ public class Detail extends AppCompatActivity {
         foods.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Food food = (dataSnapshot.child(foodid)).getValue(Food.class);
+                food = (dataSnapshot.child(foodid)).getValue(Food.class);
                 Picasso.with(getBaseContext()).load(food.getImage()).into(image);
                 collapsingToolbarLayout.setTitle(food.getName());
                 ingredientsToDescription(food.getListOfIngredients());
@@ -84,6 +102,7 @@ public class Detail extends AppCompatActivity {
 
             }
         });
+
     }
 
     String ingredientes = "";

@@ -20,7 +20,7 @@ import java.util.List;
 
 public class Database extends SQLiteAssetHelper{
 
-    private static final String DB_NAME = "conserappDB.db";
+    private static final String DB_NAME = "conserapp.db";
     private static final int DB_VER = 1;
 
     public Database(Context context) {
