@@ -36,6 +36,11 @@ import java.util.Locale;
 import github.hellocsl.cursorwheel.CursorWheelLayout;
 
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import io.paperdb.Paper;
+
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, CursorWheelLayout.OnMenuSelectedListener{
 
@@ -44,13 +49,19 @@ public class Home extends AppCompatActivity
     WheelImageAdapter imgAdapter;
     TextView textoCentro;
 
+    FirebaseDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Inicio");
         setSupportActionBar(toolbar);
 
+        database = FirebaseDatabase.getInstance();
+
+        Paper.init(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -111,6 +122,11 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.logout){
+            Paper.book().destroy();
+            Intent intent = new Intent(Home.this, Login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -126,7 +142,6 @@ public class Home extends AppCompatActivity
         else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwitchCreator.class);
         else intent = new Intent(this,Offers.class);
         startActivity(intent);
-
         return true;
     }
 
