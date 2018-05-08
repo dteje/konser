@@ -1,9 +1,15 @@
 package com.visual.conserapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
+import android.media.Image;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +19,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.TextView;
+
+import com.visual.conserapp.Adapter.WheelImageAdapter;
+import com.visual.conserapp.Data.ImageData;
+
+import org.w3c.dom.Text;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import github.hellocsl.cursorwheel.CursorWheelLayout;
+
 
 public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, CursorWheelLayout.OnMenuSelectedListener{
+
+    CursorWheelLayout wheel_text,wheel_image;
+    List<ImageData> lstImage;
+    WheelImageAdapter imgAdapter;
+    TextView textoCentro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +50,6 @@ public class Home extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -34,6 +60,19 @@ public class Home extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Inicializar carrusel
+
+        initViews();
+
+        loadData();
+
+        wheel_image.setOnMenuSelectedListener(this);
+
+        //Coger la fuente para el texto del carrusel
+
+        AssetManager am = getApplicationContext().getAssets();
+
     }
 
     @Override
@@ -52,7 +91,6 @@ public class Home extends AppCompatActivity
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
-
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -80,7 +118,7 @@ public class Home extends AppCompatActivity
         return true;
     }
 
-    public boolean onNavSuperior(MenuItem menuitem){
+    public boolean onNavSuperior(MenuItem menuitem) {
         View view = menuitem.getActionView();
         int id = menuitem.getItemId();
         Intent intent;
@@ -91,4 +129,34 @@ public class Home extends AppCompatActivity
 
         return true;
     }
+
+    private void loadData() {
+        lstImage = new ArrayList<>();
+        lstImage.add(new ImageData(R.drawable.patatas1_mini, "Bocadillos"));
+        lstImage.add(new ImageData(R.drawable.patatas2_mini, "Bebidas"));
+        lstImage.add(new ImageData(R.drawable.patatas3_mini, "Aperitivos"));
+        lstImage.add(new ImageData(R.drawable.patatas4_mini, "Ofertas"));
+        lstImage.add(new ImageData(R.drawable.patatas4_mini, "Menu"));
+        imgAdapter = new WheelImageAdapter(getBaseContext(),lstImage);
+        wheel_image.setAdapter(imgAdapter);
+
+    }
+
+    private void initViews() {
+        wheel_image = (CursorWheelLayout) findViewById(R.id.wheel_image);
+
+    }
+
+    @Override
+    public void onItemSelected(CursorWheelLayout parent, View view, int pos) {
+            textoCentro = (TextView) findViewById(R.id.id_wheel_menu_center_item);
+            Typeface lato_font = Typeface.createFromAsset(getAssets(), "fonts/Lobster-Regular.ttf");
+            textoCentro.setTypeface(lato_font);
+            textoCentro.setText(lstImage.get(pos).imageDescription);
+
+        }
+
+
+
+
 }
