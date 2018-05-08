@@ -97,8 +97,6 @@ public class SandwitchCreator extends AppCompatActivity {
         return true;
     }
 
-    // Arreglar esto junto a addToCart, para que ambos pasen el mismo intent
-
     public boolean onNavSuperior(MenuItem menuitem){
         View view = menuitem.getActionView();
         int id = menuitem.getItemId();
