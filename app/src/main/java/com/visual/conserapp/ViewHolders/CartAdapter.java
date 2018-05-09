@@ -79,15 +79,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder>{
     @Override
     public void onBindViewHolder(CartViewHolder holder, int position) {
         int quant = parseInt(listData.get(position).getQuantity());
-        int price = parseInt(listData.get(position).getPrice());
-        int total = quant * price;
+        double price = parseDouble(listData.get(position).getPrice());
+        double total = quant * price;
         String name = listData.get(position).getProductName();
         TextDrawable textDrawable = TextDrawable.builder().buildRound(""+quant, Color.RED);
         holder.img.setImageDrawable(textDrawable);
-        System.out.println("QUANT = " +quant);
-        System.out.println("PRICE = "+ price);
-        System.out.println(name);
-        holder.txt_cart_price.setText(price+"");
+        holder.txt_cart_price.setText(price+" €");
         holder.txt_cart_name.setText(name+"");
 
     }
