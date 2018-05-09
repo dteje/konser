@@ -17,6 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.Model.Favs;
+
 import java.util.ArrayList;
 
 public class SandwitchCreator extends AppCompatActivity {
@@ -25,6 +29,11 @@ public class SandwitchCreator extends AppCompatActivity {
     ArrayList<String> listSandWitch;
     RecyclerView recycler;
     LinearLayout linearLayout;
+
+
+    Favs favs;
+    DatabaseReference favs_table;
+    FirebaseDatabase database;
 
     Intent cartIntent;
 
@@ -69,11 +78,14 @@ public class SandwitchCreator extends AppCompatActivity {
 
         generateCarne();
 
+        declareDatabase();
+        pruebaDataBase_favs();
+
     }
 
-    public void removeLastElement(View view){
+    public void removeLastElement(View view) {
         int id = view.getId();
-        if(listSandWitch.size() != 0) {
+        if (listSandWitch.size() != 0) {
             if (id == R.id.removeLastButton) {
                 listSandWitch.remove(listSandWitch.size() - 1);
             }
@@ -81,10 +93,10 @@ public class SandwitchCreator extends AppCompatActivity {
         }
     }
 
-    public void removeAllElements(View view){
+    public void removeAllElements(View view) {
         int id = view.getId();
-        if(listSandWitch.size() != 0){
-            if(id == R.id.removeAllButton){
+        if (listSandWitch.size() != 0) {
+            if (id == R.id.removeAllButton) {
                 listSandWitch.clear();
             }
         }
@@ -98,12 +110,12 @@ public class SandwitchCreator extends AppCompatActivity {
         return true;
     }
 
-    public boolean onNavSuperior(MenuItem menuitem){
+    public boolean onNavSuperior(MenuItem menuitem) {
         View view = menuitem.getActionView();
         int id = menuitem.getItemId();
         Intent intent;
-        if(id == R.id.cart_id)  intent = cartIntent;
-        else intent = new Intent(this,Offers.class);
+        if (id == R.id.cart_id) intent = cartIntent;
+        else intent = new Intent(this, Offers.class);
         startActivity(intent);
 
         return true;
@@ -125,7 +137,7 @@ public class SandwitchCreator extends AppCompatActivity {
         printIngredients();
     }
 
-    public void printIngredients(){
+    public void printIngredients() {
         TextView finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
         finalSandwitch.setText(listSandWitch.toString());
     }
@@ -174,6 +186,20 @@ public class SandwitchCreator extends AppCompatActivity {
     public void modifyAdapter() {
         AdapterData adapter = new AdapterData(listData);
         recycler.setAdapter(adapter);
+    }
+
+    public void pruebaDataBase_favs() {
+
+        favs = new Favs("Test", 2.30);
+        String id_favs = "Favs "+ String.valueOf(System.currentTimeMillis());
+        favs_table.child(id_favs).setValue(favs);
+        finish();
+    }
+
+    public void declareDatabase(){
+        database = FirebaseDatabase.getInstance();
+        favs_table = database.getReference("Favs");
+
     }
 
 
