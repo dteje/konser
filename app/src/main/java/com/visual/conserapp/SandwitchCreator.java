@@ -139,21 +139,6 @@ public class SandwitchCreator extends AppCompatActivity {
         return false;
     }
 
-    /*
-    public void showRepetitionAlert(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Look at this dialog!")
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
-                });
-        AlertDialog alert = builder.create();
-d        alert.show();
-    }
-    */
-
     public void showRepetitionAlert(){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setTitle("Error");
@@ -166,8 +151,8 @@ d        alert.show();
                     }
                 });
 
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
+        AlertDialog alertRepetition = builder1.create();
+        alertRepetition.show();
     }
 
     public void printIngredients() {
@@ -249,7 +234,7 @@ d        alert.show();
         AdapterData adapter = new AdapterData(listData);
         recycler.setAdapter(adapter);
     }
-
+    /*
     public void addToFavs(View view) {
 
         String nameSandwichUser = askSandwichname();
@@ -257,7 +242,26 @@ d        alert.show();
         favs = new Favs(listSandwich.toString(), nameSandwichUser, listSandwich.toString(), price);
         String id_favs = "Favs " + String.valueOf(System.currentTimeMillis());
         favs_table.child(id_favs).setValue(favs);
+    }*/
+
+    public void addToFavs(View view) {
+
+        Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
+        String nameSandwichUser = askSandwichname();
+        String nameSandwichOfficial = listSandwich.toString();
+        double price = obtainPrice();
+        String listIngredients = listSandwich.toString();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("nameSandwichOfficial",nameSandwichOfficial);
+        bundle.putString("nameSandwichUser", nameSandwichUser);
+        bundle.putDouble("price", price);
+        bundle.putString("listIngredients", listIngredients);
+        popUp.putExtras(bundle);
+
+        startActivity(popUp);
     }
+
 
     public double obtainPrice() {
         double res = 0;

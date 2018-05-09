@@ -26,6 +26,10 @@
         <activity android:name=".SignIn" />
         <activity android:name=".SignUp"></activity>
         <activity android:name=".Home" />
+        <activity android:name=".popFavs"
+            android:theme="@style/AppTheme.PopUpTheme">
+        </activity>
     </application>
+
 
 </manifest>
