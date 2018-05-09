@@ -27,9 +27,10 @@ public class SandwitchCreator extends AppCompatActivity {
 
     ArrayList<String> listData;
     ArrayList<String> listSandWitch;
+    ArrayList<Double> listPrice;
+    double ingredientPrice;
     RecyclerView recycler;
     LinearLayout linearLayout;
-
 
     Favs favs;
     DatabaseReference favs_table;
@@ -53,6 +54,7 @@ public class SandwitchCreator extends AppCompatActivity {
 
         listData = new ArrayList<String>();
         listSandWitch = new ArrayList<String>();
+        listPrice = new ArrayList<Double>();
 
 
         recycler = (RecyclerView) findViewById(R.id.recyclerIngredientesId);
@@ -76,31 +78,13 @@ public class SandwitchCreator extends AppCompatActivity {
         btn_unfocus = btn[0];
         setFocus(btn_unfocus, btn[0]);
 
+        // Añadir el primer precio de los ingredientes, ya que no clickamos en el botón de Carne y por lo tanto no se cambia automaticamente
+        ingredientPrice = 0.7;
+
         generateCarne();
 
         declareDatabase();
-        pruebaDataBase_favs();
 
-    }
-
-    public void removeLastElement(View view) {
-        int id = view.getId();
-        if (listSandWitch.size() != 0) {
-            if (id == R.id.removeLastButton) {
-                listSandWitch.remove(listSandWitch.size() - 1);
-            }
-            printIngredients();
-        }
-    }
-
-    public void removeAllElements(View view) {
-        int id = view.getId();
-        if (listSandWitch.size() != 0) {
-            if (id == R.id.removeAllButton) {
-                listSandWitch.clear();
-            }
-        }
-        printIngredients();
     }
 
     @Override
@@ -134,6 +118,7 @@ public class SandwitchCreator extends AppCompatActivity {
         TextView textView = (TextView) view.findViewById(R.id.idData);
         String ingredientName = textView.getText().toString();
         listSandWitch.add(ingredientName);
+        listPrice.add(ingredientPrice);
         printIngredients();
     }
 
@@ -149,12 +134,34 @@ public class SandwitchCreator extends AppCompatActivity {
 
     }
 
+    public void removeLastElement(View view) {
+        int id = view.getId();
+        if (listSandWitch.size() != 0) {
+            if (id == R.id.removeLastButton) {
+                listSandWitch.remove(listSandWitch.size() - 1);
+            }
+            printIngredients();
+        }
+    }
+
+    public void removeAllElements(View view) {
+        int id = view.getId();
+        if (listSandWitch.size() != 0) {
+            if (id == R.id.removeAllButton) {
+                listSandWitch.clear();
+            }
+        }
+        printIngredients();
+    }
+
     public void recycleDividerManager() {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recycler.getContext(),
                 DividerItemDecoration.VERTICAL);
         recycler.addItemDecoration(dividerItemDecoration);
     }
 
+// Más adelante tocará añadir que el precio se lo pueda especificar el restaurante. Entonces
+// Lo obtendriamos de la firebase.
 
     public void buttonIngredient(View view) {
 
@@ -162,22 +169,27 @@ public class SandwitchCreator extends AppCompatActivity {
             case R.id.bMeat:
                 setFocus(btn_unfocus, btn[0]);
                 generateCarne();
+                ingredientPrice = 0.7;
                 break;
             case R.id.bVeggies:
                 setFocus(btn_unfocus, btn[1]);
                 generateVerduras();
+                ingredientPrice = 0.7;
                 break;
             case R.id.bCheese:
                 setFocus(btn_unfocus, btn[2]);
                 generateQueso();
+                ingredientPrice = 0.4;
                 break;
             case R.id.bSpecial:
                 setFocus(btn_unfocus, btn[3]);
                 generateEspecial();
+                ingredientPrice = 0.6;
                 break;
             case R.id.bSauces:
                 setFocus(btn_unfocus, btn[4]);
                 generateSalsas();
+                ingredientPrice = 0.4;
                 break;
         }
 
@@ -188,13 +200,28 @@ public class SandwitchCreator extends AppCompatActivity {
         recycler.setAdapter(adapter);
     }
 
-    public void pruebaDataBase_favs() {
+    public void addToFavs(View view) {
 
-        favs = new Favs("Test", 2.30);
+        String nameSandwichUser = askSandwichname();
+        String price = obtainPrice();
+        favs = new Favs(listSandWitch.toString(), nameSandwichUser, listSandWitch.toString(), price);
         String id_favs = "Favs "+ String.valueOf(System.currentTimeMillis());
         favs_table.child(id_favs).setValue(favs);
-        finish();
     }
+
+    public String obtainPrice(){
+        double res = 0;
+        for(int i = 0; i < listPrice.size(); i++){
+            res += listPrice.get(i);
+        }
+        return String.valueOf(res);
+    }
+
+    public String askSandwichname(){
+        return "test";
+    }
+
+
 
     public void declareDatabase(){
         database = FirebaseDatabase.getInstance();
