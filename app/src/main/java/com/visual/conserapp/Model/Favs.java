@@ -5,9 +5,9 @@ public class Favs {
     private String nameSandwichOfficial;
     private String nameSandwichUser;
     private String ingredients;
-    private String price;
+    private double price;
 
-    public Favs(String nameSandwichOfficial, String nameSandwichUser, String ingredients, String price) {
+    public Favs(String nameSandwichOfficial, String nameSandwichUser, String ingredients, double price) {
         this.nameSandwichOfficial = nameSandwichOfficial;
         this.nameSandwichUser = nameSandwichUser;
         this.ingredients = ingredients;
@@ -38,11 +38,11 @@ public class Favs {
         this.ingredients = ingredients;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }

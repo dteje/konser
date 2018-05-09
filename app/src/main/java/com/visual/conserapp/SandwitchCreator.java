@@ -1,7 +1,9 @@
 package com.visual.conserapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 public class SandwitchCreator extends AppCompatActivity {
 
     ArrayList<String> listData;
-    ArrayList<String> listSandWitch;
+    ArrayList<String> listSandwich;
     ArrayList<Double> listPrice;
     double ingredientPrice;
     RecyclerView recycler;
@@ -53,7 +55,7 @@ public class SandwitchCreator extends AppCompatActivity {
         linearLayout = (LinearLayout) findViewById(R.id.generalLinearLayout);
 
         listData = new ArrayList<String>();
-        listSandWitch = new ArrayList<String>();
+        listSandwich = new ArrayList<String>();
         listPrice = new ArrayList<Double>();
 
 
@@ -117,28 +119,75 @@ public class SandwitchCreator extends AppCompatActivity {
     public void storeIngredients(View view, int position) {
         TextView textView = (TextView) view.findViewById(R.id.idData);
         String ingredientName = textView.getText().toString();
-        listSandWitch.add(ingredientName);
-        listPrice.add(ingredientPrice);
-        printIngredients();
+        if (maxRepetitionIngredient(ingredientName)) {
+            showRepetitionAlert();
+        } else {
+            listSandwich.add(ingredientName);
+            listPrice.add(ingredientPrice);
+            printIngredients();
+        }
+    }
+
+    // Max in this case is 2
+    public boolean maxRepetitionIngredient(String ingredient) {
+        int numRepetitions = 0;
+        for (int i = 0; i < listSandwich.size(); i++) {
+            String res = listSandwich.get(i);
+            if (ingredient == res) numRepetitions++;
+            if (numRepetitions == 2) return true;
+        }
+        return false;
+    }
+
+    /*
+    public void showRepetitionAlert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Look at this dialog!")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do things
+                    }
+                });
+        AlertDialog alert = builder.create();
+d        alert.show();
+    }
+    */
+
+    public void showRepetitionAlert(){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("Error");
+        builder1.setMessage("Has añadido demasiados ingredientes iguales!");
+        builder1.setCancelable(true);
+        builder1.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     public void printIngredients() {
         TextView finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
-        finalSandwitch.setText(listSandWitch.toString());
+        finalSandwitch.setText(listSandwich.toString());
     }
 
     public void addToCart(View view) {
 
         cartIntent = new Intent(getBaseContext(), Cart.class);
-        cartIntent.putExtra("list", listSandWitch.toString());
+        cartIntent.putExtra("list", listSandwich.toString());
 
     }
 
     public void removeLastElement(View view) {
         int id = view.getId();
-        if (listSandWitch.size() != 0) {
+        if (listSandwich.size() != 0) {
             if (id == R.id.removeLastButton) {
-                listSandWitch.remove(listSandWitch.size() - 1);
+                listSandwich.remove(listSandwich.size() - 1);
+                listPrice.remove(listPrice.size() - 1);
             }
             printIngredients();
         }
@@ -146,9 +195,10 @@ public class SandwitchCreator extends AppCompatActivity {
 
     public void removeAllElements(View view) {
         int id = view.getId();
-        if (listSandWitch.size() != 0) {
+        if (listSandwich.size() != 0) {
             if (id == R.id.removeAllButton) {
-                listSandWitch.clear();
+                listSandwich.clear();
+                listPrice.clear();
             }
         }
         printIngredients();
@@ -203,27 +253,27 @@ public class SandwitchCreator extends AppCompatActivity {
     public void addToFavs(View view) {
 
         String nameSandwichUser = askSandwichname();
-        String price = obtainPrice();
-        favs = new Favs(listSandWitch.toString(), nameSandwichUser, listSandWitch.toString(), price);
-        String id_favs = "Favs "+ String.valueOf(System.currentTimeMillis());
+        double price = obtainPrice();
+        favs = new Favs(listSandwich.toString(), nameSandwichUser, listSandwich.toString(), price);
+        String id_favs = "Favs " + String.valueOf(System.currentTimeMillis());
         favs_table.child(id_favs).setValue(favs);
     }
 
-    public String obtainPrice(){
+    public double obtainPrice() {
         double res = 0;
-        for(int i = 0; i < listPrice.size(); i++){
+        for (int i = 0; i < listPrice.size(); i++) {
             res += listPrice.get(i);
         }
-        return String.valueOf(res);
+        if (res < 2) res = 2;
+        return res;
     }
 
-    public String askSandwichname(){
+    public String askSandwichname() {
         return "test";
     }
 
 
-
-    public void declareDatabase(){
+    public void declareDatabase() {
         database = FirebaseDatabase.getInstance();
         favs_table = database.getReference("Favs");
 
