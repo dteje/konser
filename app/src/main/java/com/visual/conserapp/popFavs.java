@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -24,7 +25,7 @@ public class popFavs extends Activity {
 
     String nameOfficial;
     String nameUser;
-    Double price;
+    double price;
     String listIngredients;
 
     @Override
@@ -57,6 +58,7 @@ public class popFavs extends Activity {
         Bundle extras = in.getExtras();
         nameOfficial = extras.getString("nameSandwichOfficial");
         price = extras.getDouble("price");
+        Log.d("price_pop", String.valueOf(price));
         listIngredients = extras.getString("listIngredients");
     }
 

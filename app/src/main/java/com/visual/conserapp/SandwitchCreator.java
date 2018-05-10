@@ -3,6 +3,7 @@ package com.visual.conserapp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Debug;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.visual.conserapp.Model.Favs;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class SandwitchCreator extends AppCompatActivity {
@@ -266,11 +268,20 @@ public class SandwitchCreator extends AppCompatActivity {
 
     public double obtainPrice() {
         double res = 0;
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
         for (int i = 0; i < listPrice.size(); i++) {
             res += listPrice.get(i);
+            String reslog = "res " + i;
         }
         if (res < 2) res = 2;
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        res = Double.parseDouble(decimalFormat.format(res));
         return res;
+    }
+
+    public double roundTwoDecimals(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.00");
+        return Double.valueOf(twoDForm.format(d));
     }
 
     public String askSandwichname() {
