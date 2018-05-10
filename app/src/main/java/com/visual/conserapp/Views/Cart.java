@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.visual.conserapp.Common.Common;
@@ -55,6 +56,13 @@ public class Cart extends AppCompatActivity {
         toolbar.setTitle("Carrito");
         setSupportActionBar(toolbar);
 
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        //        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //drawer.addDrawerListener(toggle);
+        //toggle.syncState();
+
+
         txt_totalprice = (TextView) findViewById(R.id.cart_tv_total);
         btn_placeorder = (FButton) findViewById(R.id.cart_btn_placeorder);
 
@@ -83,21 +91,16 @@ public class Cart extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
-    private void loadCart() {
+    public void loadCart() {
 
         cart = new Database(this).getCarts();
         cartAdapter = new CartAdapter(cart, this);
         recyclerView.setAdapter(cartAdapter);
-        double total = 0;
-
-        for (Order o : cart) {
-            total += (Double.parseDouble(o.getPrice())) * (Integer.parseInt(o.getQuantity()));
-        }
-        Locale locale = new Locale("es", "es");
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-        txt_totalprice.setText(fmt.format(total));
+        updateCart();
     }
 
 
@@ -116,5 +119,15 @@ public class Cart extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
+    }
+
+    public void updateCart(){
+        double total = 0;
+        for (Order o : cart) {
+            total += (Double.parseDouble(o.getPrice())) * (Integer.parseInt(o.getQuantity()));
+        }
+        Locale locale = new Locale("es", "es");
+        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+        txt_totalprice.setText(fmt.format(total));
     }
 }

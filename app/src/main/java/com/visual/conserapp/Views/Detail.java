@@ -69,8 +69,9 @@ public class Detail extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Database(getBaseContext()).addToCart(new Order(food_id,food.getName(),elegantNumberButton.getNumber().toString(),
-                        food.getPrice(),food.getDiscount()));
+                Order pedido = new Order(food_id,food.getName(),elegantNumberButton.getNumber().toString(),
+                        food.getPrice(),food.getDiscount());
+                new Database(getBaseContext()).addToCart(pedido);
                 Toast.makeText(Detail.this,"Añadido al carrito!", Toast.LENGTH_SHORT).show();
             }
 
@@ -114,7 +115,6 @@ public class Detail extends AppCompatActivity {
                 for(String ingredientId : listOfIngredients){
                     Ingredient ingredient = (dataSnapshot.child(ingredientId)).getValue(Ingredient.class);
                     ingredientes += ingredient.getName() + ", ";
-
                 }
                 tv_desc.setText("Compuesto por: "+ingredientes.substring(0,ingredientes.length()-2));
             }
