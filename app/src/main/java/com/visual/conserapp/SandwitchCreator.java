@@ -141,7 +141,7 @@ public class SandwitchCreator extends AppCompatActivity {
 
     public void showRepetitionAlert(){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Error");
+        builder1.setTitle("Cuidado!");
         builder1.setMessage("Has añadido demasiados ingredientes iguales!");
         builder1.setCancelable(true);
         builder1.setNeutralButton(android.R.string.ok,
@@ -247,6 +247,7 @@ public class SandwitchCreator extends AppCompatActivity {
     public void addToFavs(View view) {
 
         Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
+
         String nameSandwichUser = askSandwichname();
         String nameSandwichOfficial = listSandwich.toString();
         double price = obtainPrice();
