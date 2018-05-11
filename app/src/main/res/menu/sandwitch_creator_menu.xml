@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/sandwitchCreator_id"
-        android:icon="@drawable/burger"
-        android:onClick="onNavSuperior"
-        android:orderInCategory="01"
-        android:title=""
-        app:showAsAction="always" />
-    <item
         android:id="@+id/cart_id"
         android:icon="@drawable/cart"
         android:onClick="onNavSuperior"
@@ -23,4 +16,5 @@
         android:orderInCategory="02"
         android:title=""
         app:showAsAction="always" />
+
 </menu>
