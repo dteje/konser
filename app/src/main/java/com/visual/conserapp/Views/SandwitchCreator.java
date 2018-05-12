@@ -1,4 +1,4 @@
-package com.visual.conserapp;
+package com.visual.conserapp.Views;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +16,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.visual.conserapp.AdapterData;
+import com.visual.conserapp.R;
+import com.visual.conserapp.RecyclerClickListener;
+import com.visual.conserapp.Views.Cart;
+import com.visual.conserapp.Views.Offers;
 
 import java.util.ArrayList;
 

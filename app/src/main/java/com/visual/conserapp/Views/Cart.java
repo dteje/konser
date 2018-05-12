@@ -80,7 +80,7 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (txt_totalprice.getText().toString().equals("0,00 €"))
+                if (txt_totalprice.getText().toString().equals("0,00 €"))
                     Toast.makeText(Cart.this, "Carrito vacio", Toast.LENGTH_SHORT).show();
                 else {
                     Request request = new Request(Common.currentUser.getName(), txt_totalprice.getText().toString(), cart);

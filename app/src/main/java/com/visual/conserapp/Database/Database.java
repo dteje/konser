@@ -5,9 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.widget.Toast;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 import com.visual.conserapp.Model.Order;
+import com.visual.conserapp.R;
 
 import java.sql.SQLClientInfoException;
 import java.util.ArrayList;
@@ -57,15 +59,14 @@ public class Database extends SQLiteAssetHelper {
     }
 
     public void addToCart(Order order) {
-
-        Cursor pos = getOrderPositionInDatabase(order.getProductID());
         SQLiteDatabase db = getReadableDatabase();
+
+        Cursor pos = getOrderPositionInDatabase(order.getProductID(), db);
         String query;
-        if (pos.getPosition() == -1) {
+        if (pos.getCount() == 0) {
             query = String.format("INSERT INTO OrderDetail(ProductID,ProductName,Quantity,Price,Discount) VALUES('%s','%s','%s','%s','%s');",
                     order.getProductID(), order.getProductName(), order.getQuantity(), order.getPrice(), order.getDiscount());
         } else {
-            //pos.moveToFirst();
             pos.moveToFirst();
             int quantity = parseInt(pos.getString(pos.getColumnIndex("Quantity")));
             int id = pos.getInt(pos.getColumnIndex("ID"));
@@ -87,14 +88,13 @@ public class Database extends SQLiteAssetHelper {
         db.execSQL(query);
     }
 
-    public void removeFromCart(Order order){
+    public void removeFromCart(Order order) {
         SQLiteDatabase db = getReadableDatabase();
         String query = "DELETE FROM OrderDetail WHERE ID =" + order.getID();
         db.execSQL(query);
     }
 
-    public Cursor getOrderPositionInDatabase(String productid) {
-        SQLiteDatabase db = getReadableDatabase();
+    public Cursor getOrderPositionInDatabase(String productid, SQLiteDatabase db) {
         Cursor c = null;
         try {
             String query = String.format("SELECT * FROM OrderDetail WHERE ProductId = " + productid);

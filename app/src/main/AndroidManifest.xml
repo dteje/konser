@@ -25,6 +25,7 @@
         <activity android:name=".Views.Offers" />
         <activity android:name=".Views.Home" />
         <activity android:name=".Views.SignIn" />
+        <activity android:name=".Views.SandwitchCreator"/>
         <activity android:name=".Views.SignUp"></activity>
         <activity
             android:name=".Views.Detail"
