@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Cart extends AppCompatActivity {
 
-    ArrayList<String> listSandwitch;
+    ArrayList<String> listSandwich;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,30 +1,49 @@
 package com.visual.conserapp;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.os.Debug;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.Model.Favs;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class SandwitchCreator extends AppCompatActivity {
 
     ArrayList<String> listData;
-    ArrayList<String> listSandWitch;
+    ArrayList<String> listSandwich;
+    ArrayList<Double> listPrice;
+    double ingredientPrice;
     RecyclerView recycler;
     LinearLayout linearLayout;
+
+    Favs favs;
+    DatabaseReference favs_table;
+    FirebaseDatabase database;
 
     Intent cartIntent;
 
@@ -39,10 +58,12 @@ public class SandwitchCreator extends AppCompatActivity {
         setContentView(R.layout.activity_sandwitch_creator);
         setTitle("Sandwitch Creator");
 
+
         linearLayout = (LinearLayout) findViewById(R.id.generalLinearLayout);
 
         listData = new ArrayList<String>();
-        listSandWitch = new ArrayList<String>();
+        listSandwich = new ArrayList<String>();
+        listPrice = new ArrayList<Double>();
 
 
         recycler = (RecyclerView) findViewById(R.id.recyclerIngredientesId);
@@ -66,28 +87,13 @@ public class SandwitchCreator extends AppCompatActivity {
         btn_unfocus = btn[0];
         setFocus(btn_unfocus, btn[0]);
 
+        // Añadir el primer precio de los ingredientes, ya que no clickamos en el botón de Carne y por lo tanto no se cambia automaticamente
+        ingredientPrice = 0.7;
+
         generateCarne();
 
-    }
+        declareDatabase();
 
-    public void removeLastElement(View view){
-        int id = view.getId();
-        if(listSandWitch.size() != 0) {
-            if (id == R.id.removeLastButton) {
-                listSandWitch.remove(listSandWitch.size() - 1);
-            }
-            printIngredients();
-        }
-    }
-
-    public void removeAllElements(View view){
-        int id = view.getId();
-        if(listSandWitch.size() != 0){
-            if(id == R.id.removeAllButton){
-                listSandWitch.clear();
-            }
-        }
-        printIngredients();
     }
 
     @Override
@@ -97,12 +103,12 @@ public class SandwitchCreator extends AppCompatActivity {
         return true;
     }
 
-    public boolean onNavSuperior(MenuItem menuitem){
+    public boolean onNavSuperior(MenuItem menuitem) {
         View view = menuitem.getActionView();
         int id = menuitem.getItemId();
         Intent intent;
-        if(id == R.id.cart_id)  intent = cartIntent;
-        else intent = new Intent(this,Offers.class);
+        if (id == R.id.cart_id) intent = cartIntent;
+        else intent = new Intent(this, Offers.class);
         startActivity(intent);
 
         return true;
@@ -120,20 +126,90 @@ public class SandwitchCreator extends AppCompatActivity {
     public void storeIngredients(View view, int position) {
         TextView textView = (TextView) view.findViewById(R.id.idData);
         String ingredientName = textView.getText().toString();
-        listSandWitch.add(ingredientName);
-        printIngredients();
+        if (maxRepetitionIngredient(ingredientName)) {
+            showRepetitionAlert();
+        } else {
+            listSandwich.add(ingredientName);
+            listPrice.add(ingredientPrice);
+            printIngredients();
+        }
     }
 
-    public void printIngredients(){
+    // Max in this case is 2
+    public boolean maxRepetitionIngredient(String ingredient) {
+        int numRepetitions = 0;
+        for (int i = 0; i < listSandwich.size(); i++) {
+            String res = listSandwich.get(i);
+            if (ingredient == res) numRepetitions++;
+            if (numRepetitions == 2) return true;
+        }
+        return false;
+    }
+
+    public void showRepetitionAlert() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("Cuidado!");
+        builder1.setMessage("Has añadido demasiados ingredientes iguales!");
+        builder1.setCancelable(true);
+        builder1.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertRepetition = builder1.create();
+        alertRepetition.show();
+    }
+
+    public void emptyAlert() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("Cuidado!");
+        builder1.setMessage("Tienes un bocadillo vacio!");
+        builder1.setCancelable(true);
+        builder1.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertRepetition = builder1.create();
+        alertRepetition.show();
+    }
+
+    public void printIngredients() {
         TextView finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
-        finalSandwitch.setText(listSandWitch.toString());
+        finalSandwitch.setText(listSandwich.toString());
     }
 
     public void addToCart(View view) {
 
         cartIntent = new Intent(getBaseContext(), Cart.class);
-        cartIntent.putExtra("list", listSandWitch.toString());
+        cartIntent.putExtra("list", listSandwich.toString());
 
+    }
+
+    public void removeLastElement(View view) {
+        int id = view.getId();
+        if (listSandwich.size() != 0) {
+            if (id == R.id.removeLastButton) {
+                listSandwich.remove(listSandwich.size() - 1);
+                listPrice.remove(listPrice.size() - 1);
+            }
+            printIngredients();
+        }
+    }
+
+    public void removeAllElements(View view) {
+        int id = view.getId();
+        if (listSandwich.size() != 0) {
+            if (id == R.id.removeAllButton) {
+                listSandwich.clear();
+                listPrice.clear();
+            }
+        }
+        printIngredients();
     }
 
     public void recycleDividerManager() {
@@ -142,6 +218,8 @@ public class SandwitchCreator extends AppCompatActivity {
         recycler.addItemDecoration(dividerItemDecoration);
     }
 
+// Más adelante tocará añadir que el precio se lo pueda especificar el restaurante. Entonces
+// Lo obtendriamos de la firebase.
 
     public void buttonIngredient(View view) {
 
@@ -149,22 +227,27 @@ public class SandwitchCreator extends AppCompatActivity {
             case R.id.bMeat:
                 setFocus(btn_unfocus, btn[0]);
                 generateCarne();
+                ingredientPrice = 0.7;
                 break;
             case R.id.bVeggies:
                 setFocus(btn_unfocus, btn[1]);
                 generateVerduras();
+                ingredientPrice = 0.7;
                 break;
             case R.id.bCheese:
                 setFocus(btn_unfocus, btn[2]);
                 generateQueso();
+                ingredientPrice = 0.4;
                 break;
             case R.id.bSpecial:
                 setFocus(btn_unfocus, btn[3]);
                 generateEspecial();
+                ingredientPrice = 0.6;
                 break;
             case R.id.bSauces:
                 setFocus(btn_unfocus, btn[4]);
                 generateSalsas();
+                ingredientPrice = 0.4;
                 break;
         }
 
@@ -173,6 +256,68 @@ public class SandwitchCreator extends AppCompatActivity {
     public void modifyAdapter() {
         AdapterData adapter = new AdapterData(listData);
         recycler.setAdapter(adapter);
+    }
+    /*
+    public void addToFavs(View view) {
+
+        String nameSandwichUser = askSandwichname();
+        double price = obtainPrice();
+        favs = new Favs(listSandwich.toString(), nameSandwichUser, listSandwich.toString(), price);
+        String id_favs = "Favs " + String.valueOf(System.currentTimeMillis());
+        favs_table.child(id_favs).setValue(favs);
+    }*/
+
+    public void addToFavs(View view) {
+
+        if (listSandwich.size() == 0) emptyAlert();
+        else {
+
+            Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
+
+            String nameSandwichUser = askSandwichname();
+            String nameSandwichOfficial = listSandwich.toString();
+            double price = obtainPrice();
+            String listIngredients = listSandwich.toString();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("nameSandwichOfficial", nameSandwichOfficial);
+            bundle.putString("nameSandwichUser", nameSandwichUser);
+            bundle.putDouble("price", price);
+            bundle.putString("listIngredients", listIngredients);
+            popUp.putExtras(bundle);
+
+            startActivity(popUp);
+        }
+    }
+
+
+    public double obtainPrice() {
+        double res = 0;
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        for (int i = 0; i < listPrice.size(); i++) {
+            res += listPrice.get(i);
+            String reslog = "res " + i;
+        }
+        if (res < 2) res = 2;
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        res = Double.parseDouble(decimalFormat.format(res));
+        return res;
+    }
+
+    public double roundTwoDecimals(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.00");
+        return Double.valueOf(twoDForm.format(d));
+    }
+
+    public String askSandwichname() {
+        return "test";
+    }
+
+
+    public void declareDatabase() {
+        database = FirebaseDatabase.getInstance();
+        favs_table = database.getReference("Favs");
+
     }
 
 

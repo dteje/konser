@@ -16,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp">
@@ -84,9 +84,9 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerIngredientesId"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="220dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp" />
+                    android:layout_marginRight="10dp"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -94,6 +94,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -110,7 +111,14 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text=""
-                android:textSize="25dp" />
+                android:textSize="18dp" />
+
+            <Button
+                android:id="@+id/favs_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="addToFavs"
+                android:text="Add to Favs" />
         </LinearLayout>
 
         <LinearLayout
