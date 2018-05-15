@@ -21,15 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        </activity>
-            android:theme="@style/AppTheme.CustomTheme">
-        <activity android:name=".popFavs"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"></activity>
+
+        <activity android:name="Views.popFavs"
+            android:theme="@style/AppTheme.CustomTheme"></activity>
         <activity android:name=".Views.Cart" />
         <activity android:name=".Views.Offers" />
         <activity android:name=".Views.Home" />
         <activity android:name=".Views.SignIn" />
-        <activity android:name=".Views.SandwitchCreator"/>
+        <activity android:name=".Views.SandwitchCreator"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"></activity>
         <activity android:name=".Views.SignUp"></activity>
         <activity
             android:name=".Views.Detail"
