@@ -6,6 +6,7 @@ public class Favs {
     private String nameSandwichUser;
     private String ingredients;
     private double price;
+   // private String id;
 
     public Favs(String nameSandwichOfficial, String nameSandwichUser, String ingredients, double price) {
         this.nameSandwichOfficial = nameSandwichOfficial;
@@ -13,6 +14,13 @@ public class Favs {
         this.ingredients = ingredients;
         this.price = price;
     }
+
+    /*
+    public String getId(){ return id;}
+
+    public void setId(String id){
+        this.id = id;
+    }*/
 
     public String getNameSandwichOfficial() {
         return nameSandwichOfficial;

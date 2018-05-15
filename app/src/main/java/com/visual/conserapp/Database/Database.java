@@ -63,7 +63,7 @@ public class Database extends SQLiteAssetHelper {
 
         Cursor pos = getOrderPositionInDatabase(order.getProductID(), db);
         String query;
-        if (pos.getCount() == 0) {
+        if (pos == null || pos.getCount() == 0) {
             query = String.format("INSERT INTO OrderDetail(ProductID,ProductName,Quantity,Price,Discount) VALUES('%s','%s','%s','%s','%s');",
                     order.getProductID(), order.getProductName(), order.getQuantity(), order.getPrice(), order.getDiscount());
         } else {
