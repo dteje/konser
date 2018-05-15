@@ -149,6 +149,8 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
+            Intent intent = new Intent(Home.this,AdminHome.class);
+            startActivity(intent);
 
         } else if (id == R.id.logout) {
             Paper.book().destroy();

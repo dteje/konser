@@ -67,7 +67,7 @@ public class Cart extends AppCompatActivity {
         btn_placeorder = (FButton) findViewById(R.id.cart_btn_placeorder);
 
         database = FirebaseDatabase.getInstance();
-        requests_table = database.getReference("Orders");
+        requests_table = database.getReference("Requests");
 
         recyclerView = (RecyclerView) findViewById(R.id.cart_recyclerview);
         recyclerView.setHasFixedSize(true);

@@ -10,6 +10,8 @@ public class Request {
     private String name;
     private String total;
     private List<Order> foods;
+    private Boolean done;
+    private Boolean payed;
 
     public String getName() {
         return name;
@@ -42,6 +44,23 @@ public class Request {
         this.total = total;
         this.foods = foods;
     }
+
+    public Boolean getDone() {
+        return this.done;
+    }
+
+    public void setDone(Boolean done) {
+        this.done = done;
+    }
+
+    public Boolean getPayed() {
+        return this.payed;
+    }
+
+    public void setPayed(Boolean payed) {
+        this.payed = payed;
+    }
+
 
 
 }
