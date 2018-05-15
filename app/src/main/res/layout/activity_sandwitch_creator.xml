@@ -84,7 +84,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerIngredientesId"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="220dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
 
@@ -111,7 +111,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text=""
-                android:textSize="10dp" />
+                android:textSize="18dp" />
 
             <Button
                 android:id="@+id/favs_id"
