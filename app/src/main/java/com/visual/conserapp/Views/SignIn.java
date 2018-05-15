@@ -1,4 +1,4 @@
-package com.visual.conserapp;
+package com.visual.conserapp.Views;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -16,10 +16,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.visual.conserapp.Common.Common;
+import com.visual.conserapp.Views.Home;
 import com.visual.conserapp.Model.User;
 
 import io.paperdb.Paper;
-import com.rey.material.widget.CheckBox;
+
+import com.visual.conserapp.R;
 
 public class SignIn extends AppCompatActivity {
     EditText edtEmail, edtPassword, edtName;
@@ -65,6 +67,7 @@ public class SignIn extends AppCompatActivity {
 
                             pd.dismiss();
                             User user = dataSnapshot.child(encodeUserEmail(edtEmail.getText().toString())).getValue(User.class);
+                            user.setEmail(encodeUserEmail(edtEmail.getText().toString()));
                             if (user.getPassword().equals(edtPassword.getText().toString())) {
                                 Intent intent = new Intent(SignIn.this,Home.class);
                                 Common.currentUser = user;

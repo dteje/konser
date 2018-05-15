@@ -8,70 +8,28 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-
-
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <include
+        layout="@layout/app_bar_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        tools:context=".MainActivity">
-
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/wheel_image"
-            android:background="#70f">
-
-        </android.support.v7.widget.RecyclerView>
-
-        <github.hellocsl.cursorwheel.CursorWheelLayout
-            android:id="@+id/wheel_image"
-            android:layout_width="9000dip"
-            android:layout_height="205dip"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            app:wheelBackgroundColor="#10FFFFFF"
-            app:wheelCursorColor="#FFF"
-            app:wheelCursorHeight="0dp"
-            app:wheelSelectedAngle="270">
-
-            <TextView
-                android:id="@id/id_wheel_menu_center_item"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center_horizontal"
-                android:paddingBottom="80dp"
-                android:text="@string/bocadillos"
-                android:textColor="#000"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
-        </github.hellocsl.cursorwheel.CursorWheelLayout>
-
-
-    </RelativeLayout>
+        android:layout_height="match_parent" />
 
 
     <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header_home"
-            app:menu="@menu/activity_home_drawer" >
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_home"
+        app:menu="@menu/activity_home_drawer">
 
 
     </android.support.design.widget.NavigationView>
 
-        <include
-        layout="@layout/app_bar_home"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
+
+
+
 
 
 </android.support.v4.widget.DrawerLayout>

@@ -1,10 +1,8 @@
-package com.visual.conserapp;
+package com.visual.conserapp.Views;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -16,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Model.User;
+import com.visual.conserapp.R;
 
 import io.paperdb.Paper;
 
@@ -66,13 +65,13 @@ public class Login extends AppCompatActivity {
 
         final String email = encodeUserEmail(emailp);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference table_user = database.getReference("User");
+        final DatabaseReference users = database.getReference("User");
 
         /*final ProgressDialog pd = new ProgressDialog(Login.this);
         pd.setMessage("Espere por favor...");
         pd.show();*/
 
-        table_user.addValueEventListener(new ValueEventListener() {
+        users.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
