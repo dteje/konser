@@ -17,8 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Favs;
 
@@ -264,15 +267,6 @@ public class SandwitchCreator extends AppCompatActivity {
         AdapterData adapter = new AdapterData(listData);
         recycler.setAdapter(adapter);
     }
-    /*
-    public void addToFavs(View view) {
-
-        String nameSandwichUser = askSandwichname();
-        double price = obtainPrice();
-        favs = new Favs(listSandwich.toString(), nameSandwichUser, listSandwich.toString(), price);
-        String id_favs = "Favs " + String.valueOf(System.currentTimeMillis());
-        favs_table.child(id_favs).setValue(favs);
-    }*/
 
     public void addToFavs(View view) {
 
@@ -320,6 +314,26 @@ public class SandwitchCreator extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         favs_table = database.getReference("Favs");
 
+    }
+
+    public void obtainDataFirebase(){
+        // Get a reference to our posts
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("");
+
+// Attach a listener to read the data at our posts reference
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                SandwitchCreator data = dataSnapshot.getValue(SandwitchCreator.class);
+                System.out.println(data);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
     }
 
 
