@@ -76,9 +76,27 @@ public class popFavs extends Activity {
             String id_favs = "Favs " + String.valueOf(System.currentTimeMillis());
             favs_table.child(id_favs).setValue(favs);
 
-            finish();
+            addedToFavsAlert();
+            //finish();
         }
 
+    }
+
+    public void addedToFavsAlert() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("Genial!");
+        builder1.setMessage("Tu bocadillo ha sido añadido!");
+        builder1.setCancelable(true);
+        builder1.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+
+        AlertDialog alertRepetition = builder1.create();
+        alertRepetition.show();
     }
 
     public void emptyNameAlert() {

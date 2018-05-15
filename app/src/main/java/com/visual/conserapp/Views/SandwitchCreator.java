@@ -15,13 +15,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Favs;
 
 import java.text.DecimalFormat;
 
+import com.visual.conserapp.Model.Food;
+import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
 
 import java.util.ArrayList;
@@ -39,7 +43,7 @@ public class SandwitchCreator extends AppCompatActivity {
     DatabaseReference favs_table;
     FirebaseDatabase database;
 
-    Intent cartIntent;
+    Order orderRes;
 
     int numButtons = 5;
     private Button[] btn = new Button[numButtons];
@@ -101,7 +105,7 @@ public class SandwitchCreator extends AppCompatActivity {
         View view = menuitem.getActionView();
         int id = menuitem.getItemId();
         Intent intent;
-        if (id == R.id.cart_id) intent = cartIntent;
+        if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
         else intent = new Intent(this, Offers.class);
         startActivity(intent);
 
@@ -139,6 +143,7 @@ public class SandwitchCreator extends AppCompatActivity {
         }
         return false;
     }
+
 
     public void showRepetitionAlert() {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -179,10 +184,18 @@ public class SandwitchCreator extends AppCompatActivity {
 
     public void addToCart(View view) {
 
-        cartIntent = new Intent(getBaseContext(), Cart.class);
-        cartIntent.putExtra("list", listSandwich.toString());
+        String orderId = "Order " + String.valueOf(System.currentTimeMillis());
+        String quantity = "1";
+        String price = String.valueOf(obtainPrice());
+        String discount = "0";
 
+        orderRes = new Order(orderId, listSandwich.toString(), quantity, price, discount);
+
+
+        new Database(getBaseContext()).addToCart(orderRes);
+        Toast.makeText(SandwitchCreator.this,"Añadido al carrito!", Toast.LENGTH_SHORT).show();
     }
+
 
     public void removeLastElement(View view) {
         int id = view.getId();
@@ -268,14 +281,12 @@ public class SandwitchCreator extends AppCompatActivity {
 
             Intent popUp = new Intent(SandwitchCreator.this, popFavs.class  );
 
-            String nameSandwichUser = askSandwichname();
             String nameSandwichOfficial = listSandwich.toString();
             double price = obtainPrice();
             String listIngredients = listSandwich.toString();
 
             Bundle bundle = new Bundle();
             bundle.putString("nameSandwichOfficial", nameSandwichOfficial);
-            bundle.putString("nameSandwichUser", nameSandwichUser);
             bundle.putDouble("price", price);
             bundle.putString("listIngredients", listIngredients);
             popUp.putExtras(bundle);
@@ -303,9 +314,6 @@ public class SandwitchCreator extends AppCompatActivity {
         return Double.valueOf(twoDForm.format(d));
     }
 
-    public String askSandwichname() {
-        return "test";
-    }
 
 
     public void declareDatabase() {
