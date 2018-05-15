@@ -22,19 +22,16 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="Views.popFavs"
+        <activity android:name=".Views.popFavs"
             android:theme="@style/AppTheme.CustomTheme"></activity>
         <activity android:name=".Views.Cart" />
         <activity android:name=".Views.Offers" />
         <activity android:name=".Views.Home" />
         <activity android:name=".Views.SignIn" />
+        <activity android:name=".Views.Detail"/>
         <activity android:name=".Views.SandwitchCreator"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"></activity>
         <activity android:name=".Views.SignUp"></activity>
-        <activity
-            android:name=".Views.Detail"
-            android:label="@string/title_activity_detail"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 

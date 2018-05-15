@@ -11,13 +11,13 @@ import java.util.List;
 
 public class Food {
 
-    String Name;
-    String Price;
-    String Discount;
-    String Ingredientes;
-    String Description;
-    String Image;
-    String CategoryID;
+    private String Name;
+    private String Price;
+    private String Discount;
+    private String Ingredientes;
+    private String Description;
+    private String Image;
+    private String CategoryID;
 
     public Food(String CategoryID, String Description, String Discount, String Ingredientes, String Image, String Name, String Price) {
         this.Name = Name;

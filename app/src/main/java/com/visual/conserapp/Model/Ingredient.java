@@ -6,10 +6,10 @@ package com.visual.conserapp.Model;
 
 public class Ingredient {
 
-    String Name;
-    String CategoryID;
-    double pricebuy;
-    double pricesell;
+    private String Name;
+    private String CategoryID;
+    private double pricebuy;
+    private double pricesell;
 
     public String getCategoryID() {
         return CategoryID;

@@ -1,44 +1,29 @@
 package com.visual.conserapp.Views;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.os.Debug;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-<<<<<<< HEAD:app/src/main/java/com/visual/conserapp/SandwitchCreator.java
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.visual.conserapp.Model.Favs;
 
 import java.text.DecimalFormat;
-=======
-import com.visual.conserapp.AdapterData;
-import com.visual.conserapp.R;
-import com.visual.conserapp.RecyclerClickListener;
-import com.visual.conserapp.Views.Cart;
-import com.visual.conserapp.Views.Offers;
 
->>>>>>> develop:app/src/main/java/com/visual/conserapp/Views/SandwitchCreator.java
+import com.visual.conserapp.R;
+
 import java.util.ArrayList;
 
 public class SandwitchCreator extends AppCompatActivity {
@@ -281,7 +266,7 @@ public class SandwitchCreator extends AppCompatActivity {
         if (listSandwich.size() == 0) emptyAlert();
         else {
 
-            Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
+            Intent popUp = new Intent(SandwitchCreator.this, popFavs.class  );
 
             String nameSandwichUser = askSandwichname();
             String nameSandwichOfficial = listSandwich.toString();
