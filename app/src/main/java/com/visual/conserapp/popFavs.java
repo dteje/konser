@@ -1,9 +1,11 @@
 package com.visual.conserapp;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +24,6 @@ public class popFavs extends Activity {
 
     Intent intent;
 
-    //TextInputLayout textInputLayout;
     EditText textInputLayout;
 
     String nameOfficial;
@@ -68,12 +69,31 @@ public class popFavs extends Activity {
 
         nameUser = askName();
 
-        favs = new Favs(nameOfficial, nameUser, listIngredients, price);
-        String id_favs = "Favs " + String.valueOf(System.currentTimeMillis());
-        favs_table.child(id_favs).setValue(favs);
+        if (nameUser.equals("")) emptyNameAlert();
+        else {
+            favs = new Favs(nameOfficial, nameUser, listIngredients, price);
+            String id_favs = "Favs " + String.valueOf(System.currentTimeMillis());
+            favs_table.child(id_favs).setValue(favs);
 
-        finish();
+            finish();
+        }
 
+    }
+
+    public void emptyNameAlert() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("Cuidado!");
+        builder1.setMessage("Tu bocadillo no tiene nombre!");
+        builder1.setCancelable(true);
+        builder1.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertRepetition = builder1.create();
+        alertRepetition.show();
     }
 
     public void closePopUp(View view) {
