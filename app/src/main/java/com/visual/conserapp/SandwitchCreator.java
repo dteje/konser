@@ -146,10 +146,26 @@ public class SandwitchCreator extends AppCompatActivity {
         return false;
     }
 
-    public void showRepetitionAlert(){
+    public void showRepetitionAlert() {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setTitle("Cuidado!");
         builder1.setMessage("Has añadido demasiados ingredientes iguales!");
+        builder1.setCancelable(true);
+        builder1.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertRepetition = builder1.create();
+        alertRepetition.show();
+    }
+
+    public void emptyAlert() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("Cuidado!");
+        builder1.setMessage("Tienes un bocadillo vacio!");
         builder1.setCancelable(true);
         builder1.setNeutralButton(android.R.string.ok,
                 new DialogInterface.OnClickListener() {
@@ -253,21 +269,25 @@ public class SandwitchCreator extends AppCompatActivity {
 
     public void addToFavs(View view) {
 
-        Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
+        if (listSandwich.size() == 0) emptyAlert();
+        else {
 
-        String nameSandwichUser = askSandwichname();
-        String nameSandwichOfficial = listSandwich.toString();
-        double price = obtainPrice();
-        String listIngredients = listSandwich.toString();
+            Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("nameSandwichOfficial",nameSandwichOfficial);
-        bundle.putString("nameSandwichUser", nameSandwichUser);
-        bundle.putDouble("price", price);
-        bundle.putString("listIngredients", listIngredients);
-        popUp.putExtras(bundle);
+            String nameSandwichUser = askSandwichname();
+            String nameSandwichOfficial = listSandwich.toString();
+            double price = obtainPrice();
+            String listIngredients = listSandwich.toString();
 
-        startActivity(popUp);
+            Bundle bundle = new Bundle();
+            bundle.putString("nameSandwichOfficial", nameSandwichOfficial);
+            bundle.putString("nameSandwichUser", nameSandwichUser);
+            bundle.putDouble("price", price);
+            bundle.putString("listIngredients", listIngredients);
+            popUp.putExtras(bundle);
+
+            startActivity(popUp);
+        }
     }
 
 

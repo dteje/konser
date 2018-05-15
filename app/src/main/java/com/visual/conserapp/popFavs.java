@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -21,7 +22,8 @@ public class popFavs extends Activity {
 
     Intent intent;
 
-    TextInputLayout textInputLayout;
+    //TextInputLayout textInputLayout;
+    EditText textInputLayout;
 
     String nameOfficial;
     String nameUser;
@@ -40,7 +42,7 @@ public class popFavs extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * 0.7), (int) (height * 0.7));
+        getWindow().setLayout((int) (width), (int) (height * 0.3));
 
 
         declareDatabase();
@@ -49,12 +51,12 @@ public class popFavs extends Activity {
 
         getDataFromSandwichCreator(intent);
 
-        textInputLayout = (TextInputLayout) findViewById(R.id.textInputLayout);
+        textInputLayout = (EditText) findViewById(R.id.textInputNombre);
 
 
     }
 
-    public void getDataFromSandwichCreator(Intent in){
+    public void getDataFromSandwichCreator(Intent in) {
         Bundle extras = in.getExtras();
         nameOfficial = extras.getString("nameSandwichOfficial");
         price = extras.getDouble("price");
@@ -70,15 +72,16 @@ public class popFavs extends Activity {
         String id_favs = "Favs " + String.valueOf(System.currentTimeMillis());
         favs_table.child(id_favs).setValue(favs);
 
+        finish();
+
     }
 
     public void closePopUp(View view) {
-        //Button cancel = (Button) view.findViewById(R.id.cancelAddToFavs);
-
+        finish();
     }
 
     public String askName() {
-        String userName = textInputLayout.getEditText().getText().toString();
+        String userName = textInputLayout.getText().toString();
 
         return userName;
     }
