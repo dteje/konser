@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Interface.ItemClickListener;
+import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.Model.Request;
 import com.visual.conserapp.Model.Request;
 import com.visual.conserapp.R;
@@ -29,25 +30,25 @@ import static java.lang.Integer.parseInt;
 
 class RequestViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txt_cart_name;
-    public TextView txt_cart_price;
-    Button btn_eliminar;
+    public TextView txt_name;
+    public TextView txt_price;
+    Button btn_done;
 
-    public void setTxt_cart_price(TextView txt_cart_price) {
-        this.txt_cart_price = txt_cart_price;
+    public void setTxt_cart_price(TextView txt_price) {
+        this.txt_price = txt_price;
     }
 
-    public void setTxt_name(TextView txt_cart_name) {
-        this.txt_cart_name = txt_cart_name;
+    public void setTxt_name(TextView txt_name) {
+        this.txt_name = txt_name;
     }
 
     private ItemClickListener itemClickListener;
 
     public RequestViewHolder(View itemView) {
         super(itemView);
-        txt_cart_name = (TextView) itemView.findViewById(R.id.cart_adapter_item_name);
-        txt_cart_price = (TextView) itemView.findViewById(R.id.cart_adapter_item_price);
-        btn_eliminar = (Button) itemView.findViewById(R.id.cart_adapter_btn_eliminar);
+        txt_name = (TextView) itemView.findViewById(R.id.cart_adapter_item_name);
+        txt_price = (TextView) itemView.findViewById(R.id.cart_adapter_item_price);
+        btn_done = (Button) itemView.findViewById(R.id.item_admin_btn_done);
 
     }
 
@@ -77,8 +78,20 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RequestViewHolder holder, int position) {
+    public void onBindViewHolder(RequestViewHolder holder, final int position) {
 
+        String total = listData.get(position).getTotal();
+        holder.txt_price.setText(total + "");
+        String nombre = listData.get(position).getName();
+        holder.txt_name.setText(nombre+"");
+        holder.btn_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Request request = listData.get(position);
+                request.setDone(true);
+
+            }
+        });
     }
 
     @Override

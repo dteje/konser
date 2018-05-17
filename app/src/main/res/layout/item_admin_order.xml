@@ -76,35 +76,18 @@
         </LinearLayout>
 
 
-        <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
-            android:id="@+id/cart_adapter_btn_detail_number"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="18dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            app:backGroundColor="@color/colorAccent"
-            app:finalNumber="10"
-            app:initialNumber="1"
-            app:textSize="8sp"
-
-
-            >
-
-        </com.cepheuen.elegantnumberbutton.view.ElegantNumberButton>
-
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/cart_adapter_btn_eliminar"
+            android:id="@+id/item_admin_btn_done"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Eliminar" />
+            android:text="Hecho" />
 
         <Space
             android:layout_width="wrap_content"

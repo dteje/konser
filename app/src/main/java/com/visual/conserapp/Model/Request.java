@@ -1,5 +1,6 @@
 package com.visual.conserapp.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,12 +38,16 @@ public class Request {
         this.foods = foods;
     }
 
-
+    public Request(){
+        this.foods = new ArrayList<Order>();
+    }
 
     public Request(String name, String total, List<Order> foods) {
         this.name = name;
         this.total = total;
         this.foods = foods;
+        this.done = false;
+        this.payed = false;
     }
 
     public Boolean getDone() {

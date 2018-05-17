@@ -21,6 +21,7 @@ import com.visual.conserapp.ViewHolders.CartAdapter;
 import com.visual.conserapp.ViewHolders.RequestAdapter;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,19 +52,23 @@ public class AdminHome extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        loadRequests();
-
+        requests = new ArrayList<>();
+        loadRequests(this);
 
     }
 
-    private void loadRequests() {
+    public void loadRequests(final AdminHome ah) {
 
         requests_table.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Request req = dataSnapshot.getValue(Request.class);
-                requests.add(req);
+                requests = new ArrayList<>();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    Request req = d.getValue(Request.class);
+                    if (!req.getDone() && !req.getPayed()) requests.add(req);
+                }
+                reqAdapter = new RequestAdapter(requests, ah);
+                recyclerView.setAdapter(reqAdapter);
             }
 
             @Override
@@ -71,10 +76,5 @@ public class AdminHome extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
-        reqAdapter = new RequestAdapter(requests, this);
-        recyclerView.setAdapter(reqAdapter);
     }
-
-
 }
