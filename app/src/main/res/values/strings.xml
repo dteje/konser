@@ -8,4 +8,5 @@
     <string name="bocadillos">Bocadillos</string>
     <string name="texto_centro">Texto_Centro</string>
     <string name="title_activity_detail">Detail</string>
+    <string name="title_activity_request_details">RequestDetails</string>
 </resources>

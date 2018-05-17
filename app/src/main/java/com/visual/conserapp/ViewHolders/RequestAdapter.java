@@ -1,5 +1,6 @@
 package com.visual.conserapp.ViewHolders;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Interface.ItemClickListener;
 import com.visual.conserapp.Model.Order;
@@ -17,6 +20,7 @@ import com.visual.conserapp.Model.Request;
 import com.visual.conserapp.R;
 import com.visual.conserapp.Views.AdminHome;
 import com.visual.conserapp.Views.Cart;
+import com.visual.conserapp.Views.RequestDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +83,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
 
     @Override
     public void onBindViewHolder(RequestViewHolder holder, final int position) {
-
         String total = listData.get(position).getTotal();
         holder.txt_price.setText(total + "");
         String nombre = listData.get(position).getName();
@@ -87,8 +90,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
         holder.btn_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Request request = listData.get(position);
-                request.setDone(true);
+                Intent intent = new Intent(adminHome,RequestDetails.class);
+                adminHome.startActivity(intent);
 
             }
         });
