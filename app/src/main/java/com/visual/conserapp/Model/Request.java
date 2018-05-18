@@ -7,16 +7,16 @@ import java.util.List;
  */
 
 public class Request {
-    private String name;
+    private String clientname;
     private String total;
     private List<Order> foods;
 
-    public String getName() {
-        return name;
+    public String getClientName() {
+        return clientname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setClientName(String name) {
+        this.clientname = name;
     }
 
     public String getTotal() {
@@ -38,7 +38,7 @@ public class Request {
 
 
     public Request(String name, String total, List<Order> foods) {
-        this.name = name;
+        this.clientname = name;
         this.total = total;
         this.foods = foods;
     }
