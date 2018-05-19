@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Interface.ItemClickListener;
 import com.visual.conserapp.Model.Order;
@@ -22,6 +24,7 @@ import com.visual.conserapp.Views.AdminHome;
 import com.visual.conserapp.Views.Cart;
 import com.visual.conserapp.Views.RequestDetails;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +74,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
 
     public RequestAdapter(List<Request> listData, AdminHome adminHome) {
         this.adminHome = adminHome;
+
         this.listData = listData;
     }
 
@@ -85,14 +89,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
     public void onBindViewHolder(RequestViewHolder holder, final int position) {
         String total = listData.get(position).getTotal();
         holder.txt_price.setText(total + "");
-        String nombre = listData.get(position).getName();
+        String nombre = listData.get(position).getClientname();
         holder.txt_name.setText(nombre+"");
         holder.btn_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(adminHome,RequestDetails.class);
+                intent.putExtra("request_id",(new Gson()).toJson(listData.get(position),Request.class));
                 adminHome.startActivity(intent);
-
             }
         });
     }

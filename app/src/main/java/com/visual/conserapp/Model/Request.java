@@ -8,19 +8,38 @@ import java.util.List;
  */
 
 public class Request {
-    private String name;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getClientname() {
+        return clientname;
+    }
+
+    public void setClientname(String clientname) {
+        this.clientname = clientname;
+    }
+
+    private String id;
+    private String clientname;
     private String total;
     private List<Order> foods;
     private Boolean done;
     private Boolean payed;
 
-    public String getName() {
-        return name;
+    public String getPickupHour() {
+        return pickupHour;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPickupHour(String pickupHour) {
+        this.pickupHour = pickupHour;
     }
+
+    private String pickupHour;
 
     public String getTotal() {
         return total;
@@ -38,16 +57,26 @@ public class Request {
         this.foods = foods;
     }
 
-    public Request(){
+    public Request() {
         this.foods = new ArrayList<Order>();
     }
 
     public Request(String name, String total, List<Order> foods) {
-        this.name = name;
+        this.clientname = name;
         this.total = total;
         this.foods = foods;
         this.done = false;
         this.payed = false;
+    }
+
+    public Request(String id, String name, String total, List<Order> foods, String pickupHour) {
+        this.id = id;
+        this.clientname = name;
+        this.total = total;
+        this.foods = foods;
+        this.done = false;
+        this.payed = false;
+        this.pickupHour = pickupHour;
     }
 
     public Boolean getDone() {
@@ -65,7 +94,6 @@ public class Request {
     public void setPayed(Boolean payed) {
         this.payed = payed;
     }
-
 
 
 }

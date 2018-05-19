@@ -65,7 +65,9 @@ public class AdminHome extends AppCompatActivity {
                 requests = new ArrayList<>();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Request req = d.getValue(Request.class);
-                    if (!req.getDone() && !req.getPayed()) requests.add(req);
+                    if (!req.getDone() && !req.getPayed()){
+                        requests.add(req);
+                    }
                 }
                 reqAdapter = new RequestAdapter(requests, ah);
                 recyclerView.setAdapter(reqAdapter);
