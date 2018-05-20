@@ -18,6 +18,12 @@
         android:orientation="vertical"
         android:id="@+id/linearLayout">
 
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/request_slider"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"></android.support.v4.view.ViewPager>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -166,11 +172,6 @@
                 android:visibility="invisible" />
 
         </LinearLayout>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/request_slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v4.view.ViewPager>
 
     </LinearLayout>
 
