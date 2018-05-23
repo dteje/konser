@@ -27,7 +27,7 @@ public class Request {
     private String id;
     private String clientname;
     private String total;
-    private List<Order> foods;
+    private List<Order> orders;
     private Boolean done;
     private Boolean payed;
 
@@ -49,31 +49,31 @@ public class Request {
         this.total = total;
     }
 
-    public List<Order> getFoods() {
-        return foods;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setFoods(List<Order> foods) {
-        this.foods = foods;
+    public void setOrders(List<Order> foods) {
+        this.orders = foods;
     }
 
     public Request() {
-        this.foods = new ArrayList<Order>();
+        this.orders = new ArrayList<Order>();
     }
 
-    public Request(String name, String total, List<Order> foods) {
+    public Request(String name, String total, List<Order> orders) {
         this.clientname = name;
         this.total = total;
-        this.foods = foods;
+        this.orders = orders;
         this.done = false;
         this.payed = false;
     }
 
-    public Request(String id, String name, String total, List<Order> foods, String pickupHour) {
+    public Request(String id, String name, String total, List<Order> orders, String pickupHour) {
         this.id = id;
         this.clientname = name;
         this.total = total;
-        this.foods = foods;
+        this.orders = orders;
         this.done = false;
         this.payed = false;
         this.pickupHour = pickupHour;
@@ -95,5 +95,7 @@ public class Request {
         this.payed = payed;
     }
 
-
+    public String toString(){
+        return ("ID: "+id+", Cliente: "+clientname+", Total: "+total+", Orders: "+orders.toString()+", DONE: "+done.toString());
+    }
 }

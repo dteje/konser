@@ -9,8 +9,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +39,7 @@ public class RequestDetails extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference requests_table, foods_table;
     private TextView tv_id, tv_callid, tv_total, tv_name, tv_pickup;
+   // private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +48,29 @@ public class RequestDetails extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        String gson = getIntent().getStringExtra("request_id");
+        request = (new Gson()).fromJson(gson, Request.class);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo: update requests_table en request.id para cambiar done y payed a true
+                request.setPayed(true);
+                request.setDone(true);
+                //DatabaseReference table_requests = database.getReference("Requests").child(request.getId());
+                //table_requests.addValueEventListener()
+                database.getReference("Requests").child(request.getId()).setValue(request);
+                Toast.makeText(getBaseContext(),"Pedido completado",Toast.LENGTH_SHORT);
+                finish();
+
+
+
+
 
             }
         });
 
+        //listView = (ListView) findViewById(R.id.request_details_lv_orders);
         tv_id = (TextView) findViewById(R.id.request_details_tv_id);
         tv_callid = (TextView) findViewById(R.id.request_details_tv_callid);
         tv_total = (TextView) findViewById(R.id.request_details_tv_total);
@@ -62,13 +82,13 @@ public class RequestDetails extends AppCompatActivity {
         foods_table = database.getReference("Food");
 
 
-        String gson = getIntent().getStringExtra("request_id");
-        request = (new Gson()).fromJson(gson, Request.class);
+
 
         viewPager = (ViewPager) findViewById(R.id.request_slider);
 
         displayData();
         displayFoods();
+        //displayCBs();
 
 
     }
@@ -84,11 +104,12 @@ public class RequestDetails extends AppCompatActivity {
 
     private void displayFoods() {
         final Context context = this;
-        final List<Order> orders = request.getFoods();
+        final List<Order> orders = request.getOrders();
         final List<Food> foods = new ArrayList<>();
         for (final Order o : orders) {
             DatabaseReference food_reference = foods_table.child(o.getProductID());
             food_reference.addValueEventListener(new ValueEventListener() {
+
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Food f = dataSnapshot.getValue(Food.class);
@@ -97,8 +118,9 @@ public class RequestDetails extends AppCompatActivity {
                         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(context, foods);
                         viewPager.setAdapter(viewPagerAdapter);
                     }
-                    //String gson_food = (new Gson()).toJson(dataSnapshot.getValue(Food.class),Food.class);
+
                 }
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                 }
