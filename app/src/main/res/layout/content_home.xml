@@ -3,9 +3,80 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#FF3"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.visual.conserapp.Home"
     tools:showIn="@layout/app_bar_home">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec1"
+            android:layout_width="match_parent"
+            android:layout_height="505dp"
+            android:background="#4F5">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <in.goodiebag.carouselpicker.CarouselPicker
+            android:id="@+id/carouselPicker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            app:items_visible="three">
+
+
+        </in.goodiebag.carouselpicker.CarouselPicker>
+
+        <TextView
+            android:id="@+id/carruselText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:gravity="bottom|center_horizontal"
+            android:text="@string/bocadillos"
+            android:textColor="#000"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <!-- <github.hellocsl.cursorwheel.CursorWheelLayout
+            android:id="@+id/wheel_image"
+            android:layout_width="9000dip"
+            android:layout_height="205dip"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            app:wheelBackgroundColor="#10FFFFFF"
+            app:wheelCursorColor="#FFF"
+            app:wheelCursorHeight="0dp"
+            app:wheelSelectedAngle="270">
+
+            <TextView
+                android:id="@id/id_wheel_menu_center_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom|center_horizontal"
+                android:paddingBottom="80dp"
+                android:text="@string/bocadillos"
+                android:textColor="#000"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+        </github.hellocsl.cursorwheel.CursorWheelLayout>-->
+
+
 </android.support.constraint.ConstraintLayout>
+
+
+

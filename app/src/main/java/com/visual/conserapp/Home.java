@@ -10,6 +10,8 @@ import android.support.annotation.DrawableRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,9 +21,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.visual.conserapp.Adapter.WheelImageAdapter;
 import com.visual.conserapp.Data.ImageData;
@@ -39,15 +43,20 @@ import github.hellocsl.cursorwheel.CursorWheelLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import in.goodiebag.carouselpicker.CarouselPicker;
 import io.paperdb.Paper;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, CursorWheelLayout.OnMenuSelectedListener{
 
-    CursorWheelLayout wheel_text,wheel_image;
-    List<ImageData> lstImage;
-    WheelImageAdapter imgAdapter;
+
+    CarouselPicker.CarouselViewAdapter imageAdapter;
+    CarouselPicker carouselPicker;
     TextView textoCentro;
+    RecyclerView homeRecycler;
+    RecyclerView.LayoutManager layoutManager;
+    HomeRecyclerAdapter adapter;
+    private List<Button> listData = new ArrayList<>();
 
     FirebaseDatabase database;
 
@@ -72,18 +81,119 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Inicializar texto carrusel
+
+        textoCentro = (TextView) findViewById(R.id.carruselText);
+        textoCentro.setText("Hoy");
+        Typeface lobster = Typeface.createFromAsset(getAssets(), "fonts/Lobster-Regular.ttf");
+        textoCentro.setTypeface(lobster);
+
         //Inicializar carrusel
 
-        initViews();
+        carouselPicker = (CarouselPicker) findViewById(R.id.carouselPicker);
+        List<CarouselPicker.PickerItem> itemsImages = new ArrayList<>();
+        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.bocata_icon));
+        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.menu_icon));
+        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.hoy_icon));
+        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.complementos_icon));
+        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.favoritos_icon));
+        CarouselPicker.CarouselViewAdapter imageAdapter = new CarouselPicker.CarouselViewAdapter(this, itemsImages, 0);
+        carouselPicker.setAdapter(imageAdapter);
+        carouselPicker.setCurrentItem(2);
 
-        loadData();
 
-        wheel_image.setOnMenuSelectedListener(this);
+        //Iniciar el listener del carrusel
+
+        carouselPicker.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                carruselListener(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         //Coger la fuente para el texto del carrusel
 
         AssetManager am = getApplicationContext().getAssets();
 
+        //Organizar el recycler
+
+        setupList();
+
+        homeRecycler = (RecyclerView) findViewById(R.id.rec1);
+        homeRecycler.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        homeRecycler.setLayoutManager(layoutManager);
+        adapter = new HomeRecyclerAdapter(listData, this);
+        homeRecycler.setAdapter(adapter);
+
+
+    }
+
+
+    public void modifyAdapter() {
+        adapter.notifyDataSetChanged();
+    }
+
+    private void carruselListener(int position) {
+        switch(position){
+            case 0:
+                textoCentro.setText("Bocadillos");
+                listData.clear();
+                setupList();
+                modifyAdapter();
+                break;
+
+            case 1:
+                textoCentro.setText("Menú");
+                listData.clear();
+                setupList();
+                modifyAdapter();
+                break;
+
+            case 2:
+                textoCentro.setText("Hoy");
+                listData.clear();
+                setupList();
+                modifyAdapter();
+                break;
+
+            case 3:
+                textoCentro.setText("Complementos");
+                listData.clear();
+                setupList();
+                modifyAdapter();
+                break;
+            case 4:
+                textoCentro.setText("Favoritos");
+                listData.clear();
+                setupList();
+                modifyAdapter();
+                break;
+
+
+        }
+    }
+
+    private void setupList() {
+        for (int i=0; i<15; i++) {
+            Button btn = new Button(this);
+            if(textoCentro.getText().equals("Bocadillos")){
+                btn.setText("pr");
+                btn.setBackgroundColor(getResources().getColor(R.color.bg_wheel));
+            }
+            else btn.setText(textoCentro.getText());
+            listData.add(btn);
+        }
     }
 
     @Override
@@ -145,33 +255,16 @@ public class Home extends AppCompatActivity
         return true;
     }
 
-    private void loadData() {
-        lstImage = new ArrayList<>();
-        lstImage.add(new ImageData(R.drawable.patatas1_mini, "Bocadillos"));
-        lstImage.add(new ImageData(R.drawable.patatas2_mini, "Bebidas"));
-        lstImage.add(new ImageData(R.drawable.patatas3_mini, "Aperitivos"));
-        lstImage.add(new ImageData(R.drawable.patatas4_mini, "Ofertas"));
-        lstImage.add(new ImageData(R.drawable.patatas4_mini, "Menu"));
-        imgAdapter = new WheelImageAdapter(getBaseContext(),lstImage);
-        wheel_image.setAdapter(imgAdapter);
-
-    }
-
-    private void initViews() {
-        wheel_image = (CursorWheelLayout) findViewById(R.id.wheel_image);
-
-    }
 
     @Override
     public void onItemSelected(CursorWheelLayout parent, View view, int pos) {
+
+            //Definición de fuentes e inicialización de textos
+
             textoCentro = (TextView) findViewById(R.id.id_wheel_menu_center_item);
-            Typeface lato_font = Typeface.createFromAsset(getAssets(), "fonts/Lobster-Regular.ttf");
-            textoCentro.setTypeface(lato_font);
-            textoCentro.setText(lstImage.get(pos).imageDescription);
+            Typeface lobster = Typeface.createFromAsset(getAssets(), "fonts/Lobster-Regular.ttf");
+            textoCentro.setTypeface(lobster);
 
         }
-
-
-
 
 }
