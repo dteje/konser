@@ -1,6 +1,7 @@
 package com.visual.conserapp.Views;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +55,7 @@ public class Cart extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Carrito");
+        toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
         setSupportActionBar(toolbar);
 
         //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

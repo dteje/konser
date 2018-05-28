@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,7 @@ public class SandwitchCreator extends AppCompatActivity {
     ArrayList<String> listSandwich;
     ArrayList<Double> listPrice;
     double ingredientPrice;
+
     RecyclerView recycler;
     LinearLayout linearLayout;
 
@@ -60,7 +62,11 @@ public class SandwitchCreator extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sandwitch_creator);
-        setTitle("Sandwitch Creator");
+        //setTitle("Sandwitch Creator");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Sandwitch Creator");
+        toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
+        setSupportActionBar(toolbar);
 
 
         linearLayout = (LinearLayout) findViewById(R.id.generalLinearLayout);
@@ -102,7 +108,6 @@ public class SandwitchCreator extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.sandwitch_creator_menu, menu);
         return true;
     }

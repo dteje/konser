@@ -29,8 +29,7 @@
         <activity android:name=".Views.Home" />
         <activity android:name=".Views.SignIn" />
         <activity android:name=".Views.Detail"/>
-        <activity android:name=".Views.SandwitchCreator"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"></activity>
+        <activity android:name=".Views.SandwitchCreator"></activity>
         <activity android:name=".Views.SignUp"></activity>
     </application>
 
