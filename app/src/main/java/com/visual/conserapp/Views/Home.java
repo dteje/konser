@@ -1,17 +1,19 @@
-package com.visual.conserapp;
+package com.visual.conserapp.Views;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.os.Bundle;
+<<<<<<< HEAD:app/src/main/java/com/visual/conserapp/Home.java
 import android.support.annotation.DrawableRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+=======
+import android.util.Log;
+>>>>>>> develop:app/src/main/java/com/visual/conserapp/Views/Home.java
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,37 +23,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+<<<<<<< HEAD:app/src/main/java/com/visual/conserapp/Home.java
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
+=======
+>>>>>>> develop:app/src/main/java/com/visual/conserapp/Views/Home.java
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.visual.conserapp.Adapter.WheelImageAdapter;
 import com.visual.conserapp.Data.ImageData;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import github.hellocsl.cursorwheel.CursorWheelLayout;
 
 
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.R;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 import io.paperdb.Paper;
 
 public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, CursorWheelLayout.OnMenuSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, CursorWheelLayout.OnMenuSelectedListener {
 
+<<<<<<< HEAD:app/src/main/java/com/visual/conserapp/Home.java
 
     CarouselPicker.CarouselViewAdapter imageAdapter;
     CarouselPicker carouselPicker;
+=======
+    CursorWheelLayout wheel_text, wheel_image;
+    List<ImageData> lstImage;
+    WheelImageAdapter imgAdapter;
+>>>>>>> develop:app/src/main/java/com/visual/conserapp/Views/Home.java
     TextView textoCentro;
     RecyclerView homeRecycler;
     RecyclerView.LayoutManager layoutManager;
@@ -210,14 +217,60 @@ public class Home extends AppCompatActivity
     }
 
 
+
+    public boolean onNavSuperior(MenuItem menuitem) {
+        View view = menuitem.getActionView();
+        int id = menuitem.getItemId();
+        Intent intent;
+        if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
+        else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwitchCreator.class);
+        else intent = new Intent(this, Offers.class);
+        startActivity(intent);
+        return true;
+    }
+
+<<<<<<< HEAD:app/src/main/java/com/visual/conserapp/Home.java
+
+    @Override
+    public void onItemSelected(CursorWheelLayout parent, View view, int pos) {
+
+            //Definición de fuentes e inicialización de textos
+=======
+    private void loadData() {
+        lstImage = new ArrayList<>();
+        lstImage.add(new ImageData(R.drawable.patatas1_mini, "Bocadillos"));
+        lstImage.add(new ImageData(R.drawable.patatas2_mini, "Bebidas"));
+        lstImage.add(new ImageData(R.drawable.patatas3_mini, "Aperitivos"));
+        lstImage.add(new ImageData(R.drawable.patatas4_mini, "Ofertas"));
+        lstImage.add(new ImageData(R.drawable.patatas4_mini, "Menu"));
+        imgAdapter = new WheelImageAdapter(getBaseContext(), lstImage);
+        wheel_image.setAdapter(imgAdapter);
+
+    }
+
+    private void initViews() {
+        wheel_image = (CursorWheelLayout) findViewById(R.id.wheel_image);
+
+    }
+
+    @Override
+    public void onItemSelected(CursorWheelLayout parent, View view, int pos) {
+        textoCentro = (TextView) findViewById(R.id.id_wheel_menu_center_item);
+        Typeface lato_font = Typeface.createFromAsset(getAssets(), "fonts/Lobster-Regular.ttf");
+        textoCentro.setTypeface(lato_font);
+        textoCentro.setText(lstImage.get(pos).imageDescription);
+
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        System.out.println("ITEM ID: " + id);
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent intent = new Intent(Home.this, Detail.class);
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -228,7 +281,7 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        } else if (id == R.id.logout){
+        } else if (id == R.id.logout) {
             Paper.book().destroy();
             Intent intent = new Intent(Home.this, Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -239,23 +292,7 @@ public class Home extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    public boolean onNavSuperior(MenuItem menuitem) {
-        View view = menuitem.getActionView();
-        int id = menuitem.getItemId();
-        Intent intent;
-        if(id == R.id.cart_id)  intent = new Intent(this,Cart.class);
-        else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwitchCreator.class);
-        else intent = new Intent(this,Offers.class);
-        startActivity(intent);
-        return true;
-    }
-
-
-    @Override
-    public void onItemSelected(CursorWheelLayout parent, View view, int pos) {
-
-            //Definición de fuentes e inicialización de textos
+>>>>>>> develop:app/src/main/java/com/visual/conserapp/Views/Home.java
 
             textoCentro = (TextView) findViewById(R.id.id_wheel_menu_center_item);
             Typeface lobster = Typeface.createFromAsset(getAssets(), "fonts/Lobster-Regular.ttf");

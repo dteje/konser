@@ -6,7 +6,7 @@
     android:background="#FF3"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.visual.conserapp.Home"
+    tools:context="com.visual.conserapp.Views.Home"
     tools:showIn="@layout/app_bar_home">
 
 

@@ -1,4 +1,4 @@
-package com.visual.conserapp;
+package com.visual.conserapp.Views;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

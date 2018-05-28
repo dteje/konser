@@ -8,6 +8,8 @@ public class User {
     private String Name;
     private String Password;
 
+    private String Email;
+
     public User(){
 
     }
@@ -15,6 +17,12 @@ public class User {
     public User(String Name, String Password){
         this.Name = Name;
         this.Password = Password;
+    }
+
+    public User(String Name, String Password, String Email){
+        this.Name = Name;
+        this.Password = Password;
+        this.Email = Email;
     }
 
 
@@ -30,6 +38,14 @@ public class User {
 
     public void setPassword(String Password) {
         this.Password = Password;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String Email) {
+        this.Email = Email;
     }
 
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroundbig"
-    tools:context="com.visual.conserapp.SignIn">
+    tools:context="com.visual.conserapp.Views.SignIn">
 
 
     <LinearLayout

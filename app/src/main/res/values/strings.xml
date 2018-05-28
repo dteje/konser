@@ -8,4 +8,5 @@
     <string name="bocadillos">Bocadillos</string>
     <string name="texto_centro">Texto_Centro</string>
     <string name="bot_n">Botón</string>
+    <string name="title_activity_detail">Detail</string>
 </resources>
