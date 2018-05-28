@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,14 +19,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Favs;
 
 import java.text.DecimalFormat;
 
 import com.visual.conserapp.Model.Food;
+import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
 
@@ -36,12 +42,14 @@ public class SandwitchCreator extends AppCompatActivity {
     ArrayList<String> listSandwich;
     ArrayList<Double> listPrice;
     double ingredientPrice;
+
     RecyclerView recycler;
     LinearLayout linearLayout;
 
     Favs favs;
     DatabaseReference favs_table;
     FirebaseDatabase database;
+    ArrayList<Ingredient> listIngredientsFireBase;
 
     Order orderRes;
 
@@ -54,7 +62,11 @@ public class SandwitchCreator extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sandwitch_creator);
-        setTitle("Sandwitch Creator");
+        //setTitle("Sandwitch Creator");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Sandwitch Creator");
+        toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
+        setSupportActionBar(toolbar);
 
 
         linearLayout = (LinearLayout) findViewById(R.id.generalLinearLayout);
@@ -62,7 +74,7 @@ public class SandwitchCreator extends AppCompatActivity {
         listData = new ArrayList<String>();
         listSandwich = new ArrayList<String>();
         listPrice = new ArrayList<Double>();
-
+        listIngredientsFireBase = new ArrayList<Ingredient>();
 
         recycler = (RecyclerView) findViewById(R.id.recyclerIngredientesId);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -73,7 +85,7 @@ public class SandwitchCreator extends AppCompatActivity {
                 new RecyclerClickListener(this, new RecyclerClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        storeIngredients(view, position);
+                        addToSandwitch(view, position);
                     }
                 }));
 
@@ -88,15 +100,14 @@ public class SandwitchCreator extends AppCompatActivity {
         // Añadir el primer precio de los ingredientes, ya que no clickamos en el botón de Carne y por lo tanto no se cambia automaticamente
         ingredientPrice = 0.7;
 
-        generateCarne();
 
         declareDatabase();
+        obtainDataFirebase();
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.sandwitch_creator_menu, menu);
         return true;
     }
@@ -121,7 +132,7 @@ public class SandwitchCreator extends AppCompatActivity {
         this.btn_unfocus = btn_focus;
     }
 
-    public void storeIngredients(View view, int position) {
+    public void addToSandwitch(View view, int position) {
         TextView textView = (TextView) view.findViewById(R.id.idData);
         String ingredientName = textView.getText().toString();
         if (maxRepetitionIngredient(ingredientName)) {
@@ -193,7 +204,7 @@ public class SandwitchCreator extends AppCompatActivity {
 
 
         new Database(getBaseContext()).addToCart(orderRes);
-        Toast.makeText(SandwitchCreator.this,"Añadido al carrito!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SandwitchCreator.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -233,27 +244,27 @@ public class SandwitchCreator extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.bMeat:
                 setFocus(btn_unfocus, btn[0]);
-                generateCarne();
+                generateIngredients("Carne_Pescado");
                 ingredientPrice = 0.7;
                 break;
             case R.id.bVeggies:
                 setFocus(btn_unfocus, btn[1]);
-                generateVerduras();
+                generateIngredients("Verduras");
                 ingredientPrice = 0.7;
                 break;
             case R.id.bCheese:
                 setFocus(btn_unfocus, btn[2]);
-                generateQueso();
+                generateIngredients("Queso");
                 ingredientPrice = 0.4;
                 break;
             case R.id.bSpecial:
                 setFocus(btn_unfocus, btn[3]);
-                generateEspecial();
+                generateIngredients("Especial");
                 ingredientPrice = 0.6;
                 break;
             case R.id.bSauces:
                 setFocus(btn_unfocus, btn[4]);
-                generateSalsas();
+                generateIngredients("Salsas");
                 ingredientPrice = 0.4;
                 break;
         }
@@ -264,22 +275,13 @@ public class SandwitchCreator extends AppCompatActivity {
         AdapterData adapter = new AdapterData(listData);
         recycler.setAdapter(adapter);
     }
-    /*
-    public void addToFavs(View view) {
-
-        String nameSandwichUser = askSandwichname();
-        double price = obtainPrice();
-        favs = new Favs(listSandwich.toString(), nameSandwichUser, listSandwich.toString(), price);
-        String id_favs = "Favs " + String.valueOf(System.currentTimeMillis());
-        favs_table.child(id_favs).setValue(favs);
-    }*/
 
     public void addToFavs(View view) {
 
         if (listSandwich.size() == 0) emptyAlert();
         else {
 
-            Intent popUp = new Intent(SandwitchCreator.this, popFavs.class  );
+            Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
 
             String nameSandwichOfficial = listSandwich.toString();
             double price = obtainPrice();
@@ -315,105 +317,58 @@ public class SandwitchCreator extends AppCompatActivity {
     }
 
 
-
     public void declareDatabase() {
         database = FirebaseDatabase.getInstance();
         favs_table = database.getReference("Favs");
 
     }
 
+    public void obtainDataFirebase() {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = database.getReference("Ingredient");
 
-    public void generateCarne() {
+        final ArrayList<Ingredient> test = new ArrayList<Ingredient>();
 
-        listData.clear();
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                obtainIngredients(dataSnapshot);
+            }
 
-        listData.add("Jamón York");
-        listData.add("Jamón York");
-        listData.add("Jamón York");
-        listData.add("Jamón York");
-        listData.add("Jamón York");
-        listData.add("Jamón York");
-        listData.add("Jamón York");
-        listData.add("Jamón York");
-        listData.add("Jamón York");
-        listData.add("Jamón York");
-        listData.add("Jamón York");
-
-        modifyAdapter();
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
     }
 
-    public void generateVerduras() {
+    public void obtainIngredients(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-        listData.clear();
+            String name = ds.getValue(Ingredient.class).getName();
+            String type = ds.getValue(Ingredient.class).getType();
 
-        listData.add("Tomate");
-        listData.add("Tomate");
-        listData.add("Tomate");
-        listData.add("Tomate");
-        listData.add("Tomate");
-        listData.add("Tomate");
-        listData.add("Tomate");
-        listData.add("Tomate");
-        listData.add("Tomate");
-        listData.add("Tomate");
-        listData.add("Tomate");
+            Ingredient ing = new Ingredient(name, type);
 
-        modifyAdapter();
+            listIngredientsFireBase.add(ing);
+        }
+
+        generateIngredients("Carne_Pescado");
     }
 
-    public void generateQueso() {
+    public void generateIngredients(String ingredientType) {
 
         listData.clear();
 
-        listData.add("Manchego");
-        listData.add("Manchego");
-        listData.add("Manchego");
-        listData.add("Manchego");
-        listData.add("Manchego");
-        listData.add("Manchego");
-        listData.add("Manchego");
-        listData.add("Manchego");
-        listData.add("Manchego");
-        listData.add("Manchego");
-        listData.add("Manchego");
+        for (int i = 0; i < listIngredientsFireBase.size(); i++) {
+            Ingredient ing = listIngredientsFireBase.get(i);
 
-        modifyAdapter();
-    }
+            String condition = ing.getType();
 
-    public void generateEspecial() {
-
-        listData.clear();
-
-        listData.add("Huevo Frito");
-        listData.add("Huevo Frito");
-        listData.add("Huevo Frito");
-        listData.add("Huevo Frito");
-        listData.add("Huevo Frito");
-        listData.add("Huevo Frito");
-        listData.add("Huevo Frito");
-        listData.add("Huevo Frito");
-        listData.add("Huevo Frito");
-        listData.add("Huevo Frito");
-        listData.add("Huevo Frito");
-
-        modifyAdapter();
-    }
-
-    public void generateSalsas() {
-
-        listData.clear();
-
-        listData.add("Mayonesa");
-        listData.add("Mayonesa");
-        listData.add("Mayonesa");
-        listData.add("Mayonesa");
-        listData.add("Mayonesa");
-        listData.add("Mayonesa");
-        listData.add("Mayonesa");
-        listData.add("Mayonesa");
-        listData.add("Mayonesa");
-        listData.add("Mayonesa");
-        listData.add("Mayonesa");
+            if (condition.equals(ingredientType)) {
+                listData.add(ing.getName());
+            }
+        }
 
         modifyAdapter();
     }
