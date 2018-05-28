@@ -1,8 +1,12 @@
 package com.visual.conserapp.Views;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
@@ -67,7 +74,7 @@ public class Cart extends AppCompatActivity {
         btn_placeorder = (FButton) findViewById(R.id.cart_btn_placeorder);
 
         database = FirebaseDatabase.getInstance();
-        requests_table = database.getReference("Orders");
+        requests_table = database.getReference("Requests");
 
         recyclerView = (RecyclerView) findViewById(R.id.cart_recyclerview);
         recyclerView.setHasFixedSize(true);
@@ -83,16 +90,51 @@ public class Cart extends AppCompatActivity {
                 if (txt_totalprice.getText().toString().equals("0,00 €"))
                     Toast.makeText(Cart.this, "Carrito vacio", Toast.LENGTH_SHORT).show();
                 else {
-                    Request request = new Request(Common.currentUser.getName(), txt_totalprice.getText().toString(), cart);
-                    requests_table.child(String.valueOf(System.currentTimeMillis())).setValue(request);
-                    Toast.makeText(Cart.this, "Gracias! Pedido realizado", Toast.LENGTH_SHORT).show();
-                    new Database(getBaseContext()).cleanCart();
-                    finish();
+                    showHourDialog();
+
                 }
             }
         });
 
 
+    }
+
+    private void showHourDialog() {
+        final AlertDialog.Builder hourdialog = new AlertDialog.Builder(Cart.this);
+        hourdialog.setTitle("Solo falta un detalle");
+        hourdialog.setMessage("Indica la hora a la que recogeras tu pedido");
+
+
+        final TimePicker timePicker = new TimePicker(Cart.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        timePicker.setLayoutParams(lp);
+
+
+        final EditText edt_address = new EditText(Cart.this);
+        edt_address.setLayoutParams(lp);
+        hourdialog.setView(timePicker);
+
+        hourdialog.setPositiveButton("Hecho", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String key = String.valueOf(System.currentTimeMillis());
+                Request request = new Request(key, Common.currentUser.getName(), txt_totalprice.getText().toString(), cart, timePicker.getHour()+":"+timePicker.getMinute());
+                requests_table.child(key).setValue(request);
+                Toast.makeText(Cart.this, "Gracias! Pedido realizado", Toast.LENGTH_SHORT).show();
+                new Database(getBaseContext()).cleanCart();
+                finish();
+            }
+        });
+
+        hourdialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        hourdialog.show();
     }
 
     public void loadCart() {
