@@ -1,9 +1,15 @@
 package com.visual.conserapp.Views;
 
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.google.firebase.database.DataSnapshot;
@@ -44,6 +50,7 @@ public class AdminHome extends AppCompatActivity {
         toolbar.setTitle("Administrador");
         setSupportActionBar(toolbar);
 
+
         database = FirebaseDatabase.getInstance();
         requests_table = database.getReference("Requests");
 
@@ -57,6 +64,23 @@ public class AdminHome extends AppCompatActivity {
 
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home, menu);
+        return true;
+    }
+
+    public boolean onNavSuperior(MenuItem menuitem) {
+        View view = menuitem.getActionView();
+        int id = menuitem.getItemId();
+        Intent intent;
+        if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
+        else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwitchCreator.class);
+        else intent = new Intent(this, Offers.class);
+        startActivity(intent);
+        return true;
+    }
+
     public void loadRequests(final AdminHome ah) {
 
         requests_table.addValueEventListener(new ValueEventListener() {
@@ -67,6 +91,8 @@ public class AdminHome extends AppCompatActivity {
                     Request req = d.getValue(Request.class);
                     if (!req.getDone() && !req.getPayed()){
                         requests.add(req);
+                        System.out.println(requests.toString());
+
                     }
                 }
                 reqAdapter = new RequestAdapter(requests, ah);

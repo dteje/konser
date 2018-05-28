@@ -41,15 +41,11 @@ public class ViewPagerAdapter extends PagerAdapter {
         this.context = context;
         done = new boolean[getCount()];
         foods.add(f);
-
-        //food = (new Gson()).fromJson(gson_food, Food.class);
     }
 
     public ViewPagerAdapter(Context context, List<Food> foods) {
         this.context = context;
-
         this.foods = foods;
-
         done = new boolean[getCount()];
         for(Boolean b : done){
             b = false;
@@ -77,23 +73,26 @@ public class ViewPagerAdapter extends PagerAdapter {
        View view = layoutInflater.inflate(R.layout.adapter_slider, null);
        final ImageView imagen = (ImageView) view.findViewById(R.id.adapter_slider_iv_foodimage);
        final TextView name = (TextView) view.findViewById(R.id.adapter_slider_tv_foodname);
-       String url = foods.get(position).getImage();
-       Picasso.with(context).load(url).into(imagen);
+       final String url = foods.get(position).getImage();
+       if(url != ""){
+           Picasso.with(context).load(url).into(imagen);
+       }
+       else{
+           imagen.setAlpha((float)0);
+       }
        name.setText(foods.get(position).getName());
-       name.bringToFront();
        imagen.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               //done[position] = !done[position];
                if (!done[position]) {
                    done[position] = true;
-                   imagen.setAlpha((float) 0.5);
+                   if(url!="")imagen.setAlpha((float) 0.5);
                    name.setText("HECHO");
                } else {
                    done[position] = false;
-                   imagen.setAlpha((float) 1);
+                   if(url!="")imagen.setAlpha((float) 1);
                    name.setText(foods.get(position).getName());
-                   //btn.setText(foods.get(position).getName());
+
                }
 
            }

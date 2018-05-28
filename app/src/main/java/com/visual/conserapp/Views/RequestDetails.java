@@ -39,7 +39,7 @@ public class RequestDetails extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference requests_table, foods_table;
     private TextView tv_id, tv_callid, tv_total, tv_name, tv_pickup;
-   // private ListView listView;
+    // private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +60,8 @@ public class RequestDetails extends AppCompatActivity {
                 //DatabaseReference table_requests = database.getReference("Requests").child(request.getId());
                 //table_requests.addValueEventListener()
                 database.getReference("Requests").child(request.getId()).setValue(request);
-                Toast.makeText(getBaseContext(),"Pedido completado",Toast.LENGTH_SHORT);
+                Toast.makeText(getBaseContext(), "Pedido completado", Toast.LENGTH_SHORT);
                 finish();
-
-
-
-
-
             }
         });
 
@@ -80,8 +75,6 @@ public class RequestDetails extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         requests_table = database.getReference("Requests");
         foods_table = database.getReference("Food");
-
-
 
 
         viewPager = (ViewPager) findViewById(R.id.request_slider);
@@ -107,12 +100,17 @@ public class RequestDetails extends AppCompatActivity {
         final List<Order> orders = request.getOrders();
         final List<Food> foods = new ArrayList<>();
         for (final Order o : orders) {
+
             DatabaseReference food_reference = foods_table.child(o.getProductID());
             food_reference.addValueEventListener(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Food f = dataSnapshot.getValue(Food.class);
+                    if (f == null) {
+                        f = new Food(o.getProductName(), o.getPrice(), o.getDiscount(), o.getProductName(),
+                                "", o.getProductName(), o.getProductName());
+                    }
                     foods.add(f);
                     if (foods.size() == orders.size()) {
                         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(context, foods);

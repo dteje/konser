@@ -136,7 +136,6 @@ public class Home extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        System.out.println("ITEM ID: " + id);
         if (id == R.id.nav_camera) {
             Intent intent = new Intent(Home.this, Detail.class);
             startActivity(intent);
@@ -147,6 +146,7 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            //Intent intent = new Intent(Home.this,)
 
         } else if (id == R.id.nav_send) {
             Intent intent = new Intent(Home.this,AdminHome.class);
