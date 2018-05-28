@@ -187,11 +187,7 @@ public class Home extends AppCompatActivity
     private void setupList() {
         for (int i=0; i<15; i++) {
             Button btn = new Button(this);
-            if(textoCentro.getText().equals("Bocadillos")){
-                btn.setText("pr");
-                btn.setBackgroundColor(getResources().getColor(R.color.bg_wheel));
-            }
-            else btn.setText(textoCentro.getText());
+            btn.setText(textoCentro.getText());
             listData.add(btn);
         }
     }
