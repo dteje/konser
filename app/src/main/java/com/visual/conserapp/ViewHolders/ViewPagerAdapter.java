@@ -31,6 +31,7 @@ import java.util.List;
 
 public class ViewPagerAdapter extends PagerAdapter {
 
+    private  List<Order> orders = new ArrayList<>();
     private Context context;
     private LayoutInflater layoutInflater;
     private int[] images = new int[]{};
@@ -43,9 +44,10 @@ public class ViewPagerAdapter extends PagerAdapter {
         foods.add(f);
     }
 
-    public ViewPagerAdapter(Context context, List<Food> foods) {
+    public ViewPagerAdapter(Context context, List<Food> foods, List<Order> orders) {
         this.context = context;
         this.foods = foods;
+        this.orders = orders;
         done = new boolean[getCount()];
         for(Boolean b : done){
             b = false;
@@ -80,7 +82,7 @@ public class ViewPagerAdapter extends PagerAdapter {
        else{
            imagen.setAlpha((float)0);
        }
-       name.setText(foods.get(position).getName());
+       name.setText(foods.get(position).getName() + " ("+orders.get(position).getQuantity()+")");
        imagen.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {

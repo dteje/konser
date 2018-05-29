@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,7 +41,8 @@ public class RequestDetails extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference requests_table, foods_table;
     private TextView tv_id, tv_callid, tv_total, tv_name, tv_pickup;
-    // private ListView listView;
+    private LinearLayout linearLayoutDots;
+    private ImageView[] dots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,33 +60,71 @@ public class RequestDetails extends AppCompatActivity {
             public void onClick(View view) {
                 request.setPayed(true);
                 request.setDone(true);
-                //DatabaseReference table_requests = database.getReference("Requests").child(request.getId());
-                //table_requests.addValueEventListener()
                 database.getReference("Requests").child(request.getId()).setValue(request);
                 Toast.makeText(getBaseContext(), "Pedido completado", Toast.LENGTH_SHORT);
                 finish();
             }
         });
 
-        //listView = (ListView) findViewById(R.id.request_details_lv_orders);
         tv_id = (TextView) findViewById(R.id.request_details_tv_id);
         tv_callid = (TextView) findViewById(R.id.request_details_tv_callid);
         tv_total = (TextView) findViewById(R.id.request_details_tv_total);
         tv_name = (TextView) findViewById(R.id.request_details_tv_name);
         tv_pickup = (TextView) findViewById(R.id.request_details_tv_pickup);
+        linearLayoutDots = (LinearLayout) findViewById(R.id.request_details_layout_dots);
+        viewPager = (ViewPager) findViewById(R.id.request_slider);
 
         database = FirebaseDatabase.getInstance();
         requests_table = database.getReference("Requests");
         foods_table = database.getReference("Food");
 
-
-        viewPager = (ViewPager) findViewById(R.id.request_slider);
-
         displayData();
         displayFoods();
+        displayDots();
         //displayCBs();
 
 
+    }
+
+    private void displayDots() {
+        //int dots_num = request.getOrders().size();
+        dots = new ImageView[request.getOrders().size()];
+        for(int i=0 ; i<request.getOrders().size() ; i++ ){
+            dots[i] = new ImageView(this);
+            dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.nonactive_dot));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            params.setMargins(8, 0, 8, 0);
+
+            linearLayoutDots.addView(dots[i], params);
+
+            dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
+
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+
+                    for(int i = 0; i< request.getOrders().size(); i++){
+                        dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dot));
+                    }
+
+                    dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+
+
+        }
     }
 
     private void displayData() {
@@ -113,7 +154,7 @@ public class RequestDetails extends AppCompatActivity {
                     }
                     foods.add(f);
                     if (foods.size() == orders.size()) {
-                        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(context, foods);
+                        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(context, foods, orders);
                         viewPager.setAdapter(viewPagerAdapter);
                     }
 
