@@ -13,27 +13,28 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Gallery" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Configuracion" />
+        <item
+            android:id="@+id/nav_logout2"
+            android:icon="@drawable/logout"
+            android:title="Cerrar sesion" />
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Administrador">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:id="@+id/nav_adminPanel"
+                android:icon="@drawable/ic_add_circle_outline_black_24dp"
                 android:title="Panel" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
+                android:id="@+id/nav_adminPending"
+                android:icon="@drawable/ic_assignment_black_24dp"
                 android:title="Pedidos recibidos" />
             <item
-                android:id="@+id/logout"
+                android:id="@+id/nav_logout"
                 android:icon="@drawable/logout"
                 android:title="Cerrar sesion" />
         </menu>

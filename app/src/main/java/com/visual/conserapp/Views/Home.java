@@ -226,18 +226,17 @@ public class Home extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-            //Intent intent = new Intent(Home.this,)
+        } else if (id == R.id.nav_adminPanel) {
+            Intent intent = new Intent(Home.this,AdminPanel.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_adminPending) {
             Intent intent = new Intent(Home.this,AdminHome.class);
             startActivity(intent);
 
-        } else if (id == R.id.logout){
+        } else if (id == R.id.nav_logout || id == R.id.nav_logout2){
             Paper.book().destroy();
             Intent intent = new Intent(Home.this, Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

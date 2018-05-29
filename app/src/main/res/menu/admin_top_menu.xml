@@ -3,24 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <!-- todo poner iconos en blanco-->
     <item
-        android:id="@+id/sandwitchCreator_id"
-        android:icon="@drawable/burger"
+        android:id="@+id/admin_top_menu_item_pending_requests"
+        android:icon="@drawable/ic_assignment_white_24dp"
         android:onClick="onNavSuperior"
         android:orderInCategory="01"
-        android:title=""
+        android:title="Pedidos pendientes"
         app:showAsAction="always" />
     <item
-        android:id="@+id/cart_id"
-        android:icon="@drawable/cart"
-        android:onClick="onNavSuperior"
-        android:orderInCategory="03"
-        android:title=""
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/offers_id"
-        android:icon="@drawable/offers"
+        android:id="@+id/admin_top_menu_item_client_view"
+        android:icon="@drawable/ic_home_white_24dp"
         android:onClick="onNavSuperior"
         android:orderInCategory="02"
-        android:title=""
+        android:title="Vista cliente"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/admin_top_menu_item_add"
+        android:icon="@drawable/ic_add_circle_outline_white_24dp"
+        android:onClick="onNavSuperior"
+        android:orderInCategory="03"
+        android:title="Insertar elementos"
         app:showAsAction="always" />
 </menu>
