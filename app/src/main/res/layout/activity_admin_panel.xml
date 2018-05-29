@@ -65,20 +65,25 @@
             android:textColor="@android:color/white" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_ingredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onRestaurante"
             android:text="Ingredientes" />
 
         <Button
+            android:id="@+id/btn_plates"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onRestaurante"
             android:text="Platos" />
 
         <Button
+            android:id="@+id/btn_categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onRestaurante"
             android:text="Categorías" />
 
     </LinearLayout>

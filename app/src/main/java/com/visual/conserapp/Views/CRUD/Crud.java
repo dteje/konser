@@ -1,4 +1,4 @@
-package com.visual.conserapp.Views;
+package com.visual.conserapp.Views.CRUD;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,25 +7,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toolbar;
 
 import com.visual.conserapp.R;
-import com.visual.conserapp.Views.CRUD.Ingredients;
+import com.visual.conserapp.Views.AdminHome;
+import com.visual.conserapp.Views.AdminPanel;
+import com.visual.conserapp.Views.Home;
 
 /**
  * Created by daniel on 29/05/2018.
  */
 
-public class AdminPanel extends AppCompatActivity {
+public abstract class Crud extends AppCompatActivity{
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_panel);
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Panel del administrador");
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
+    protected String name;
+    protected String id;
+
+    private Toolbar toolbar;
+
+    public void retrieveDataFromFB(){
+        System.out.println("AAA");
     }
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -44,8 +47,5 @@ public class AdminPanel extends AppCompatActivity {
         return true;
     }
 
-    public void onRestaurante(View view){
-        Intent intent = new Intent(AdminPanel.this,Ingredients.class);
-        startActivity(intent);
-    }
-    }
+
+}
