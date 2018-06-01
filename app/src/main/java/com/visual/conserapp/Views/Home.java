@@ -226,7 +226,8 @@ public class Home extends AppCompatActivity
             Intent intent = new Intent(Home.this, Detail.class);
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-
+            Intent intent = new Intent(Home.this, uploadIngredients.class);
+            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

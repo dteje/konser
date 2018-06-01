@@ -13,60 +13,61 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <RadioGroup
+                android:id="@+id/radiobuttongroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="horizontal"
-                android:paddingTop="10dp"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="63dp">
+                android:orientation="vertical">
 
                 <RadioButton
-                    android:id="@+id/radioButton"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/rbCarne"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Carne_Pescado"
                     android:textSize="11dp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton3"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/rbVerduras"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Verduras"
                     android:textSize="11dp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton5"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/rbQueso"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Queso"
                     android:textSize="11dp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton4"
+                    android:id="@+id/rbSalsas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Salsas"
+                    android:textSize="11dp" />
+
+                <RadioButton
+                    android:id="@+id/rbEspecial"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Especial"
                     android:textSize="11dp" />
 
-                <RadioButton
-                    android:id="@+id/radioButton2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Salsas"
-                    android:textSize="11dp" />
             </RadioGroup>
+
         </LinearLayout>
 
         <LinearLayout
@@ -99,6 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="uploadIngredient"
                 android:text="Upload"
                 tools:layout_editor_absoluteX="307dp"
                 tools:layout_editor_absoluteY="193dp" />
