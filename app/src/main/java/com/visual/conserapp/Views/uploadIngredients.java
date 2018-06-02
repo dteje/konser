@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,13 +34,18 @@ public class uploadIngredients extends AppCompatActivity {
 
     ArrayList<Ingredient> listIngredientsFireBase;
     String lastKey;
+    TextInputLayout tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_ingredients);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
 
         listIngredientsFireBase = new ArrayList<Ingredient>();
+        tv = (TextInputLayout) findViewById(R.id.nameIngredient);
 
         declareDatabase();
         obtainDataFirebase();
@@ -47,11 +53,6 @@ public class uploadIngredients extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sandwitch_creator_menu, menu);
-        return true;
-    }
 
     public boolean onNavSuperior(MenuItem menuitem) {
         View view = menuitem.getActionView();
@@ -80,6 +81,8 @@ public class uploadIngredients extends AppCompatActivity {
         String id = String.valueOf(idInt);
 
         ingredient_table.child(id).setValue(ingredient);
+        Toast.makeText(uploadIngredients.this, "Se ha subido el ingrediente!", Toast.LENGTH_SHORT).show();
+        tv.getEditText().getText().clear();
 
 
     }
@@ -110,7 +113,7 @@ public class uploadIngredients extends AppCompatActivity {
     }
 
     public String obtainName(View view){
-        TextInputLayout tv = (TextInputLayout) findViewById(R.id.nameIngredient);
+
         String name = tv.getEditText().getText().toString();
         return name;
     }
