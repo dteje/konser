@@ -1,15 +1,19 @@
 package com.visual.conserapp.Views;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -71,21 +75,28 @@ public class uploadIngredients extends AppCompatActivity {
 
     }
 
-    public void uploadIngredient (View view){
+    public void uploadIngredient(View view) {
         String ingregientType = obtainType(); //si esto peta añadirle el view
         String name = obtainName(view);
 
-        Ingredient ingredient = new Ingredient(name, ingregientType);
+        if (name.equals("")) alertNoName();
+        else {
+            Ingredient ingredient = new Ingredient(name, ingregientType);
 
-        int idInt = Integer.parseInt(lastKey) + 1;
-        String id = String.valueOf(idInt);
+            int idInt = Integer.parseInt(lastKey) + 1;
+            String id = String.valueOf(idInt);
 
-        ingredient_table.child(id).setValue(ingredient);
-        Toast.makeText(uploadIngredients.this, "Se ha subido el ingrediente!", Toast.LENGTH_SHORT).show();
-        tv.getEditText().getText().clear();
 
+            ingredient_table.child(id).setValue(ingredient);
+            Toast toast = Toast.makeText(uploadIngredients.this, "Se ha subido el ingrediente!", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+
+            tv.getEditText().getText().clear();
+        }
 
     }
+
 
     public void obtainDataFirebase() {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -96,7 +107,9 @@ public class uploadIngredients extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                obtainIngredients(dataSnapshot);
+                if (dataSnapshot.exists()) {
+                    obtainIngredients(dataSnapshot);
+                } else lastKey = String.valueOf(1000);
             }
 
             @Override
@@ -112,19 +125,36 @@ public class uploadIngredients extends AppCompatActivity {
         }
     }
 
-    public String obtainName(View view){
+    public String obtainName(View view) {
 
         String name = tv.getEditText().getText().toString();
         return name;
     }
 
-    public String obtainType(){
+    public void alertNoName() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("Cuidado!");
+        builder1.setMessage("No has especificado el nombre del ingrediente");
+        builder1.setCancelable(true);
+        builder1.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertRepetition = builder1.create();
+        alertRepetition.show();
+    }
+
+
+    public String obtainType() {
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radiobuttongroup);
         int radioButtonID = radioGroup.getCheckedRadioButtonId();
         View radioButton = radioGroup.findViewById(radioButtonID);
         int idx = radioGroup.indexOfChild(radioButton);
 
-        RadioButton r = (RadioButton)  radioGroup.getChildAt(idx);
+        RadioButton r = (RadioButton) radioGroup.getChildAt(idx);
         String type = r.getText().toString();
 
         return type;
