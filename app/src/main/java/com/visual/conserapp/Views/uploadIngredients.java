@@ -36,7 +36,6 @@ public class uploadIngredients extends AppCompatActivity {
     DatabaseReference ingredient_table;
     FirebaseDatabase database;
 
-    ArrayList<Ingredient> listIngredientsFireBase;
     String lastKey;
     TextInputLayout tv;
 
@@ -48,25 +47,12 @@ public class uploadIngredients extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
-        listIngredientsFireBase = new ArrayList<Ingredient>();
         tv = (TextInputLayout) findViewById(R.id.nameIngredient);
 
         declareDatabase();
         obtainDataFirebase();
 
 
-    }
-
-
-    public boolean onNavSuperior(MenuItem menuitem) {
-        View view = menuitem.getActionView();
-        int id = menuitem.getItemId();
-        Intent intent;
-        if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
-        else intent = new Intent(this, Offers.class);
-        startActivity(intent);
-
-        return true;
     }
 
     public void declareDatabase() {
@@ -109,7 +95,7 @@ public class uploadIngredients extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     obtainIngredients(dataSnapshot);
-                } else lastKey = String.valueOf(1000);
+                } else lastKey = String.valueOf(999);
             }
 
             @Override

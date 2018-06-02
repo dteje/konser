@@ -29,7 +29,9 @@
         <activity android:name=".Views.Home" />
         <activity android:name=".Views.SignIn" />
         <activity android:name=".Views.Detail"/>
+        <activity android:name=".Views.ManageIngredients"/>
         <activity android:name=".Views.uploadIngredients"/>
+        <activity android:name=".Views.AdminIngredientsMenu"/>
         <activity android:name=".Views.SandwitchCreator"></activity>
         <activity android:name=".Views.SignUp"></activity>
     </application>
