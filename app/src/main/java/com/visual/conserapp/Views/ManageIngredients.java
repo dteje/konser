@@ -23,8 +23,10 @@ import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
 import com.visual.conserapp.ViewHolders.CartAdapter;
+import com.visual.conserapp.ViewHolders.IngredientAdapter;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import info.hoang8f.widget.FButton;
@@ -40,19 +42,22 @@ public class ManageIngredients extends AppCompatActivity{
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
 
-    CartAdapter cartAdapter;
+    Hashtable<Ingredient, String> ingredientKeyHashTable;
+
+    IngredientAdapter ingredientAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_ingredients);
+        setContentView(R.layout.activity_manage_ingredients);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Manage Ingredients");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
         listIngredientsFireBase = new ArrayList<Ingredient>();
+        ingredientKeyHashTable = new Hashtable<Ingredient, String>();
 
-        declareDatabase();
         obtainDataFirebase();
 
         recyclerView = (RecyclerView) findViewById(R.id.manage_ingredients_recyclerview);
@@ -60,24 +65,21 @@ public class ManageIngredients extends AppCompatActivity{
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-
         loadIngredients();
     }
 
     public void loadIngredients() {
 
-        cartAdapter = new CartAdapter(listIngredientsFireBase, this);
-        recyclerView.setAdapter(cartAdapter);
+        ingredientAdapter = new IngredientAdapter(listIngredientsFireBase, ingredientKeyHashTable, database, this);
+        recyclerView.setAdapter(ingredientAdapter);
     }
 
-
     public void obtainDataFirebase() {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = database.getReference("Ingredient");
+        declareDatabase();
 
         final ArrayList<Ingredient> test = new ArrayList<Ingredient>();
 
-        ref.addValueEventListener(new ValueEventListener() {
+        ingredient_table.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                     obtainIngredients(dataSnapshot);
@@ -93,12 +95,15 @@ public class ManageIngredients extends AppCompatActivity{
     public void obtainIngredients(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
+
             String name = ds.getValue(Ingredient.class).getName();
             String type = ds.getValue(Ingredient.class).getType();
 
             Ingredient ing = new Ingredient(name, type);
+            String key = ds.getKey();
 
-            listIngredientsFireBase.add(ing);
+            ingredientKeyHashTable.put(ing, key);
+
         }
 
     }
@@ -108,7 +113,6 @@ public class ManageIngredients extends AppCompatActivity{
     public void declareDatabase() {
         database = FirebaseDatabase.getInstance();
         ingredient_table = database.getReference("Ingredient");
-
     }
 
 

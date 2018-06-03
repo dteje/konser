@@ -29,6 +29,7 @@ import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.R;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class uploadIngredients extends AppCompatActivity {
 
@@ -39,17 +40,20 @@ public class uploadIngredients extends AppCompatActivity {
     String lastKey;
     TextInputLayout tv;
 
+    Hashtable<Ingredient, String> ingredientKeyHashTable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_ingredients);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Upload Ingredients");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
         tv = (TextInputLayout) findViewById(R.id.nameIngredient);
+        ingredientKeyHashTable = new Hashtable<Ingredient, String>();
 
-        declareDatabase();
         obtainDataFirebase();
 
 
@@ -85,12 +89,12 @@ public class uploadIngredients extends AppCompatActivity {
 
 
     public void obtainDataFirebase() {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = database.getReference("Ingredient");
+
+        declareDatabase();
 
         final ArrayList<Ingredient> test = new ArrayList<Ingredient>();
 
-        ref.addValueEventListener(new ValueEventListener() {
+        ingredient_table.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -107,6 +111,7 @@ public class uploadIngredients extends AppCompatActivity {
 
     public void obtainIngredients(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
             lastKey = ds.getKey();
         }
     }

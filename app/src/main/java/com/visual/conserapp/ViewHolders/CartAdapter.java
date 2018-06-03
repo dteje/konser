@@ -30,29 +30,37 @@ import static java.lang.Integer.parseInt;
 
 class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txt_ingredient_name;
-    public TextView txt_ingredient_type;
+    public TextView txt_cart_name;
+    ElegantNumberButton btn_detail_number;
+    public TextView txt_cart_price;
+    public ImageView img;
     Button btn_eliminar;
-    Button btn_editar;
 
-    public void setTxt_ingredient_name(TextView txt_ingredient_name) {
-        this.txt_ingredient_name = txt_ingredient_name;
+
+
+    public void setTxt_cart_price(TextView txt_cart_price) {
+        this.txt_cart_price = txt_cart_price;
     }
 
-    public void setTxt_ingredient_type(TextView txt_ingredient_type) {
-        this.txt_ingredient_type = txt_ingredient_type;
+    public void setTxt_name(TextView txt_cart_name) {
+        this.txt_cart_name = txt_cart_name;
+    }
+
+    public String getQuantity() {
+        return btn_detail_number.getNumber();
     }
 
     private ItemClickListener itemClickListener;
 
     public CartViewHolder(View itemView) {
         super(itemView);
-
-        txt_ingredient_name = (TextView) itemView.findViewById(R.id.ingredient_adapter_item_name);
-        txt_ingredient_type = (TextView) itemView.findViewById(R.id.ingredient_adapter_item_type);
+        txt_cart_name = (TextView) itemView.findViewById(R.id.cart_adapter_item_name);
+        txt_cart_price = (TextView) itemView.findViewById(R.id.cart_adapter_item_price);
+        btn_detail_number = (ElegantNumberButton) itemView.findViewById(R.id.cart_adapter_btn_detail_number);
         btn_eliminar = (Button) itemView.findViewById(R.id.cart_adapter_btn_eliminar);
-        btn_editar = (Button) itemView.findViewById(R.id.ingredient_adapter_btn_edit);
+
     }
+
 
     @Override
     public void onClick(View view) {

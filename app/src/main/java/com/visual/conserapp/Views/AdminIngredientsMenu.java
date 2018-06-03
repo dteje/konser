@@ -28,6 +28,7 @@ public class AdminIngredientsMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_ingredients);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Admin Ingredients");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
     }
