@@ -1,6 +1,7 @@
 package com.visual.conserapp.ViewHolders;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Interface.ItemClickListener;
 import com.visual.conserapp.Model.Ingredient;
@@ -29,7 +34,7 @@ import static java.lang.Integer.parseInt;
 class IngredientViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView txt_ingredient_type;
-    public  TextView txt_ingredient_name;
+    public TextView txt_ingredient_name;
     Button btn_eliminar;
     Button btn_editar;
 
@@ -59,8 +64,9 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientViewHolder
 
     private ArrayList<Ingredient> listIngredients = new ArrayList<Ingredient>();
     private ManageIngredients mIngredient;
-    private  FirebaseDatabase database;
+    private FirebaseDatabase database;
     private Hashtable<Ingredient, String> hashtable;
+    private DatabaseReference ingredient_table;
 
     public IngredientAdapter(ArrayList<Ingredient> listIngredients, Hashtable<Ingredient, String> hashtable, FirebaseDatabase database, ManageIngredients mIngredient) {
         this.mIngredient = mIngredient;
@@ -77,7 +83,6 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientViewHolder
 
     }
 
-
     @Override
     public void onBindViewHolder(final IngredientViewHolder holder, final int position) {
         String name = listIngredients.get(position).getName();
@@ -91,10 +96,48 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientViewHolder
             public void onClick(View view) {
                 Ingredient ingredient = listIngredients.get(position);
                 String key = hashtable.get(ingredient);
-                database.getReference().child(key).removeValue();
-                mIngredient.loadIngredients();
+
+                database.getReference("Ingredient").child(key).removeValue();
+
+                mIngredient.obtainDataFirebase();
             }
         });
+    }
+
+    public void obtainIngredients(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+            String name = ds.getValue(Ingredient.class).getName();
+            String type = ds.getValue(Ingredient.class).getType();
+
+            Ingredient ing = new Ingredient(name, type);
+            String key = ds.getKey();
+
+            listIngredients.add(ing);
+            hashtable.put(ing, key);
+        }
+    }
+
+    public void obtainDataFirebase() {
+        declareDatabase();
+
+        ingredient_table.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                obtainIngredients(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+    }
+
+
+    public void declareDatabase() {
+        database = FirebaseDatabase.getInstance();
+        ingredient_table = database.getReference("Ingredient");
     }
 
 

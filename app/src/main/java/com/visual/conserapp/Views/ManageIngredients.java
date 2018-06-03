@@ -60,7 +60,6 @@ public class ManageIngredients extends AppCompatActivity{
         ingredientKeyHashTable = new Hashtable<Ingredient, String>();
 
         recyclerView = (RecyclerView) findViewById(R.id.manage_ingredients_recyclerview);
-        recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -90,6 +89,9 @@ public class ManageIngredients extends AppCompatActivity{
     }
 
     public void obtainIngredients(DataSnapshot dataSnapshot) {
+        listIngredientsFireBase.clear();
+        ingredientKeyHashTable.clear();
+
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
             String name = ds.getValue(Ingredient.class).getName();
@@ -104,6 +106,11 @@ public class ManageIngredients extends AppCompatActivity{
 
         loadIngredients();
 
+    }
+
+    public void loadUpdatedIngredients(ArrayList newList, Hashtable<Ingredient, String> newHash, FirebaseDatabase newdatabase){
+        ingredientAdapter = new IngredientAdapter(newList, newHash, newdatabase, this);
+        recyclerView.setAdapter(ingredientAdapter);
     }
 
 
