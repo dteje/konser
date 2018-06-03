@@ -1,5 +1,8 @@
 package com.visual.conserapp.ViewHolders;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +24,7 @@ import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
 import com.visual.conserapp.Views.Cart;
+import com.visual.conserapp.Views.EditIngredient;
 import com.visual.conserapp.Views.ManageIngredients;
 
 import java.util.ArrayList;
@@ -67,12 +71,14 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientViewHolder
     private FirebaseDatabase database;
     private Hashtable<Ingredient, String> hashtable;
     private DatabaseReference ingredient_table;
+    private Context context;
 
-    public IngredientAdapter(ArrayList<Ingredient> listIngredients, Hashtable<Ingredient, String> hashtable, FirebaseDatabase database, ManageIngredients mIngredient) {
+    public IngredientAdapter(Context context, ArrayList<Ingredient> listIngredients, Hashtable<Ingredient, String> hashtable, FirebaseDatabase database, ManageIngredients mIngredient) {
         this.mIngredient = mIngredient;
         this.hashtable = hashtable;
         this.database = database;
         this.listIngredients = listIngredients;
+        this.context = context;
     }
 
     @Override
@@ -100,6 +106,25 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientViewHolder
                 database.getReference("Ingredient").child(key).removeValue();
 
                 mIngredient.obtainDataFirebase();
+            }
+        });
+
+        holder.btn_editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Ingredient ingredient = listIngredients.get(position);
+
+                String name = ingredient.getName();
+                String type = ingredient.getType();
+
+                String key = hashtable.get(ingredient);
+
+                Intent i = new Intent(context, EditIngredient.class);
+                i.putExtra("name", name);
+                i.putExtra("type", type);
+                i.putExtra("key", key);
+
+                context.startActivity(i);
             }
         });
     }

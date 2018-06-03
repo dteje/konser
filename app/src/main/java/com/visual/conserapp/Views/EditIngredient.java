@@ -1,7 +1,6 @@
 package com.visual.conserapp.Views;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -9,15 +8,12 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.InflateException;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +28,7 @@ import com.visual.conserapp.R;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-public class uploadIngredients extends AppCompatActivity {
+public class EditIngredient extends AppCompatActivity {
 
     Favs favs;
     DatabaseReference ingredient_table;
@@ -44,23 +40,56 @@ public class uploadIngredients extends AppCompatActivity {
 
     Hashtable<Ingredient, String> ingredientKeyHashTable;
 
+    String name;
+    String type;
+    String key;
+
+    String newName;
+    String newType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_ingredients);
+        setContentView(R.layout.activity_edit_ingredients);
+
+        Bundle bundle = getIntent().getExtras();
+        name = bundle.getString("name");
+        type = bundle.getString("type");
+        key = bundle.getString("key");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Upload Ingredients");
+        toolbar.setTitle(name);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
         tv = (TextInputLayout) findViewById(R.id.nameIngredient);
-        ingredientKeyHashTable = new Hashtable<Ingredient, String>();
+        EditText editText = (EditText) findViewById(R.id.editText);
+        editText.setText(name);
+
         radioGroup = (RadioGroup) findViewById(R.id.radiobuttongroup);
-        radioGroup.check(R.id.rbCarne);
+        radioGroupDefault();
 
-        obtainDataFirebase();
+        declareDatabase();
+    }
 
-
+    public void radioGroupDefault() {
+        switch (type) {
+            case "Carne_Pescado":
+                radioGroup.check(R.id.rbCarne);
+                break;
+            case "Verduras":
+                radioGroup.check(R.id.rbVerduras);
+                break;
+            case "Queso":
+                radioGroup.check(R.id.rbQueso);
+                break;
+            case "Salsas":
+                radioGroup.check(R.id.rbSalsas);
+                break;
+            case "Especial":
+                radioGroup.check(R.id.rbEspecial);
+                break;
+        }
     }
 
     public void declareDatabase() {
@@ -69,61 +98,43 @@ public class uploadIngredients extends AppCompatActivity {
 
     }
 
-    public void uploadIngredient(View view) {
-        String ingregientType = obtainType(); //si esto peta añadirle el view
-        String name = obtainName(view);
+    public void editIngredient(View view) {
+        newType = obtainType();
+        newName = obtainName(view);
 
         if (name.equals("")) alertNoName();
         else {
-            Ingredient ingredient = new Ingredient(name, ingregientType);
+            Ingredient ingredient = new Ingredient(newName, newType);
 
-            int idInt = Integer.parseInt(lastKey) + 1;
-            String id = String.valueOf(idInt);
-
-
-            ingredient_table.child(id).setValue(ingredient);
-            Toast toast = Toast.makeText(uploadIngredients.this, "Se ha subido el ingrediente!", Toast.LENGTH_LONG);
+            ingredient_table.child(key).setValue(ingredient);
+            Toast toast = Toast.makeText(EditIngredient.this, "Se ha modificado el ingrediente!", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
 
-            tv.getEditText().getText().clear();
-        }
-
-    }
-
-
-    public void obtainDataFirebase() {
-
-        declareDatabase();
-
-        final ArrayList<Ingredient> test = new ArrayList<Ingredient>();
-
-        ingredient_table.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    obtainIngredients(dataSnapshot);
-                } else lastKey = String.valueOf(999);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-    }
-
-    public void obtainIngredients(DataSnapshot dataSnapshot) {
-        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-            lastKey = ds.getKey();
+            finish();
         }
     }
+
+    public void cancelEdit(View view) {
+        finish();
+    }
+
 
     public String obtainName(View view) {
-
         String name = tv.getEditText().getText().toString();
         return name;
+    }
+
+    public String obtainType() {
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radiobuttongroup);
+        int radioButtonID = radioGroup.getCheckedRadioButtonId();
+        View radioButton = radioGroup.findViewById(radioButtonID);
+        int idx = radioGroup.indexOfChild(radioButton);
+
+        RadioButton r = (RadioButton) radioGroup.getChildAt(idx);
+        String type = r.getText().toString();
+
+        return type;
     }
 
 
@@ -142,16 +153,7 @@ public class uploadIngredients extends AppCompatActivity {
         AlertDialog alertRepetition = builder1.create();
         alertRepetition.show();
     }
-
-
-    public String obtainType() {
-        int radioButtonID = radioGroup.getCheckedRadioButtonId();
-            View radioButton = radioGroup.findViewById(radioButtonID);
-            int idx = radioGroup.indexOfChild(radioButton);
-
-            RadioButton r = (RadioButton) radioGroup.getChildAt(idx);
-            String type = r.getText().toString();
-
-            return type;
-    }
 }
+
+
+

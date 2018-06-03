@@ -1,5 +1,6 @@
 package com.visual.conserapp.Views;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -43,6 +44,8 @@ public class ManageIngredients extends AppCompatActivity{
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
 
+    Context context;
+
     Hashtable<Ingredient, String> ingredientKeyHashTable;
 
     IngredientAdapter ingredientAdapter;
@@ -68,7 +71,7 @@ public class ManageIngredients extends AppCompatActivity{
     }
 
     public void loadIngredients() {
-        ingredientAdapter = new IngredientAdapter(listIngredientsFireBase, ingredientKeyHashTable, database, this);
+        ingredientAdapter = new IngredientAdapter(getApplicationContext(), listIngredientsFireBase, ingredientKeyHashTable, database, this);
         recyclerView.setAdapter(ingredientAdapter);
     }
 
@@ -107,12 +110,6 @@ public class ManageIngredients extends AppCompatActivity{
         loadIngredients();
 
     }
-
-    public void loadUpdatedIngredients(ArrayList newList, Hashtable<Ingredient, String> newHash, FirebaseDatabase newdatabase){
-        ingredientAdapter = new IngredientAdapter(newList, newHash, newdatabase, this);
-        recyclerView.setAdapter(ingredientAdapter);
-    }
-
 
 
     public void declareDatabase() {

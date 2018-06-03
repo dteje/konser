@@ -83,7 +83,6 @@ public class popFavs extends Activity {
     }
 
 
-
     public void addedToFavsAlert() {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setTitle("Genial!");
