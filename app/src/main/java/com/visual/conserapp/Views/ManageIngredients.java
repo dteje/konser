@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,26 +59,22 @@ public class ManageIngredients extends AppCompatActivity{
         listIngredientsFireBase = new ArrayList<Ingredient>();
         ingredientKeyHashTable = new Hashtable<Ingredient, String>();
 
-        obtainDataFirebase();
-
         recyclerView = (RecyclerView) findViewById(R.id.manage_ingredients_recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        loadIngredients();
+        obtainDataFirebase();
+
     }
 
     public void loadIngredients() {
-
         ingredientAdapter = new IngredientAdapter(listIngredientsFireBase, ingredientKeyHashTable, database, this);
         recyclerView.setAdapter(ingredientAdapter);
     }
 
     public void obtainDataFirebase() {
         declareDatabase();
-
-        final ArrayList<Ingredient> test = new ArrayList<Ingredient>();
 
         ingredient_table.addValueEventListener(new ValueEventListener() {
             @Override
@@ -95,16 +92,17 @@ public class ManageIngredients extends AppCompatActivity{
     public void obtainIngredients(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-
             String name = ds.getValue(Ingredient.class).getName();
             String type = ds.getValue(Ingredient.class).getType();
 
             Ingredient ing = new Ingredient(name, type);
             String key = ds.getKey();
 
+            listIngredientsFireBase.add(ing);
             ingredientKeyHashTable.put(ing, key);
-
         }
+
+        loadIngredients();
 
     }
 
