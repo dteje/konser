@@ -1,9 +1,8 @@
-package com.visual.conserapp.Views.CRUD;
+package com.visual.conserapp.Views.CRUD.Retrieve;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,13 +18,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.R;
+import com.visual.conserapp.ViewHolders.CRUDList.CrudAdapter;
 import com.visual.conserapp.Views.AdminHome;
 import com.visual.conserapp.Views.AdminPanel;
 import com.visual.conserapp.Views.Home;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by daniel on 29/05/2018.
@@ -34,7 +33,7 @@ import java.util.Map;
 public abstract class Crud extends AppCompatActivity {
 
     protected CrudAdapter crudAdapter;
-    protected List<Object> listasobject;
+    protected List<Object> objects;
     protected List<Object> objectsfiltered;
     protected String name;
     protected String id;
@@ -59,7 +58,7 @@ public abstract class Crud extends AppCompatActivity {
         toolbar.setTitle(getToolbarTitle());
         setSupportActionBar(toolbar);
 
-        this.listasobject = new ArrayList<>();
+        this.objects = new ArrayList<>();
         this.objectsfiltered = new ArrayList<>();
 
         recyclerView = (RecyclerView) findViewById(R.id.crud_recyclerview);
@@ -72,12 +71,14 @@ public abstract class Crud extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                return search(s);
+                search(s);
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                return false;
+                return search(s);
+
             }
         });
 

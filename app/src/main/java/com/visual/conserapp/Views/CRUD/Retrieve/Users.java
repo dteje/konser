@@ -1,17 +1,12 @@
-package com.visual.conserapp.Views.CRUD;
-
-import android.graphics.Color;
-import android.os.Bundle;
+package com.visual.conserapp.Views.CRUD.Retrieve;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.User;
-import com.visual.conserapp.R;
+import com.visual.conserapp.ViewHolders.CRUDList.CrudUsersAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by daniel on 29/05/2018.
@@ -22,11 +17,6 @@ public class Users extends Crud {
     String toolbarTitle = "Usuarios";
 
     List<User> users;
-
-    List<String> names;
-    List<String> emails;
-    List<String> admins;
-
     List<User> usersfiltered;
 
     @Override
@@ -49,7 +39,6 @@ public class Users extends Crud {
 
     @Override
     void displayData() {
-        recyclerView.setAdapter(null);
         crudAdapter = new CrudUsersAdapter(objectsfiltered, this); //S
         recyclerView.setAdapter(crudAdapter);
     }
@@ -59,10 +48,10 @@ public class Users extends Crud {
         for (DataSnapshot d : dataSnapshot.getChildren()) {
             User user = d.getValue(User.class);
             users.add(user);
-            listasobject.add((Object) user);
+            objects.add((Object) user);
 
         }
-        objectsfiltered = listasobject;
+        objectsfiltered = objects;
         displayData();
     }
 
@@ -71,8 +60,14 @@ public class Users extends Crud {
         return toolbarTitle;
     }
 
+    void clearData(){
+        usersfiltered.clear();
+        objectsfiltered.clear();
+    }
+
     @Override
     protected boolean search(String s) {
+        clearData();
         boolean flag = false;
         for(User u : users){
             if(u.getName().contains(s) || u.getEmail().contains(s)){

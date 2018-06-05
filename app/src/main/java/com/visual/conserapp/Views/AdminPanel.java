@@ -9,10 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.visual.conserapp.R;
-import com.visual.conserapp.Views.CRUD.Categories;
-import com.visual.conserapp.Views.CRUD.Foods;
-import com.visual.conserapp.Views.CRUD.Ingredients;
-import com.visual.conserapp.Views.CRUD.Users;
+import com.visual.conserapp.Views.CRUD.Retrieve.Categories;
+import com.visual.conserapp.Views.CRUD.Retrieve.Foods;
+import com.visual.conserapp.Views.CRUD.Retrieve.Ingredients;
+import com.visual.conserapp.Views.CRUD.Retrieve.Users;
 
 /**
  * Created by daniel on 29/05/2018.

@@ -1,4 +1,4 @@
-package com.visual.conserapp.Views.CRUD;
+package com.visual.conserapp.ViewHolders.CRUDList;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.R;
+import com.visual.conserapp.Views.CRUD.Retrieve.Crud;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

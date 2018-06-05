@@ -1,15 +1,9 @@
-package com.visual.conserapp.Views.CRUD;
-
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+package com.visual.conserapp.Views.CRUD.Retrieve;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
-import com.visual.conserapp.R;
+import com.visual.conserapp.ViewHolders.CRUDList.CrudIngredientsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +15,14 @@ import java.util.List;
 public class Ingredients extends Crud {
 
     String toolbarTitle = "Ingredientes";
-    List<Ingredient> ingredients;
 
-    @Override
-    protected boolean search(String query) {
-        return false;
-    }
+    List<Ingredient> ingredients;
+    List<Ingredient> ingredientsfiltered;
 
     @Override
     protected void onCreateChild() {
         this.ingredients = new ArrayList<>();
+        this.ingredientsfiltered = new ArrayList<>();
     }
 
     @Override
@@ -45,7 +37,7 @@ public class Ingredients extends Crud {
 
     @Override
     void displayData() {
-        crudAdapter = new CrudIngredientsAdapter(listasobject, this);
+        crudAdapter = new CrudIngredientsAdapter(objects, this);
         recyclerView.setAdapter(crudAdapter);
     }
 
@@ -54,8 +46,9 @@ public class Ingredients extends Crud {
         for (DataSnapshot d : dataSnapshot.getChildren()) {
             Ingredient ingredient = d.getValue(Ingredient.class);
             ingredients.add(ingredient);
-            listasobject.add((Object) ingredient);
+            objects.add((Object) ingredient);
         }
+        objectsfiltered = objects;
         displayData();
     }
 
@@ -63,6 +56,28 @@ public class Ingredients extends Crud {
     String getToolbarTitle() {
         return toolbarTitle;
     }
+
+    @Override
+    protected boolean search(String s) {
+        clearData();
+        boolean flag = false;
+        for(Ingredient i : ingredients){
+            if(i.getName().contains(s) || i.getType().contains(s) ){
+                ingredientsfiltered.add(i);
+                objectsfiltered.add((Object) i);
+                flag = true;
+            }
+        }
+        displayData();
+        return flag;
+    }
+
+    void clearData(){
+        ingredients.clear();
+        objectsfiltered.clear();
+    }
+
+
 
 
 }

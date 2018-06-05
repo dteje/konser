@@ -1,18 +1,12 @@
-package com.visual.conserapp.Views.CRUD;
-
-import android.graphics.Color;
-import android.os.Bundle;
-import android.provider.ContactsContract;
+package com.visual.conserapp.Views.CRUD.Retrieve;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.visual.conserapp.Model.Food;
-import com.visual.conserapp.R;
-import com.visual.conserapp.ViewHolders.RequestAdapter;
+import com.visual.conserapp.ViewHolders.CRUDList.CrudFoodAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by daniel on 29/05/2018.
@@ -21,16 +15,14 @@ import java.util.Map;
 public class Foods extends Crud {
 
     String toolbarTitle = "Platos";
-    List<Food> foods;
 
-    @Override
-    protected boolean search(String query) {
-        return false;
-    }
+    List<Food> foods;
+    List<Food> foodsfiltered;
 
     @Override
     protected void onCreateChild() {
         this.foods = new ArrayList<>();
+        this.foodsfiltered = new ArrayList<>();
     }
 
     @Override
@@ -45,9 +37,7 @@ public class Foods extends Crud {
 
     @Override
     void displayData() {
-        recyclerView.setAdapter(null);
-        crudAdapter = new CrudFoodAdapter(listasobject, this); //S
-
+        crudAdapter = new CrudFoodAdapter(objects, this); //S
         recyclerView.setAdapter(crudAdapter);
     }
 
@@ -57,8 +47,9 @@ public class Foods extends Crud {
         for (DataSnapshot d : dataSnapshot.getChildren()) {
             Food f = d.getValue(Food.class);
             foods.add(f);
-            listasobject.add((Object) f);
+            objects.add((Object) f);
         }
+        objectsfiltered = objects;
         displayData();
     }
 
@@ -67,5 +58,23 @@ public class Foods extends Crud {
         return toolbarTitle;
     }
 
+    void clearData(){
+        foodsfiltered.clear();
+        objectsfiltered.clear();
+    }
 
+    @Override
+    protected boolean search(String s) {
+        clearData();
+        boolean flag = false;
+        for(Food f : foods){
+            if(f.getName().contains(s) || f.getPrice().contains(s) || f.getID().contains(s)){
+                foodsfiltered.add(f);
+                objectsfiltered.add((Object) f);
+                flag = true;
+            }
+        }
+        displayData();
+        return flag;
+    }
 }

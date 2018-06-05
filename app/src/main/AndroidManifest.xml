@@ -33,10 +33,10 @@
         <activity android:name=".Views.AdminHome" />
         <activity android:name=".Views.SandwitchCreator" />
         <activity android:name=".Views.AdminPanel" />
-        <activity android:name=".Views.CRUD.Ingredients" />
-        <activity android:name=".Views.CRUD.Foods" />
-        <activity android:name=".Views.CRUD.Categories" />
-        <activity android:name=".Views.CRUD.Users" />
+        <activity android:name=".Views.CRUD.Retrieve.Ingredients" />
+        <activity android:name=".Views.CRUD.Retrieve.Foods" />
+        <activity android:name=".Views.CRUD.Retrieve.Categories" />
+        <activity android:name=".Views.CRUD.Retrieve.Users" />
 
 
 

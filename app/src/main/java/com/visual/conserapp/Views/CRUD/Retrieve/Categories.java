@@ -1,11 +1,7 @@
-package com.visual.conserapp.Views.CRUD;
-
-import android.graphics.Color;
-import android.os.Bundle;
+package com.visual.conserapp.Views.CRUD.Retrieve;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.visual.conserapp.R;
 
 /**
  * Created by daniel on 29/05/2018.

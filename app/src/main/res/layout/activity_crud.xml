@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.visual.conserapp.Views.CRUD.Crud">
+    tools:context="com.visual.conserapp.Views.CRUD.Retrieve.Crud">
 
     <LinearLayout
         android:layout_width="match_parent"

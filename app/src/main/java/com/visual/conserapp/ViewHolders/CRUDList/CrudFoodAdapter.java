@@ -1,18 +1,9 @@
-package com.visual.conserapp.Views.CRUD;
+package com.visual.conserapp.ViewHolders.CRUDList;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.TextView;
 
-import com.visual.conserapp.Interface.ItemClickListener;
 import com.visual.conserapp.Model.Food;
-import com.visual.conserapp.R;
-
-import org.w3c.dom.Text;
+import com.visual.conserapp.Views.CRUD.Retrieve.Foods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +20,6 @@ public class CrudFoodAdapter extends CrudAdapter {
 
     public CrudFoodAdapter(List<Object> listasobject, Foods foods) {
         super(listasobject, foods);
-
         this.listData = convertObjectsToFoods(listDataObjects);
     }
 

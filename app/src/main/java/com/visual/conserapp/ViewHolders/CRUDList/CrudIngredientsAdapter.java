@@ -1,9 +1,9 @@
-package com.visual.conserapp.Views.CRUD;
+package com.visual.conserapp.ViewHolders.CRUDList;
 
 import android.view.View;
 
-import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
+import com.visual.conserapp.Views.CRUD.Retrieve.Ingredients;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +13,12 @@ import java.util.List;
  */
 
 
-
 public class CrudIngredientsAdapter extends CrudAdapter {
 
     List<Ingredient> listData;
 
-    public CrudIngredientsAdapter(List<Object> listasobject, Ingredients ingredients) {
-        super(listasobject, ingredients);
-
+    public CrudIngredientsAdapter(List<Object> objects, Ingredients ingredients) {
+        super(objects, ingredients);
         this.listData = convertObjectsToIngredients(listDataObjects);
     }
 
@@ -28,8 +26,7 @@ public class CrudIngredientsAdapter extends CrudAdapter {
     public void onBindViewHolder(CrudViewHolder holder, int position) {
         holder.txt_name.setText(listData.get(position).getName());
         holder.txt_price.setText(listData.get(position).getType());
-        /*
-        holder.txt_id.setText(" ");*/
+        holder.txt_id.setText(" ");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,14 +37,13 @@ public class CrudIngredientsAdapter extends CrudAdapter {
         });
     }
 
-    private List<Ingredient> convertObjectsToIngredients(List<Object> listobjects){
+    private List<Ingredient> convertObjectsToIngredients(List<Object> listobjects) {
         List<Ingredient> ings = new ArrayList<>();
-        for(Object o : listobjects){
+        for (Object o : listobjects) {
             ings.add(((Ingredient) o));
         }
         return ings;
     }
-
 
 }
 
