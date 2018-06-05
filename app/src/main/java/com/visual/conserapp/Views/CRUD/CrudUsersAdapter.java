@@ -18,9 +18,11 @@ public class CrudUsersAdapter extends CrudAdapter {
 
     List<User> listData;
 
+
+
     public CrudUsersAdapter(List<Object> listasobject, Users users) {
         super(listasobject, users);
-        this.listData = convertObjectsToIngredients(listDataObjects);
+        this.listData = convertObjectsToUsers(listDataObjects);
     }
 
     @Override
@@ -39,7 +41,7 @@ public class CrudUsersAdapter extends CrudAdapter {
         });
     }
 
-    private List<User> convertObjectsToIngredients(List<Object> listobjects){
+    private List<User> convertObjectsToUsers(List<Object> listobjects){
         List<User> users = new ArrayList<>();
         for(Object o : listobjects){
             users.add(((User) o));

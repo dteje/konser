@@ -29,8 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:ems="12"
-                android:text="  " />
+                android:text="" />
 
             <TextView
                 android:id="@+id/crud_list_txt_name"
@@ -39,7 +38,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:ems="20"
                 android:text="Name"
                 android:textStyle="bold" />
 
@@ -49,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Price, mail or category"
-                android:ems="20" />
+                />
 
 
         </LinearLayout>

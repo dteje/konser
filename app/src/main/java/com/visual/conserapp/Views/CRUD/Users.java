@@ -17,10 +17,17 @@ import java.util.Map;
  * Created by daniel on 29/05/2018.
  */
 
-public class Users extends Crud{
+public class Users extends Crud {
 
     String toolbarTitle = "Usuarios";
+
     List<User> users;
+
+    List<String> names;
+    List<String> emails;
+    List<String> admins;
+
+    List<User> usersfiltered;
 
     @Override
     Object getDataFromSnapshot(DataSnapshot dataSnapshot) {
@@ -28,21 +35,22 @@ public class Users extends Crud{
     }
 
     @Override
-    DatabaseReference createTable(){
+    DatabaseReference createTable() {
         return database.getReference("User");
     }
-
 
 
     @Override
     protected void onCreateChild() {
         this.users = new ArrayList<>();
+        this.usersfiltered = new ArrayList<>();
 
     }
 
     @Override
     void displayData() {
-        crudAdapter = new CrudUsersAdapter(listasobject, this); //S
+        recyclerView.setAdapter(null);
+        crudAdapter = new CrudUsersAdapter(objectsfiltered, this); //S
         recyclerView.setAdapter(crudAdapter);
     }
 
@@ -52,13 +60,30 @@ public class Users extends Crud{
             User user = d.getValue(User.class);
             users.add(user);
             listasobject.add((Object) user);
+
         }
+        objectsfiltered = listasobject;
         displayData();
     }
 
     @Override
-    String getToolbarTitle(){
+    String getToolbarTitle() {
         return toolbarTitle;
     }
+
+    @Override
+    protected boolean search(String s) {
+        boolean flag = false;
+        for(User u : users){
+            if(u.getName().contains(s) || u.getEmail().contains(s)){
+                usersfiltered.add(u);
+                objectsfiltered.add((Object) u);
+                flag = true;
+            }
+        }
+        displayData();
+        return flag;
+    }
+
 
 }

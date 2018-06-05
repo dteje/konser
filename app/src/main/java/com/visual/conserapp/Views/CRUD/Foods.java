@@ -24,6 +24,11 @@ public class Foods extends Crud {
     List<Food> foods;
 
     @Override
+    protected boolean search(String query) {
+        return false;
+    }
+
+    @Override
     protected void onCreateChild() {
         this.foods = new ArrayList<>();
     }
@@ -40,7 +45,9 @@ public class Foods extends Crud {
 
     @Override
     void displayData() {
+        recyclerView.setAdapter(null);
         crudAdapter = new CrudFoodAdapter(listasobject, this); //S
+
         recyclerView.setAdapter(crudAdapter);
     }
 

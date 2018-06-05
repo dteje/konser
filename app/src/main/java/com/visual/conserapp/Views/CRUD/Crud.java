@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toolbar;
 
 import com.google.firebase.database.DataSnapshot;
@@ -34,12 +35,14 @@ public abstract class Crud extends AppCompatActivity {
 
     protected CrudAdapter crudAdapter;
     protected List<Object> listasobject;
+    protected List<Object> objectsfiltered;
     protected String name;
     protected String id;
     protected FirebaseDatabase database;
     protected DatabaseReference table;
     protected RecyclerView recyclerView;
     protected RecyclerView.LayoutManager layoutManager;
+    protected SearchView searchView;
 
 
     Toolbar toolbar;
@@ -57,17 +60,33 @@ public abstract class Crud extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         this.listasobject = new ArrayList<>();
+        this.objectsfiltered = new ArrayList<>();
 
         recyclerView = (RecyclerView) findViewById(R.id.crud_recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        onCreateChild();
+        searchView = (SearchView) findViewById(R.id.searchview);
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return search(s);
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
+        onCreateChild();
         table = createTable();
         retrieveData();
     }
+
+    protected abstract boolean search(String query);
 
     protected abstract void onCreateChild();
 

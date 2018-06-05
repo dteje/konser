@@ -76,4 +76,8 @@ public abstract class CrudAdapter extends RecyclerView.Adapter<CrudViewHolder>  
 
     @Override
     public abstract void onBindViewHolder(CrudViewHolder holder, final int position);
+
+    public void clear(){
+        this.listDataObjects.clear();
+    };
 }

@@ -23,6 +23,11 @@ public class Categories extends Crud {
 
 
     @Override
+    protected boolean search(String query) {
+        return false;
+    }
+
+    @Override
     protected void onCreateChild() {
 
     }

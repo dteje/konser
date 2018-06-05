@@ -24,6 +24,11 @@ public class Ingredients extends Crud {
     List<Ingredient> ingredients;
 
     @Override
+    protected boolean search(String query) {
+        return false;
+    }
+
+    @Override
     protected void onCreateChild() {
         this.ingredients = new ArrayList<>();
     }
