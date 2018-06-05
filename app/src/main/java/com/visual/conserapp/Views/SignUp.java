@@ -55,7 +55,7 @@ public class SignUp extends AppCompatActivity {
                                 Toast.makeText(SignUp.this, "Email ya registrado", Toast.LENGTH_SHORT).show();
                             } else {
                                 pd.dismiss();
-                                User user = new User(edtName.getText().toString(), edtPass1.getText().toString());
+                                User user = new User(edtName.getText().toString(), edtPass1.getText().toString(), edtEmail.getText().toString(),false);
                                 table_user.child(encodeUserEmail(edtEmail.getText().toString())).setValue(user);
                                 Toast.makeText(SignUp.this, "Registrado correctamente", Toast.LENGTH_SHORT).show();
                                 finish();

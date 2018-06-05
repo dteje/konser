@@ -34,15 +34,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Configuración de ofertas"
             android:textColor="@android:color/white" />
 
         <Button
+            android:id="@+id/btn_offers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ofertas de la semana" />
 
         <Button
+            android:id="@+id/btn_specialoffers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Especiales" />
@@ -61,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Configuración de restaurante"
             android:textColor="@android:color/white" />
 
@@ -73,7 +77,7 @@
             android:text="Ingredientes" />
 
         <Button
-            android:id="@+id/btn_plates"
+            android:id="@+id/btn_foods"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRestaurante"
@@ -127,17 +131,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Usuarios"
             android:textColor="@android:color/white" />
 
         <Button
+            android:id="@+id/btn_clients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onRestaurante"
             android:text="Clientes" />
 
         <Button
+            android:id="@+id/btn_admins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onRestaurante"
             android:text="Administradores " />
 
     </LinearLayout>

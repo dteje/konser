@@ -75,7 +75,6 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 if (dataSnapshot.child(email).exists()) {
                     //pd.dismiss();
                     User user = dataSnapshot.child(email).getValue(User.class);

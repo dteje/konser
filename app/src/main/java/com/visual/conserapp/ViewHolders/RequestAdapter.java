@@ -70,13 +70,13 @@ class RequestViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
 
     private List<Request> listData = new ArrayList<Request>();
-    //private Context context;
     private AdminHome adminHome;
 
     public RequestAdapter(List<Request> listData, AdminHome adminHome) {
         this.adminHome = adminHome;
-
         this.listData = listData;
+        System.out.println("5555");
+
     }
 
     @Override
@@ -88,6 +88,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
 
     @Override
     public void onBindViewHolder(RequestViewHolder holder, final int position) {
+        System.out.println("4444");
         String total = listData.get(position).getTotal();
         holder.txt_price.setText(total + "");
         String nombre = listData.get(position).getClientname();

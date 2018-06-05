@@ -93,12 +93,13 @@ public class AdminHome extends AppCompatActivity {
                     Request req = d.getValue(Request.class);
                     if (!req.getDone() && !req.getPayed()){
                         requests.add(req);
-                        System.out.println(requests.toString());
 
                     }
                 }
                 reqAdapter = new RequestAdapter(requests, ah);
+                System.out.println("111111");
                 recyclerView.setAdapter(reqAdapter);
+                System.out.println("222222");
             }
 
             @Override
