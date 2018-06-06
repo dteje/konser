@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.AlertFactory.AlertFactory;
+import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Model.Favs;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.R;
@@ -72,8 +74,10 @@ public class uploadIngredients extends AppCompatActivity {
     public void uploadIngredient(View view) {
         String ingregientType = obtainType(); //si esto peta añadirle el view
         String name = obtainName(view);
+        AlertFactory alertFactory = new AlertFactory();
+        AlertParent alertParent = alertFactory.generateAlert("nullName");
 
-        if (name.equals("")) alertNoName();
+        if (name.equals("")) alertParent.printAlert(this);
         else {
             Ingredient ingredient = new Ingredient(name, ingregientType);
 
@@ -126,7 +130,7 @@ public class uploadIngredients extends AppCompatActivity {
         return name;
     }
 
-
+/*
     public void alertNoName() {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setTitle("Cuidado!");
@@ -142,7 +146,7 @@ public class uploadIngredients extends AppCompatActivity {
         AlertDialog alertRepetition = builder1.create();
         alertRepetition.show();
     }
-
+*/
 
     public String obtainType() {
         int radioButtonID = radioGroup.getCheckedRadioButtonId();

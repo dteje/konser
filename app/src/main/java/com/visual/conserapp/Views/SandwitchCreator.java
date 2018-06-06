@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.AlertFactory.AlertFactory;
+import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Favs;
 
@@ -135,8 +137,12 @@ public class SandwitchCreator extends AppCompatActivity {
     public void addToSandwitch(View view, int position) {
         TextView textView = (TextView) view.findViewById(R.id.idData);
         String ingredientName = textView.getText().toString();
+
+        AlertFactory alertFactory = new AlertFactory();
+        AlertParent alertParent = alertFactory.generateAlert("RepetitionSandwich");
+
         if (maxRepetitionIngredient(ingredientName)) {
-            showRepetitionAlert();
+            alertParent.printAlert(this);
         } else {
             listSandwich.add(ingredientName);
             listPrice.add(ingredientPrice);
@@ -155,7 +161,7 @@ public class SandwitchCreator extends AppCompatActivity {
         return false;
     }
 
-
+/*
     public void showRepetitionAlert() {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setTitle("Cuidado!");
@@ -187,6 +193,7 @@ public class SandwitchCreator extends AppCompatActivity {
         AlertDialog alertRepetition = builder1.create();
         alertRepetition.show();
     }
+    */
 
     public void printIngredients() {
         TextView finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
@@ -278,7 +285,10 @@ public class SandwitchCreator extends AppCompatActivity {
 
     public void addToFavs(View view) {
 
-        if (listSandwich.size() == 0) emptyAlert();
+        AlertFactory alertFactory = new AlertFactory();
+        AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
+
+        if (listSandwich.size() == 0) alertParent.printAlert(this);
         else {
 
             Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
