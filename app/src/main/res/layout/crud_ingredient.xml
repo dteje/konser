@@ -53,47 +53,66 @@
                 android:ems="10"
                 android:hint="Nombre"
                 android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/crud_et_price"
+<!--
+            <Spinner
+                android:id="@+id/crud_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Precio"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/crud_et_img"
+                android:layout_weight="1" />
+-->
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:gravity="fill_horizontal"
-                android:hint="URL Imagen"
-                android:inputType="text" />
+                android:layout_height="15dp"
+                android:layout_weight="1" />
 
-            <EditText
-                android:id="@+id/crud_et_desc"
+            <RadioGroup
+                android:id="@+id/radiobuttongroup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:ems="10"
-                android:hint="Descripcion"
-                android:inputType="none|text|textMultiLine" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/crud_et_ings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Ingredientes"
-                android:inputType="numberDecimal" />
+                <RadioButton
+                    android:id="@+id/rbCarne"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Carne_Pescado"
+                    android:textSize="20dp" />
+
+                <RadioButton
+                    android:id="@+id/rbVerduras"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Verduras"
+                    android:textSize="20dp" />
+
+                <RadioButton
+                    android:id="@+id/rbQueso"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Queso"
+                    android:textSize="20dp" />
+
+                <RadioButton
+                    android:id="@+id/rbSalsas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Salsas"
+                    android:textSize="20dp" />
+
+                <RadioButton
+                    android:id="@+id/rbEspecial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Especial"
+                    android:textSize="20dp" />
+
+            </RadioGroup>
 
             <Space
                 android:layout_width="match_parent"
@@ -126,6 +145,8 @@
                     android:onClick="onUpdate"
                     android:text="Confirmar"
                     android:textColor="@android:color/white" />
+
+
             </LinearLayout>
         </LinearLayout>
 

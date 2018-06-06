@@ -1,9 +1,13 @@
 package com.visual.conserapp.ViewHolders.CRUDList;
 
+import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
+import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Model.User;
 import com.visual.conserapp.Views.CRUD.Retrieve.Users;
+import com.visual.conserapp.Views.CRUD.Update.CrudEditUsers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +27,7 @@ public class CrudUsersAdapter extends CrudAdapter {
     }
 
     @Override
-    public void onBindViewHolder(CrudViewHolder holder, int position) {
+    public void onBindViewHolder(CrudViewHolder holder, final int position) {
         holder.txt_name.setText(listData.get(position).getName());
         holder.txt_price.setText(listData.get(position).getEmail());
         holder.txt_id.setText(" ");
@@ -31,8 +35,14 @@ public class CrudUsersAdapter extends CrudAdapter {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("A");
-
+                if(listData.get(position).getEmail().equals(Common.currentUser.getEmail())){
+                    Toast.makeText(crud,"No puedes editar el usuario en uso", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent intent = new Intent(crud, CrudEditUsers.class);
+                    intent.putExtra("id",listData.get(position).getEmailAsId());
+                    crud.startActivity(intent);
+                }
             }
         });
     }

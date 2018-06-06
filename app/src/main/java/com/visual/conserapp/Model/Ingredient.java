@@ -10,10 +10,24 @@ public class Ingredient {
     private String Type;
     private double pricebuy;
     private double pricesell;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Ingredient(){}
     public Ingredient(String name, String type) {
         this.Name = name; this.Type = type;
+    }
+    public Ingredient(String id, String name, String type) {
+        this.id = id;
+        this.Name = name;
+        this.Type = type;
     }
 
     public String getType() {
@@ -23,7 +37,6 @@ public class Ingredient {
     public void setType(String type) {
         Type = type;
     }
-
 
     public String getName() {
         return this.Name;

@@ -60,6 +60,10 @@ public class User {
     public void setAdmin(Boolean admin) {
         Admin = admin;
     }
+
+    public String getEmailAsId(){
+        return this.Email.replace(".",",");
+    }
 }
 
 

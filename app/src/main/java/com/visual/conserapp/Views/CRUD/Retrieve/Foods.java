@@ -44,6 +44,7 @@ public class Foods extends Crud {
 
     @Override
     protected void collectDataCrud(DataSnapshot dataSnapshot) {
+        clearData();
         for (DataSnapshot d : dataSnapshot.getChildren()) {
             Food f = d.getValue(Food.class);
             foods.add(f);
@@ -61,6 +62,7 @@ public class Foods extends Crud {
     void clearData(){
         foodsfiltered.clear();
         objectsfiltered.clear();
+        objects.clear();
     }
 
     @Override

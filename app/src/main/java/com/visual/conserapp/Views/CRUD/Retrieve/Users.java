@@ -20,6 +20,12 @@ public class Users extends Crud {
     List<User> usersfiltered;
 
     @Override
+    protected void onCreateChild() {
+        this.users = new ArrayList<>();
+        this.usersfiltered = new ArrayList<>();
+    }
+
+    @Override
     Object getDataFromSnapshot(DataSnapshot dataSnapshot) {
         return dataSnapshot.getValue(User.class);
     }
@@ -27,14 +33,6 @@ public class Users extends Crud {
     @Override
     DatabaseReference createTable() {
         return database.getReference("User");
-    }
-
-
-    @Override
-    protected void onCreateChild() {
-        this.users = new ArrayList<>();
-        this.usersfiltered = new ArrayList<>();
-
     }
 
     @Override
@@ -45,6 +43,7 @@ public class Users extends Crud {
 
     @Override
     protected void collectDataCrud(DataSnapshot dataSnapshot) {
+        clearData();
         for (DataSnapshot d : dataSnapshot.getChildren()) {
             User user = d.getValue(User.class);
             users.add(user);
@@ -63,6 +62,7 @@ public class Users extends Crud {
     void clearData(){
         usersfiltered.clear();
         objectsfiltered.clear();
+        objects.clear();
     }
 
     @Override

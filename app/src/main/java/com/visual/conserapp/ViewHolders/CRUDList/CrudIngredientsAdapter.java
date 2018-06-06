@@ -1,9 +1,11 @@
 package com.visual.conserapp.ViewHolders.CRUDList;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.Views.CRUD.Retrieve.Ingredients;
+import com.visual.conserapp.Views.CRUD.Update.CrudEditIngredients;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +25,16 @@ public class CrudIngredientsAdapter extends CrudAdapter {
     }
 
     @Override
-    public void onBindViewHolder(CrudViewHolder holder, int position) {
+    public void onBindViewHolder(CrudViewHolder holder, final int position) {
         holder.txt_name.setText(listData.get(position).getName());
         holder.txt_price.setText(listData.get(position).getType());
-        holder.txt_id.setText(" ");
+        holder.txt_id.setText(listData.get(position).getId());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                System.out.println("A");
-
+                Intent intent = new Intent(crud, CrudEditIngredients.class);
+                intent.putExtra("id",listData.get(position).getId());
+                crud.startActivity(intent);
             }
         });
     }

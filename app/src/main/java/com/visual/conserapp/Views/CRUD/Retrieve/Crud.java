@@ -45,8 +45,6 @@ public abstract class Crud extends AppCompatActivity {
 
 
     Toolbar toolbar;
-    int instance; //1 foods, 2 ingr., 3 cats, 4 users
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +58,7 @@ public abstract class Crud extends AppCompatActivity {
 
         this.objects = new ArrayList<>();
         this.objectsfiltered = new ArrayList<>();
+
 
         recyclerView = (RecyclerView) findViewById(R.id.crud_recyclerview);
         recyclerView.setHasFixedSize(true);
@@ -87,12 +86,6 @@ public abstract class Crud extends AppCompatActivity {
         retrieveData();
     }
 
-    protected abstract boolean search(String query);
-
-    protected abstract void onCreateChild();
-
-    abstract void displayData();
-
 
     void retrieveData() {
         table.addValueEventListener(new ValueEventListener() {
@@ -108,15 +101,7 @@ public abstract class Crud extends AppCompatActivity {
         });
     }
 
-    abstract void collectDataCrud(DataSnapshot dataSnapshot);
-
-    abstract String getToolbarTitle();
-
-    abstract Object getDataFromSnapshot(DataSnapshot dataSnapshot);
-
-    abstract DatabaseReference createTable();
-
-
+    abstract void displayData();
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -135,6 +120,18 @@ public abstract class Crud extends AppCompatActivity {
         startActivity(intent);
         return true;
     }
+
+    abstract void collectDataCrud(DataSnapshot dataSnapshot);
+
+    abstract String getToolbarTitle();
+
+    abstract Object getDataFromSnapshot(DataSnapshot dataSnapshot);
+
+    abstract DatabaseReference createTable();
+
+    protected abstract boolean search(String query);
+
+    protected abstract void onCreateChild();
 
 
 }

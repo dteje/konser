@@ -75,9 +75,6 @@ public class Ingredients extends Crud {
     void clearData(){
         ingredients.clear();
         objectsfiltered.clear();
+        objects.clear();
     }
-
-
-
-
 }

@@ -97,9 +97,7 @@ public class AdminHome extends AppCompatActivity {
                     }
                 }
                 reqAdapter = new RequestAdapter(requests, ah);
-                System.out.println("111111");
                 recyclerView.setAdapter(reqAdapter);
-                System.out.println("222222");
             }
 
             @Override

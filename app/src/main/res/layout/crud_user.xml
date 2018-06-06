@@ -55,45 +55,56 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/crud_et_price"
+                android:id="@+id/crud_et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Precio"
+                android:hint="Correo electrónico"
                 android:inputType="numberDecimal" />
 
             <EditText
-                android:id="@+id/crud_et_img"
+                android:id="@+id/crud_et_pwd_old"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:gravity="fill_horizontal"
-                android:hint="URL Imagen"
-                android:inputType="text" />
+                android:hint="Contraseña antigua"
+                android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/crud_et_desc"
+                android:id="@+id/crud_et_pwd1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Descripcion"
-                android:inputType="none|text|textMultiLine" />
+                android:hint="Contraseña nueva"
+                android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/crud_et_ings"
+                android:id="@+id/crud_et_pwd2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Ingredientes"
-                android:inputType="numberDecimal" />
+                android:hint="Contraseña nueva, otra vez"
+                android:inputType="textPassword" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_weight="1" />
+
+            <CheckBox
+                android:id="@+id/crud_ckb_admin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Administrador" />
 
             <Space
                 android:layout_width="match_parent"

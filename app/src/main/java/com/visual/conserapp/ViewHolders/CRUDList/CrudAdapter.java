@@ -54,7 +54,6 @@ public abstract class CrudAdapter extends RecyclerView.Adapter<CrudViewHolder>  
     public CrudAdapter(List<Object> listData, Crud crud){
         this.listDataObjects = listData;
         this.crud = crud;
-
     }
 
     @Override
