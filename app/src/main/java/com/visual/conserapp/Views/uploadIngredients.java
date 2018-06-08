@@ -75,7 +75,7 @@ public class uploadIngredients extends AppCompatActivity {
         String ingregientType = obtainType(); //si esto peta añadirle el view
         String name = obtainName(view);
         AlertFactory alertFactory = new AlertFactory();
-        AlertParent alertParent = alertFactory.generateAlert("nullName");
+        AlertParent alertParent = alertFactory.generateAlert("nullIngredient");
 
         if (name.equals("")) alertParent.printAlert(this);
         else {
@@ -129,24 +129,6 @@ public class uploadIngredients extends AppCompatActivity {
         String name = tv.getEditText().getText().toString();
         return name;
     }
-
-/*
-    public void alertNoName() {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Cuidado!");
-        builder1.setMessage("No has especificado el nombre del ingrediente");
-        builder1.setCancelable(true);
-        builder1.setNeutralButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alertRepetition = builder1.create();
-        alertRepetition.show();
-    }
-*/
 
     public String obtainType() {
         int radioButtonID = radioGroup.getCheckedRadioButtonId();

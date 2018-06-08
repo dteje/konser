@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.AlertFactory.AlertFactory;
+import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Model.Favs;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.R;
@@ -102,7 +104,10 @@ public class EditIngredient extends AppCompatActivity {
         newType = obtainType();
         newName = obtainName(view);
 
-        if (name.equals("")) alertNoName();
+        AlertFactory alertFactory = new AlertFactory();
+        AlertParent alertParent = alertFactory.generateAlert("nullIngredient");
+
+        if (newName.equals("")) alertParent.printAlert(this);
         else {
             Ingredient ingredient = new Ingredient(newName, newType);
 
@@ -137,23 +142,5 @@ public class EditIngredient extends AppCompatActivity {
         return type;
     }
 
-
-    public void alertNoName() {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Cuidado!");
-        builder1.setMessage("No has especificado el nombre del ingrediente");
-        builder1.setCancelable(true);
-        builder1.setNeutralButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alertRepetition = builder1.create();
-        alertRepetition.show();
-    }
 }
-
-
 

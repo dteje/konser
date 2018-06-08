@@ -5,11 +5,11 @@ public class AlertFactory {
     public AlertParent generateAlert(String alertType){
         AlertParent alert = null;
         if(alertType.equals("nullIngredient")) {
-            alert = new AlertNullingredient();
+            return new  AlertNullingredient();
         } else if (alertType.equals("RepetitionSandwich")){
-            alert = new AlertRepetitionSandwich();
+            return new AlertRepetitionSandwich();
         } else if (alertType.equals("EmptySandwich")){
-            alert = new AlertEmptySandwich();
+            return new AlertEmptySandwich();
         }
 
         return alert;
