@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.view.View;
 
 import com.visual.conserapp.Model.Ingredient;
-import com.visual.conserapp.Views.CRUD.Retrieve.Ingredients;
-import com.visual.conserapp.Views.CRUD.Update.CrudEditIngredients;
+import com.visual.conserapp.Views.CRUD.List.Ingredients;
+import com.visual.conserapp.Views.CRUD.Modify.CrudEditIngredients;
 
 import java.util.ArrayList;
 import java.util.List;

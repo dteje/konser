@@ -6,8 +6,8 @@ import android.widget.Toast;
 
 import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Model.User;
-import com.visual.conserapp.Views.CRUD.Retrieve.Users;
-import com.visual.conserapp.Views.CRUD.Update.CrudEditUsers;
+import com.visual.conserapp.Views.CRUD.List.Users;
+import com.visual.conserapp.Views.CRUD.Modify.CrudEditUsers;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,6 @@
-package com.visual.conserapp.Views.CRUD.Update;
+package com.visual.conserapp.Views.CRUD.Modify;
 
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -15,7 +14,6 @@ import com.visual.conserapp.R;
 public class CrudEditFood extends CrudEdit {
 
     private String toolbarTitle = "Plato";
-    private TextView txt_id;
     private EditText txt_name, txt_price, txt_ings, txt_img, txt_desc;
     private Food food;
 
@@ -51,6 +49,18 @@ public class CrudEditFood extends CrudEdit {
         txt_img.setText(food.getImage());
         txt_desc.setText(food.getDescription());
 
+    }
+
+    @Override
+    protected void createNewObject() {
+        map.put("ID",newid);
+        map.put("Name",txt_name.getText().toString());
+        map.put("Price",txt_price.getText().toString());
+        map.put("Ingredients",txt_ings.getText().toString());
+        map.put("Description",txt_desc.getText().toString());
+        map.put("Image",txt_img.getText().toString());
+        map.put("CategoryID","");
+        map.put("Discount","");
     }
 
     @Override

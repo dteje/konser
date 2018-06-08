@@ -62,7 +62,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="Correo electrónico"
-                android:inputType="numberDecimal" />
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/crud_et_pwd_old"

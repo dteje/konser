@@ -1,13 +1,11 @@
-package com.visual.conserapp.Views.CRUD.Update;
+package com.visual.conserapp.Views.CRUD.Modify;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,7 +15,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,15 +29,15 @@ public abstract class CrudEdit extends AppCompatActivity {
     protected DatabaseReference table;
     protected String id;
     protected Button btn_update, btn_delete;
+    protected TextView txt_id;
+    protected String newid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         id = getIntent().getExtras().getString("id");
-
         map = new HashMap<>();
-        //map.clear();
 
         setViewLayout(); //Set XML layout
         setToolbar();
@@ -49,11 +46,29 @@ public abstract class CrudEdit extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         table = getReferenceForDatabase();
 
-        retrieveDataFromFirebase();
-
-
+        txt_id = (TextView) findViewById(R.id.crud_txt_id);
+        btn_update = (Button) findViewById(R.id.btn_update);
+        btn_delete = (Button) findViewById(R.id.btn_delete);
+        //TODO Delete findviewsbyids in subclasses
+        if (!id.equals("new")) {
+            retrieveDataFromFirebase();
+        } else {
+            newid = (String) getIntent().getExtras().get("newid");
+            txt_id.setText(newid);
+            if (newid == String.valueOf(0))txt_id.setText("Nuevo usuario");
+            btn_delete.setEnabled(false);
+            btn_update.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    createNewObject();
+                    table.child(newid).setValue(map);
+                    finish();
+                }
+            });
+        }
     }
 
+    protected abstract void createNewObject();
 
 
     private void retrieveDataFromFirebase() {
@@ -79,14 +94,12 @@ public abstract class CrudEdit extends AppCompatActivity {
     }
 
 
-
-
-    public void onDelete(View view){
+    public void onDelete(View view) {
         table.child(id).removeValue();
         finish();
     }
 
-    public void onUpdate(View view){
+    public void onUpdate(View view) {
         updateObject();
         updateFirebase();
         finish();
@@ -97,14 +110,20 @@ public abstract class CrudEdit extends AppCompatActivity {
     }
 
     protected Map<String, Object> map;
-    protected abstract void updateObject();
-    protected abstract void setViewLayout();
-    protected abstract String getToolbarTitle();
-    protected abstract void getItemsById();
-    protected abstract DatabaseReference getReferenceForDatabase();
-    protected abstract void collectData(DataSnapshot dataSnapshot);
-    protected abstract void displayDataOnScreen();
 
+    protected abstract void updateObject();
+
+    protected abstract void setViewLayout();
+
+    protected abstract String getToolbarTitle();
+
+    protected abstract void getItemsById();
+
+    protected abstract DatabaseReference getReferenceForDatabase();
+
+    protected abstract void collectData(DataSnapshot dataSnapshot);
+
+    protected abstract void displayDataOnScreen();
 
 
 }

@@ -1,4 +1,4 @@
-package com.visual.conserapp.Views.CRUD.Retrieve;
+package com.visual.conserapp.Views.CRUD.List;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +25,11 @@ public class Categories extends Crud {
 
     @Override
     protected void onCreateChild() {
+
+    }
+
+    @Override
+    protected void setFABOnClick() {
 
     }
 

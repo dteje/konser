@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.view.View;
 
 import com.visual.conserapp.Model.Food;
-import com.visual.conserapp.Views.CRUD.Retrieve.Crud;
-import com.visual.conserapp.Views.CRUD.Retrieve.Foods;
-import com.visual.conserapp.Views.CRUD.Update.CrudEditFood;
+import com.visual.conserapp.Views.CRUD.List.Foods;
+import com.visual.conserapp.Views.CRUD.Modify.CrudEditFood;
 
 import java.util.ArrayList;
 import java.util.List;

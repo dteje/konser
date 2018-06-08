@@ -1,4 +1,4 @@
-package com.visual.conserapp.Views.CRUD.Update;
+package com.visual.conserapp.Views.CRUD.Modify;
 
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.R;
 
@@ -24,9 +23,7 @@ public class CrudEditIngredients extends CrudEdit {
     private String toolbarTitle = "Plato";
     private TextView txt_id;
     private EditText txt_name;
-    private Spinner spinner;
     private RadioGroup radioGroup;
-    private Button btn_delete, btn_update;
     private Ingredient ingredient;
 
 
@@ -34,19 +31,8 @@ public class CrudEditIngredients extends CrudEdit {
     protected void getItemsById() {
         txt_id = findViewById(R.id.crud_txt_id);
         txt_name = findViewById(R.id.crud_et_name);
-        //spinner = findViewById(R.id.crud_spinner);
-        //fillSpinner();
         radioGroup = findViewById(R.id.radiobuttongroup);
         radioGroup.check(R.id.rbCarne);
-    }
-
-    void fillSpinner(){
-        String[] arraySpinner = new String[] {
-                "Carne_Pescado", "Verduras", "Queso", "Salsas", "Especial"
-        };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, arraySpinner);
-        spinner.setAdapter(adapter);
     }
 
     @Override
@@ -64,6 +50,16 @@ public class CrudEditIngredients extends CrudEdit {
     protected void displayDataOnScreen() {
         txt_id.setText("ID " + id);
         txt_name.setText(ingredient.getName());
+    }
+
+    @Override
+    protected void createNewObject() {
+        ingredient = new Ingredient(txt_name.getText().toString(),obtainType());
+        map.put("id",newid);
+        map.put("name",txt_name.getText().toString());
+        map.put("type",obtainType());
+        map.put("pricebuy",0);
+        map.put("pricesell",0);
     }
 
     @Override

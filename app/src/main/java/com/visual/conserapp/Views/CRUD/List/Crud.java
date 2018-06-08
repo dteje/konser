@@ -1,8 +1,10 @@
-package com.visual.conserapp.Views.CRUD.Retrieve;
+package com.visual.conserapp.Views.CRUD.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,23 +44,27 @@ public abstract class Crud extends AppCompatActivity {
     protected RecyclerView recyclerView;
     protected RecyclerView.LayoutManager layoutManager;
     protected SearchView searchView;
-
-
-    Toolbar toolbar;
+    protected Toolbar toolbar;
+    protected FloatingActionButton fab;
+    protected Context context;
+    protected int newId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        database = FirebaseDatabase.getInstance();
         super.onCreate(savedInstanceState);
+        this.context = this;
+
+        database = FirebaseDatabase.getInstance();
         setContentView(R.layout.activity_crud);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setTitle(getToolbarTitle());
         setSupportActionBar(toolbar);
 
+        fab = findViewById(R.id.crud_fab);
+
         this.objects = new ArrayList<>();
         this.objectsfiltered = new ArrayList<>();
-
 
         recyclerView = (RecyclerView) findViewById(R.id.crud_recyclerview);
         recyclerView.setHasFixedSize(true);
@@ -84,7 +90,10 @@ public abstract class Crud extends AppCompatActivity {
         onCreateChild();
         table = createTable();
         retrieveData();
+        setFABOnClick();
     }
+
+    protected abstract void setFABOnClick();
 
 
     void retrieveData() {
