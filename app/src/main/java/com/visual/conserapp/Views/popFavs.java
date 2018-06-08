@@ -8,12 +8,16 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.AlertFactory.AlertFactory;
+import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Model.Favs;
 import com.visual.conserapp.R;
 
@@ -70,51 +74,23 @@ public class popFavs extends Activity {
 
         nameUser = askName();
 
-        if (nameUser.equals("")) emptyNameAlert();
+        AlertFactory alertFactory = new AlertFactory();
+        AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
+
+        if (nameUser.equals("")) alertParent.printAlert(this);
         else {
             favs = new Favs(nameOfficial, nameUser, listIngredients, price);
             String id_favs = "Favs " + String.valueOf(System.currentTimeMillis());
             favs_table.child(id_favs).setValue(favs);
 
-            addedToFavsAlert();
-            //finish();
+            Toast toast = Toast.makeText(this, "Añadido a favoritos!", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+            finish();
         }
 
     }
 
-
-    public void addedToFavsAlert() {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Genial!");
-        builder1.setMessage("Tu bocadillo ha sido añadido!");
-        builder1.setCancelable(true);
-        builder1.setNeutralButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        finish();
-                    }
-                });
-
-        AlertDialog alertRepetition = builder1.create();
-        alertRepetition.show();
-    }
-
-    public void emptyNameAlert() {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Cuidado!");
-        builder1.setMessage("Tu bocadillo no tiene nombre!");
-        builder1.setCancelable(true);
-        builder1.setNeutralButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alertRepetition = builder1.create();
-        alertRepetition.show();
-    }
 
     public void closePopUp(View view) {
         finish();

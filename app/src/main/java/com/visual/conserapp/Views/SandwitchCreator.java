@@ -150,50 +150,17 @@ public class SandwitchCreator extends AppCompatActivity {
         }
     }
 
-    // Max in this case is 2
     public boolean maxRepetitionIngredient(String ingredient) {
         int numRepetitions = 0;
+        int maxRepetitions = 2;
         for (int i = 0; i < listSandwich.size(); i++) {
             String res = listSandwich.get(i);
             if (ingredient == res) numRepetitions++;
-            if (numRepetitions == 2) return true;
+            if (numRepetitions == maxRepetitions) return true;
         }
         return false;
     }
 
-/*
-    public void showRepetitionAlert() {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Cuidado!");
-        builder1.setMessage("Has añadido demasiados ingredientes iguales!");
-        builder1.setCancelable(true);
-        builder1.setNeutralButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alertRepetition = builder1.create();
-        alertRepetition.show();
-    }
-
-    public void emptyAlert() {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Cuidado!");
-        builder1.setMessage("Tienes un bocadillo vacio!");
-        builder1.setCancelable(true);
-        builder1.setNeutralButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alertRepetition = builder1.create();
-        alertRepetition.show();
-    }
-    */
 
     public void printIngredients() {
         TextView finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
@@ -207,11 +174,17 @@ public class SandwitchCreator extends AppCompatActivity {
         String price = String.valueOf(obtainPrice());
         String discount = "0";
 
-        orderRes = new Order(orderId, listSandwich.toString(), quantity, price, discount);
+        AlertFactory alertFactory = new AlertFactory();
+        AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
 
+        if (listSandwich.isEmpty()) alertParent.printAlert(this);
+        else {
+            orderRes = new Order(orderId, listSandwich.toString(), quantity, price, discount);
 
-        new Database(getBaseContext()).addToCart(orderRes);
-        Toast.makeText(SandwitchCreator.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
+            new Database(getBaseContext()).addToCart(orderRes);
+            Toast.makeText(SandwitchCreator.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

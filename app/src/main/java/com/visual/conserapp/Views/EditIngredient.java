@@ -97,7 +97,6 @@ public class EditIngredient extends AppCompatActivity {
     public void declareDatabase() {
         database = FirebaseDatabase.getInstance();
         ingredient_table = database.getReference("Ingredient");
-
     }
 
     public void editIngredient(View view) {
