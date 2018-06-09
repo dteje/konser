@@ -33,12 +33,25 @@
         <activity android:name=".Views.AdminHome" />
         <activity android:name=".Views.SandwitchCreator" />
         <activity android:name=".Views.AdminPanel" />
-
-
+        <activity android:name=".Views.AdminOfertasSemana" />
+        <activity android:name=".Views.CRUD.List.Ingredients" />
+        <activity android:name=".Views.CRUD.List.Foods" />
+        <activity android:name=".Views.CRUD.List.Categories" />
+        <activity android:name=".Views.CRUD.List.Users" />
+        <activity android:name=".Views.CRUD.Modify.CrudEditFood"/>
+        <activity android:name=".Views.CRUD.Modify.CrudEditUsers"/>
+        <activity android:name=".Views.CRUD.Modify.CrudEditIngredients"/>
         <activity
             android:name=".Views.RequestDetails"
             android:label="@string/title_activity_request_details"
             android:theme="@style/AppTheme"></activity>
+        <activity android:name=".Views.Detail"/>
+        <activity android:name=".IngredientesFerran.ManageIngredients"/>
+        <activity android:name=".IngredientesFerran.uploadIngredients"/>
+        <activity android:name=".IngredientesFerran.AdminIngredientsMenu"/>
+        <activity android:name=".IngredientesFerran.EditIngredient"></activity>
+        <activity android:name=".Views.SandwitchCreator"></activity>
+        <activity android:name=".Views.SignUp"></activity>
     </application>
 
 </manifest>

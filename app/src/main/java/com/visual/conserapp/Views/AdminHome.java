@@ -2,7 +2,6 @@ package com.visual.conserapp.Views;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,27 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
-import com.visual.conserapp.Database.Database;
-import com.visual.conserapp.Model.Food;
-import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.Model.Request;
 import com.visual.conserapp.R;
-import com.visual.conserapp.ViewHolders.CartAdapter;
-import com.visual.conserapp.ViewHolders.RequestAdapter;
+import com.visual.conserapp.Adapter.RequestAdapter;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class AdminHome extends AppCompatActivity {
 
@@ -93,7 +83,6 @@ public class AdminHome extends AppCompatActivity {
                     Request req = d.getValue(Request.class);
                     if (!req.getDone() && !req.getPayed()){
                         requests.add(req);
-                        System.out.println(requests.toString());
 
                     }
                 }

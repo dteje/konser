@@ -1,9 +1,6 @@
-package com.visual.conserapp.ViewHolders;
+package com.visual.conserapp.Adapter;
 
-import android.content.Context;
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +33,8 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     public ImageView img;
     Button btn_eliminar;
 
+
+
     public void setTxt_cart_price(TextView txt_cart_price) {
         this.txt_cart_price = txt_cart_price;
     }
@@ -52,7 +51,6 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 
     public CartViewHolder(View itemView) {
         super(itemView);
-
         txt_cart_name = (TextView) itemView.findViewById(R.id.cart_adapter_item_name);
         txt_cart_price = (TextView) itemView.findViewById(R.id.cart_adapter_item_price);
         btn_detail_number = (ElegantNumberButton) itemView.findViewById(R.id.cart_adapter_btn_detail_number);

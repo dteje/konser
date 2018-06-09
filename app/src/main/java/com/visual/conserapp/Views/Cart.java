@@ -4,11 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.graphics.Color;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +20,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.visual.conserapp.Common.Common;
@@ -32,9 +27,7 @@ import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.Model.Request;
 import com.visual.conserapp.R;
-import com.visual.conserapp.ViewHolders.CartAdapter;
-
-import org.w3c.dom.Text;
+import com.visual.conserapp.Adapter.CartAdapter;
 
 import java.text.NumberFormat;
 import java.util.List;

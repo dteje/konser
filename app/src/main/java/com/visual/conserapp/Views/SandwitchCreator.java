@@ -1,16 +1,13 @@
 package com.visual.conserapp.Views;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,12 +21,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.Adapter.AdapterData;
+import com.visual.conserapp.Adapter.RecyclerClickListener;
+import com.visual.conserapp.AlertFactory.AlertFactory;
+import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Favs;
 
 import java.text.DecimalFormat;
 
-import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
@@ -62,7 +62,6 @@ public class SandwitchCreator extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sandwitch_creator);
-        //setTitle("Sandwitch Creator");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Sandwitch Creator");
         toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
@@ -123,7 +122,6 @@ public class SandwitchCreator extends AppCompatActivity {
         return true;
     }
 
-
     private void setFocus(Button btn_unfocus, Button btn_focus) {
         btn_unfocus.setTextColor(Color.rgb(49, 50, 51));
         btn_unfocus.setBackgroundColor(Color.rgb(207, 207, 207));
@@ -135,8 +133,12 @@ public class SandwitchCreator extends AppCompatActivity {
     public void addToSandwitch(View view, int position) {
         TextView textView = (TextView) view.findViewById(R.id.idData);
         String ingredientName = textView.getText().toString();
+
+        AlertFactory alertFactory = new AlertFactory();
+        AlertParent alertParent = alertFactory.generateAlert("RepetitionSandwich");
+
         if (maxRepetitionIngredient(ingredientName)) {
-            showRepetitionAlert();
+            alertParent.printAlert(this);
         } else {
             listSandwich.add(ingredientName);
             listPrice.add(ingredientPrice);
@@ -144,49 +146,17 @@ public class SandwitchCreator extends AppCompatActivity {
         }
     }
 
-    // Max in this case is 2
     public boolean maxRepetitionIngredient(String ingredient) {
         int numRepetitions = 0;
+        int maxRepetitions = 2;
         for (int i = 0; i < listSandwich.size(); i++) {
             String res = listSandwich.get(i);
             if (ingredient == res) numRepetitions++;
-            if (numRepetitions == 2) return true;
+            if (numRepetitions == maxRepetitions) return true;
         }
         return false;
     }
 
-
-    public void showRepetitionAlert() {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Cuidado!");
-        builder1.setMessage("Has añadido demasiados ingredientes iguales!");
-        builder1.setCancelable(true);
-        builder1.setNeutralButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alertRepetition = builder1.create();
-        alertRepetition.show();
-    }
-
-    public void emptyAlert() {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Cuidado!");
-        builder1.setMessage("Tienes un bocadillo vacio!");
-        builder1.setCancelable(true);
-        builder1.setNeutralButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alertRepetition = builder1.create();
-        alertRepetition.show();
-    }
 
     public void printIngredients() {
         TextView finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
@@ -200,11 +170,17 @@ public class SandwitchCreator extends AppCompatActivity {
         String price = String.valueOf(obtainPrice());
         String discount = "0";
 
-        orderRes = new Order(orderId, listSandwich.toString(), quantity, price, discount);
+        AlertFactory alertFactory = new AlertFactory();
+        AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
 
+        if (listSandwich.isEmpty()) alertParent.printAlert(this);
+        else {
+            orderRes = new Order(orderId, listSandwich.toString(), quantity, price, discount);
 
-        new Database(getBaseContext()).addToCart(orderRes);
-        Toast.makeText(SandwitchCreator.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
+            new Database(getBaseContext()).addToCart(orderRes);
+            Toast.makeText(SandwitchCreator.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
@@ -278,7 +254,10 @@ public class SandwitchCreator extends AppCompatActivity {
 
     public void addToFavs(View view) {
 
-        if (listSandwich.size() == 0) emptyAlert();
+        AlertFactory alertFactory = new AlertFactory();
+        AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
+
+        if (listSandwich.size() == 0) alertParent.printAlert(this);
         else {
 
             Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
@@ -310,12 +289,6 @@ public class SandwitchCreator extends AppCompatActivity {
         res = Double.parseDouble(decimalFormat.format(res));
         return res;
     }
-
-    public double roundTwoDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat("#.00");
-        return Double.valueOf(twoDForm.format(d));
-    }
-
 
     public void declareDatabase() {
         database = FirebaseDatabase.getInstance();

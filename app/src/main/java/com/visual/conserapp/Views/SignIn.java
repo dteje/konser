@@ -57,14 +57,10 @@ public class SignIn extends AppCompatActivity {
                 final ProgressDialog pd = new ProgressDialog(SignIn.this);
                 pd.setMessage("Espere por favor...");
                 pd.show();
-
                 table_user.addValueEventListener(new ValueEventListener() {
-
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
                         if (dataSnapshot.child(encodeUserEmail(edtEmail.getText().toString())).exists()) {
-
                             pd.dismiss();
                             User user = dataSnapshot.child(encodeUserEmail(edtEmail.getText().toString())).getValue(User.class);
                             user.setEmail(encodeUserEmail(edtEmail.getText().toString()));
@@ -77,13 +73,14 @@ public class SignIn extends AppCompatActivity {
                                 Toast.makeText(SignIn.this, "Password incorrecto", Toast.LENGTH_SHORT).show();
                             }
                         } else {
+                            System.out.println("ELSE");
                             Toast.makeText(SignIn.this, "Usuario no registrado", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        System.out.println("Cancelled");
                     }
                 });
             }

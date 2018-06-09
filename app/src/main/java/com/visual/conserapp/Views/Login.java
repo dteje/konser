@@ -67,17 +67,13 @@ public class Login extends AppCompatActivity {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference users = database.getReference("User");
 
-        /*final ProgressDialog pd = new ProgressDialog(Login.this);
-        pd.setMessage("Espere por favor...");
-        pd.show();*/
-
         users.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.child(email).exists()) {
-                    //pd.dismiss();
+
                     User user = dataSnapshot.child(email).getValue(User.class);
                     if (user.getPassword().equals(pwd)) {
                         Intent intent = new Intent(Login.this, Home.class);
@@ -88,10 +84,8 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this, "Password incorrecto", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    System.out.println("USUARIO: " +email);
                     Toast.makeText(Login.this, "Usuario no registrado", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override

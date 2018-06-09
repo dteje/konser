@@ -1,4 +1,4 @@
-package com.visual.conserapp.Views;
+package com.visual.conserapp.Adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
