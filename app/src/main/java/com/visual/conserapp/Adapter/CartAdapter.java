@@ -1,9 +1,6 @@
-package com.visual.conserapp.ViewHolders;
+package com.visual.conserapp.Adapter;
 
-import android.content.Context;
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
