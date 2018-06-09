@@ -69,7 +69,6 @@ public class AdminOfertasSemana extends AppCompatActivity {
         getDaysFromFirebase();
 
         fillSpinners();
-
     }
 
     private void getDaysFromFirebase() {
@@ -78,13 +77,13 @@ public class AdminOfertasSemana extends AppCompatActivity {
     List<Food> foods;
     List<String> foodnames;
 
-    private void getFoodsFromFirebase(){
+    private void getFoodsFromFirebase() {
         foods = new ArrayList<>();
         foodnames = new ArrayList<>();
         table_foods.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot d : dataSnapshot.getChildren()){
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Food food = d.getValue(Food.class);
                     foods.add(food);
                     foodnames.add(food.getName());
@@ -100,12 +99,33 @@ public class AdminOfertasSemana extends AppCompatActivity {
 
     private void fillSpinners() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, foodnames);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        for(Spinner s : spinners) s.setAdapter(adapter);
+                this, R.layout.spinner_item, foodnames);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        System.out.println(spinners.size()+"");
+        spinners.get(0).setAdapter(adapter);
 
     }
 
+    List<String> previousdays;
+
+    private void getConfigFromDatabase(){
+        table_dailysandwich.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot d : dataSnapshot.getChildren()){
+                    //String day =
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void setPreviousConfig(){
+
+    }
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.admin_top_menu, menu);
@@ -117,14 +137,16 @@ public class AdminOfertasSemana extends AppCompatActivity {
         int id = menuitem.getItemId();
         Intent intent;
         if (id == R.id.admin_top_menu_item_client_view) intent = new Intent(this, Home.class);
-        else if (id == R.id.admin_top_menu_item_pending_requests) intent = new Intent(this, AdminHome.class);
+        else if (id == R.id.admin_top_menu_item_pending_requests)
+            intent = new Intent(this, AdminHome.class);
         else intent = new Intent(this, AdminPanel.class);
         startActivity(intent);
         return true;
     }
 
-    public void onUpdate(View view){
-        System.out.println("ONCLICK");
+    public void onUpdate(View view) {
+        System.out.println(monday.toString());
+        System.out.println(monday.getSelectedItem().toString());
 
     }
 

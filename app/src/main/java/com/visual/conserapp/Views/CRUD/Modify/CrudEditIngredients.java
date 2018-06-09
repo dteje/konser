@@ -27,12 +27,14 @@ public class CrudEditIngredients extends CrudEdit {
     private Ingredient ingredient;
 
 
+
     @Override
     protected void getItemsById() {
         txt_id = findViewById(R.id.crud_txt_id);
         txt_name = findViewById(R.id.crud_et_name);
         radioGroup = findViewById(R.id.radiobuttongroup);
         radioGroup.check(R.id.rbCarne);
+
     }
 
     @Override
@@ -50,6 +52,7 @@ public class CrudEditIngredients extends CrudEdit {
     protected void displayDataOnScreen() {
         txt_id.setText("ID " + id);
         txt_name.setText(ingredient.getName());
+        radioGroupDefault();
     }
 
     @Override
@@ -105,4 +108,26 @@ public class CrudEditIngredients extends CrudEdit {
         String type = r.getText().toString();
         return type;
     }
+
+
+    public void radioGroupDefault() {
+        switch (ingredient.getType()) {
+            case "Carne_Pescado":
+                radioGroup.check(R.id.rbCarne);
+                break;
+            case "Verduras":
+                radioGroup.check(R.id.rbVerduras);
+                break;
+            case "Queso":
+                radioGroup.check(R.id.rbQueso);
+                break;
+            case "Salsas":
+                radioGroup.check(R.id.rbSalsas);
+                break;
+            case "Especial":
+                radioGroup.check(R.id.rbEspecial);
+                break;
+        }
+    }
+
 }
