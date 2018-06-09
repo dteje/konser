@@ -31,6 +31,8 @@ public abstract class CrudEdit extends AppCompatActivity {
     protected Button btn_update, btn_delete;
     protected TextView txt_id;
     protected String newid;
+    protected Map<String, Object> map;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +102,6 @@ public abstract class CrudEdit extends AppCompatActivity {
         table.updateChildren(map);
     }
 
-    protected Map<String, Object> map;
 
     protected abstract void updateObject();
 
