@@ -166,7 +166,6 @@ public class AdminOfertasSemana extends AppCompatActivity{
         map.put("5friday",foods.get(friday.getSelectedItemPosition()).getID());
         table_dailysandwich.updateChildren(map);
         finish();
-
     }
 
 }
