@@ -53,6 +53,21 @@ public class CrudEditIngredients extends CrudEdit {
     }
 
     @Override
+    protected void modifyDisplayToNew() {
+        newid = (String) getIntent().getExtras().get("newid");
+        txt_id.setText(newid);
+        btn_delete.setVisibility(View.INVISIBLE);
+        btn_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createNewObject();
+                table.child(newid).setValue(map);
+                finish();
+            }
+        });
+    }
+
+    @Override
     protected void createNewObject() {
         ingredient = new Ingredient(txt_name.getText().toString(),obtainType());
         map.put("id",newid);

@@ -61,4 +61,9 @@ public class AdminPanel extends AppCompatActivity {
         }
         startActivity(intent);
     }
+
+    public void onOfertas(View view){
+        Intent intent = new Intent(AdminPanel.this, AdminOfertasSemana.class);
+        startActivity(intent);
+    }
     }

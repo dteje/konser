@@ -42,6 +42,7 @@
             android:id="@+id/btn_offers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onOfertas"
             android:text="Ofertas de la semana" />
 
         <Button

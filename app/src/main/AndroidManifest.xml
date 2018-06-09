@@ -33,6 +33,7 @@
         <activity android:name=".Views.AdminHome" />
         <activity android:name=".Views.SandwitchCreator" />
         <activity android:name=".Views.AdminPanel" />
+        <activity android:name=".Views.AdminOfertasSemana" />
         <activity android:name=".Views.CRUD.List.Ingredients" />
         <activity android:name=".Views.CRUD.List.Foods" />
         <activity android:name=".Views.CRUD.List.Categories" />

@@ -46,7 +46,7 @@ public class Ingredients extends Crud {
             public void onClick(View view) {
                 Intent intent = new Intent(context, CrudEditIngredients.class);
                 intent.putExtra("id","new");
-                intent.putExtra("newid","Nuevo usuario");
+                intent.putExtra("newid",newId++ +"");
                 startActivity(intent);
             }
         });

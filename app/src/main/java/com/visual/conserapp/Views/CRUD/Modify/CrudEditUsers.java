@@ -1,5 +1,6 @@
 package com.visual.conserapp.Views.CRUD.Modify;
 
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -52,6 +53,21 @@ public class CrudEditUsers extends CrudEdit {
         txt_pwd1.setText("");
         txt_pwd2.setText("");
         ckb_admin.setChecked(user.getAdmin());
+    }
+
+    @Override
+    protected void modifyDisplayToNew() {
+        txt_id.setText("Nuevo usuario");
+        txt_pwd_old.setEnabled(false);
+        btn_delete.setEnabled(false);
+        btn_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createNewObject();
+                table.child(newid).setValue(map);
+                finish();
+            }
+        });
     }
 
     @Override

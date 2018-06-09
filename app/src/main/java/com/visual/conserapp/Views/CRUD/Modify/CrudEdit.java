@@ -49,24 +49,15 @@ public abstract class CrudEdit extends AppCompatActivity {
         txt_id = (TextView) findViewById(R.id.crud_txt_id);
         btn_update = (Button) findViewById(R.id.btn_update);
         btn_delete = (Button) findViewById(R.id.btn_delete);
-        //TODO Delete findviewsbyids in subclasses
+        //TODO Delete findviewsbyids de los de arriba in subclasses
         if (!id.equals("new")) {
             retrieveDataFromFirebase();
-        } else {
-            newid = (String) getIntent().getExtras().get("newid");
-            txt_id.setText(newid);
-            if (newid == String.valueOf(0))txt_id.setText("Nuevo usuario");
-            btn_delete.setEnabled(false);
-            btn_update.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    createNewObject();
-                    table.child(newid).setValue(map);
-                    finish();
-                }
-            });
+        } else { //Solo entra cuando es añadir
+            modifyDisplayToNew();
         }
     }
+
+    protected abstract void modifyDisplayToNew();
 
     protected abstract void createNewObject();
 

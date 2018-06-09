@@ -1,5 +1,6 @@
 package com.visual.conserapp.Views.CRUD.Modify;
 
+import android.view.View;
 import android.widget.EditText;
 
 import com.google.firebase.database.DataSnapshot;
@@ -49,6 +50,21 @@ public class CrudEditFood extends CrudEdit {
         txt_img.setText(food.getImage());
         txt_desc.setText(food.getDescription());
 
+    }
+
+    @Override
+    protected void modifyDisplayToNew() {
+        newid = (String) getIntent().getExtras().get("newid");
+        txt_id.setText(newid);
+        btn_delete.setEnabled(false);
+        btn_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createNewObject();
+                table.child(newid).setValue(map);
+                finish();
+            }
+        });
     }
 
     @Override

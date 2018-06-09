@@ -47,7 +47,7 @@ public class Users extends Crud {
             public void onClick(View view) {
                 Intent intent = new Intent(context, CrudEditUsers.class);
                 intent.putExtra("id","new");
-                intent.putExtra("newid",newId+"");
+                intent.putExtra("newid","0");
                 startActivity(intent);
             }
         });
