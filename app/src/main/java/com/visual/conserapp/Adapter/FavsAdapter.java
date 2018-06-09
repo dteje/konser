@@ -79,7 +79,7 @@ public class FavsAdapter extends RecyclerView.Adapter<FavsViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final FavsViewHolder holder, final int position) {
+    public void onBindViewHolder(final FavsViewHolder holder, final int position) {//a
         String name = listFav.get(position).getNameSandwichUser();
 
         holder.txt_favourite_name.setText(name);
