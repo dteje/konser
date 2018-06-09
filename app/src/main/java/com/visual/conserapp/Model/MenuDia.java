@@ -30,6 +30,14 @@ public class MenuDia {
         IdsPlato3 = idsPlato3;
     }
 
+    public MenuDia(String name, Double price, String plato1, String plato2, String plato3) {
+        Name = name;
+        Price = price;
+        Plato1 = plato1;
+        Plato2 = plato2;
+        Plato3 = plato3;
+    }
+
     public MenuDia() {
     }
 

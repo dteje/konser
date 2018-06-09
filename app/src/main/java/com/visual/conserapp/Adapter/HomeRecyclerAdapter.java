@@ -24,6 +24,7 @@ class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClick
 
 
     public TextView txt_menuName;
+    public TextView txt_ingredientes;
     Button btn_detalles;
     Button btn_anyadir;
 
@@ -36,6 +37,7 @@ class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClick
     public RecyclerViewHolder(View itemView) {
         super(itemView);
         txt_menuName = (TextView) itemView.findViewById(R.id.home_adapter_item_name);
+        txt_ingredientes = (TextView) itemView.findViewById(R.id.home_adapter_item_description);
         btn_detalles = (Button) itemView.findViewById(R.id.home_adapter_btn_detalles);
         btn_anyadir = (Button) itemView.findViewById(R.id.home_adapter_btn_anyadir);
     }
@@ -73,10 +75,12 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         String name = listMenu.get(position).getName();
+        String ingredientes = listMenu.get(position).getPlato1()+listMenu.get(position).getPlato2()+listMenu.get(position).getPlato3();
         String type = listMenu.get(position).getName();
         final Double menuPrice = listMenu.get(position).getPrice();
 
         holder.txt_menuName.setText(name);
+        holder.txt_ingredientes.setText(ingredientes);
 
         holder.btn_detalles.setOnClickListener(new View.OnClickListener() {
             @Override

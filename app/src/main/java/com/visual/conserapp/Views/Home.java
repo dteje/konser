@@ -133,11 +133,6 @@ public class Home extends AppCompatActivity
         homeRecycler.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         homeRecycler.setLayoutManager(layoutManager);
-        System.out.println("123444444");
-        System.out.println("444444444");
-        System.out.println("4444444444");
-        System.out.println("4444444444");
-        System.out.println("44444444444");
         //adapter = new HomeRecyclerAdapter(listMenu, database, requests_table, this);
         //homeRecycler.setAdapter(adapter);
 
@@ -172,9 +167,16 @@ public class Home extends AppCompatActivity
 
         for(DataSnapshot ds : dataSnapshot.getChildren()){
 
-            String name = ds.getValue(MenuDia.class).getName();
-            MenuDia menu = new MenuDia(name);
-            listMenu.toString();
+            /*String name = ds.getValue(MenuDia.class).getName();
+            String ingredientes = ds.getValue(MenuDia.class).getIdsPlato1()+ds.getValue(MenuDia.class).getIdsPlato2()+ds.getValue(MenuDia.class).getIdsPlato3();
+            Double price = ds.getValue(MenuDia.class).getPrice();
+            String plato1 = ds.getValue(MenuDia.class).getIdsPlato1();
+            String plato2 = ds.getValue(MenuDia.class).getIdsPlato2();
+            String plato3 = ds.getValue(MenuDia.class).getIdsPlato3();*/
+
+
+
+            MenuDia menu = ds.getValue(MenuDia.class);
             listMenu.add(menu);
         }
 
