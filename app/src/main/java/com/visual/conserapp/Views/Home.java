@@ -48,7 +48,7 @@ import in.goodiebag.carouselpicker.CarouselPicker;
 import io.paperdb.Paper;
 
 public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
 
     CarouselPicker.CarouselViewAdapter imageAdapter;
@@ -71,7 +71,7 @@ public class Home extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        if(Common.currentUser.getAdmin()){
+        if (Common.currentUser.getAdmin()) {
             setContentView(R.layout.activity_home_admin);
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -98,7 +98,7 @@ public class Home extends AppCompatActivity
 
         View headerView = navigationView.getHeaderView(0);
         tv_usermail = (TextView) headerView.findViewById(R.id.nav_header_email);
-        tv_username = (TextView) headerView .findViewById(R.id.nav_header_name);
+        tv_username = (TextView) headerView.findViewById(R.id.nav_header_name);
         tv_usermail.setText(Common.currentUser.getEmail());
         tv_username.setText(Common.currentUser.getName());
 
@@ -164,6 +164,7 @@ public class Home extends AppCompatActivity
 
     TextView tv_username;
     TextView tv_usermail;
+
     private void loadUserData() {
         /*
         tv_username = (TextView) findViewById(R.id.nav_header_name);
@@ -179,7 +180,7 @@ public class Home extends AppCompatActivity
     }
 
     private void carruselListener(int position) {
-        switch(position){
+        switch (position) {
             case 0:
                 textoCentro.setText("Bocadillos");
                 listData.clear();
@@ -218,12 +219,9 @@ public class Home extends AppCompatActivity
         }
     }
 
-    public void initializeFavs(){
-        Log.d("listFavs", listFavs.toString());
-        Log.d("id", userFavId);
-
+    public void initializeFavs() {
         UserFavs userFavs = new UserFavs(Common.currentUser.getName(), listFavs, userFavId);
-        FavsAdapter favsAdapter= new FavsAdapter(userFavs, getApplicationContext(), listFavs, database, this);
+        FavsAdapter favsAdapter = new FavsAdapter(userFavs, getApplicationContext(), listFavs, database, this);
         homeRecycler.setAdapter(favsAdapter);
     }
 
@@ -231,11 +229,9 @@ public class Home extends AppCompatActivity
     public void obtainFavs(DataSnapshot dataSnapshot) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-            Log.d("list Favs", ds.getValue(UserFavs.class).getListFavs().toString());
-
-
+            if (ds.getKey().equals(userFavId)) {
                 listFavs = ds.getValue(UserFavs.class).getListFavs();
-
+            }
 
         }
     }
@@ -265,7 +261,7 @@ public class Home extends AppCompatActivity
 
 
     private void setupList() {
-        for (int i=0; i<15; i++) {
+        for (int i = 0; i < 15; i++) {
             Button btn = new Button(this);
             btn.setText(textoCentro.getText());
             listData.add(btn);
@@ -305,14 +301,14 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_adminPanel) {
-            Intent intent = new Intent(Home.this,AdminPanel.class);
+            Intent intent = new Intent(Home.this, AdminPanel.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_adminPending) {
-            Intent intent = new Intent(Home.this,AdminHome.class);
+            Intent intent = new Intent(Home.this, AdminHome.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_logout || id == R.id.nav_logout2){
+        } else if (id == R.id.nav_logout || id == R.id.nav_logout2) {
             Paper.book().destroy();
             Intent intent = new Intent(Home.this, Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -329,9 +325,9 @@ public class Home extends AppCompatActivity
         View view = menuitem.getActionView();
         int id = menuitem.getItemId();
         Intent intent;
-        if(id == R.id.cart_id)  intent = new Intent(this,Cart.class);
+        if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
         else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwitchCreator.class);
-        else intent = new Intent(this,Offers.class);
+        else intent = new Intent(this, Offers.class);
         startActivity(intent);
         return true;
     }
