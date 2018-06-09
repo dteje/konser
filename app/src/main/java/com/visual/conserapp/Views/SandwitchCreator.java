@@ -64,7 +64,6 @@ public class SandwitchCreator extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sandwitch_creator);
-        //setTitle("Sandwitch Creator");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Sandwitch Creator");
         toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
@@ -124,7 +123,6 @@ public class SandwitchCreator extends AppCompatActivity {
 
         return true;
     }
-
 
     private void setFocus(Button btn_unfocus, Button btn_focus) {
         btn_unfocus.setTextColor(Color.rgb(49, 50, 51));
@@ -293,12 +291,6 @@ public class SandwitchCreator extends AppCompatActivity {
         res = Double.parseDouble(decimalFormat.format(res));
         return res;
     }
-
-    public double roundTwoDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat("#.00");
-        return Double.valueOf(twoDForm.format(d));
-    }
-
 
     public void declareDatabase() {
         database = FirebaseDatabase.getInstance();
