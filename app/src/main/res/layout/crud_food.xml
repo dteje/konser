@@ -92,7 +92,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Ingredientes"
+                android:hint="IDs ingredientes"
                 android:inputType="numberDecimal" />
 
             <Space

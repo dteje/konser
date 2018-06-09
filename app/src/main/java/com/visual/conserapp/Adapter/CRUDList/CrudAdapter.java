@@ -1,4 +1,4 @@
-package com.visual.conserapp.ViewHolders.CRUDList;
+package com.visual.conserapp.Adapter.CRUDList;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.visual.conserapp.R;
 import com.visual.conserapp.Views.CRUD.List.Crud;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

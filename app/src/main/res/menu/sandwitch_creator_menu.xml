@@ -11,7 +11,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/offers_id"
-        android:icon="@drawable/offers"
+        android:icon="@drawable/ic_home_white_24dp"
         android:onClick="onNavSuperior"
         android:orderInCategory="02"
         android:title=""

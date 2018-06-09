@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#FF3"
+    android:background="@color/colorPrimary"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.visual.conserapp.Views.Home"
@@ -19,7 +19,7 @@
             android:id="@+id/rec1"
             android:layout_width="match_parent"
             android:layout_height="505dp"
-            android:background="#4F5">
+            android:background="#fff">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -45,7 +45,7 @@
             android:layout_marginBottom="2dp"
             android:gravity="bottom|center_horizontal"
             android:text="@string/bocadillos"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:textSize="25sp"
             android:textStyle="bold" />
     </LinearLayout>

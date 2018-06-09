@@ -1,14 +1,9 @@
 package com.visual.conserapp.Views;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,34 +17,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.visual.conserapp.Adapter.WheelImageAdapter;
-import com.visual.conserapp.Common.Common;
-import com.visual.conserapp.Data.ImageData;
-
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import github.hellocsl.cursorwheel.CursorWheelLayout;
-
 
 import com.google.firebase.database.DatabaseReference;
+import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.Model.Food;
+import com.visual.conserapp.Model.Ingredient;
+import com.visual.conserapp.IngredientesFerran.AdminIngredientsMenu;
 import com.visual.conserapp.R;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 import io.paperdb.Paper;
 
 public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, CursorWheelLayout.OnMenuSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener{
 
 
     CarouselPicker.CarouselViewAdapter imageAdapter;
@@ -61,6 +48,8 @@ public class Home extends AppCompatActivity
     private List<Button> listData = new ArrayList<>();
 
     FirebaseDatabase database;
+    DatabaseReference requests_table;
+    ArrayList<Food> listaFoodFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +60,7 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         database = FirebaseDatabase.getInstance();
+        requests_table = database.getReference("Config");
 
         Paper.init(this);
 
@@ -202,11 +192,7 @@ public class Home extends AppCompatActivity
     private void setupList() {
         for (int i=0; i<15; i++) {
             Button btn = new Button(this);
-            if(textoCentro.getText().equals("Bocadillos")){
-                btn.setText("pr");
-                btn.setBackgroundColor(getResources().getColor(R.color.bg_wheel));
-            }
-            else btn.setText(textoCentro.getText());
+            btn.setText(textoCentro.getText());
             listData.add(btn);
         }
     }
@@ -239,7 +225,8 @@ public class Home extends AppCompatActivity
             Intent intent = new Intent(Home.this, Detail.class);
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-
+            Intent intent = new Intent(Home.this, AdminIngredientsMenu.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_adminPanel) {
@@ -262,6 +249,7 @@ public class Home extends AppCompatActivity
         return true;
     }
 
+
     public boolean onNavSuperior(MenuItem menuitem) {
         View view = menuitem.getActionView();
         int id = menuitem.getItemId();
@@ -271,18 +259,6 @@ public class Home extends AppCompatActivity
         else intent = new Intent(this,Offers.class);
         startActivity(intent);
         return true;
-    }
-
-
-    @Override
-    public void onItemSelected(CursorWheelLayout parent, View view, int pos) {
-
-        //Definición de fuentes e inicialización de textos
-
-        textoCentro = (TextView) findViewById(R.id.id_wheel_menu_center_item);
-        Typeface lobster = Typeface.createFromAsset(getAssets(), "fonts/Lobster-Regular.ttf");
-        textoCentro.setTypeface(lobster);
-
     }
 
 }
