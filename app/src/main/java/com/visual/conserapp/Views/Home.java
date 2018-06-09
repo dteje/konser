@@ -49,7 +49,7 @@ import in.goodiebag.carouselpicker.CarouselPicker;
 import io.paperdb.Paper;
 
 public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, CursorWheelLayout.OnMenuSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener{
 
 
     CarouselPicker.CarouselViewAdapter imageAdapter;
@@ -202,11 +202,7 @@ public class Home extends AppCompatActivity
     private void setupList() {
         for (int i=0; i<15; i++) {
             Button btn = new Button(this);
-            if(textoCentro.getText().equals("Bocadillos")){
-                btn.setText("pr");
-                btn.setBackgroundColor(getResources().getColor(R.color.bg_wheel));
-            }
-            else btn.setText(textoCentro.getText());
+            btn.setText(textoCentro.getText());
             listData.add(btn);
         }
     }
@@ -271,18 +267,6 @@ public class Home extends AppCompatActivity
         else intent = new Intent(this,Offers.class);
         startActivity(intent);
         return true;
-    }
-
-
-    @Override
-    public void onItemSelected(CursorWheelLayout parent, View view, int pos) {
-
-        //Definición de fuentes e inicialización de textos
-
-        textoCentro = (TextView) findViewById(R.id.id_wheel_menu_center_item);
-        Typeface lobster = Typeface.createFromAsset(getAssets(), "fonts/Lobster-Regular.ttf");
-        textoCentro.setTypeface(lobster);
-
     }
 
 }
