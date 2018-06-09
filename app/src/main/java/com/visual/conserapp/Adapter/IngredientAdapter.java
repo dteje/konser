@@ -3,6 +3,7 @@ package com.visual.conserapp.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -118,43 +119,6 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientViewHolder
             }
         });
     }
-
-    public void obtainIngredients(DataSnapshot dataSnapshot) {
-        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-            String name = ds.getValue(Ingredient.class).getName();
-            String type = ds.getValue(Ingredient.class).getType();
-
-            Ingredient ing = new Ingredient(name, type);
-            String key = ds.getKey();
-
-            listIngredients.add(ing);
-            hashtable.put(ing, key);
-        }
-    }
-
-    public void obtainDataFirebase() {
-        declareDatabase();
-
-        ingredient_table.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                obtainIngredients(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-    }
-
-
-    public void declareDatabase() {
-        database = FirebaseDatabase.getInstance();
-        ingredient_table = database.getReference("Ingredient");
-    }
-
 
     @Override
     public int getItemCount() {

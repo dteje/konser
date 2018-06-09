@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,18 +20,26 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.Adapter.FavsAdapter;
 import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 
 import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.Adapter.IngredientAdapter;
 import com.visual.conserapp.Common.Common;
+import com.visual.conserapp.Model.Favs;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.IngredientesFerran.AdminIngredientsMenu;
+import com.visual.conserapp.Model.UserFavs;
 import com.visual.conserapp.R;
 
 import org.w3c.dom.Text;
@@ -49,10 +58,14 @@ public class Home extends AppCompatActivity
     RecyclerView.LayoutManager layoutManager;
     HomeRecyclerAdapter adapter;
     private List<Button> listData = new ArrayList<>();
+    ArrayList<Favs> listFavs;
 
     FirebaseDatabase database;
     DatabaseReference requests_table;
+
     ArrayList<Food> listaFoodFirebase;
+    DatabaseReference userfavs_table;
+    String userFavId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +91,10 @@ public class Home extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        userFavId = Common.currentUser.getEmailAsId();
+        listFavs = new ArrayList<Favs>();
+        obtainDataFirebaseUserFavs();
 
         View headerView = navigationView.getHeaderView(0);
         tv_usermail = (TextView) headerView.findViewById(R.id.nav_header_email);
@@ -168,6 +185,7 @@ public class Home extends AppCompatActivity
                 listData.clear();
                 setupList();
                 modifyAdapter();
+                homeRecycler.setAdapter(adapter);
                 break;
 
             case 1:
@@ -175,6 +193,7 @@ public class Home extends AppCompatActivity
                 listData.clear();
                 setupList();
                 modifyAdapter();
+                homeRecycler.setAdapter(adapter);
                 break;
 
             case 2:
@@ -182,6 +201,7 @@ public class Home extends AppCompatActivity
                 listData.clear();
                 setupList();
                 modifyAdapter();
+                homeRecycler.setAdapter(adapter);
                 break;
 
             case 3:
@@ -189,17 +209,60 @@ public class Home extends AppCompatActivity
                 listData.clear();
                 setupList();
                 modifyAdapter();
+                homeRecycler.setAdapter(adapter);
                 break;
             case 4:
                 textoCentro.setText("Favoritos");
-                listData.clear();
-                setupList();
-                modifyAdapter();
+                initializeFavs();
                 break;
+        }
+    }
+
+    public void initializeFavs(){
+        Log.d("listFavs", listFavs.toString());
+        Log.d("id", userFavId);
+
+        UserFavs userFavs = new UserFavs(Common.currentUser.getName(), listFavs, userFavId);
+        FavsAdapter favsAdapter= new FavsAdapter(userFavs, getApplicationContext(), listFavs, database, this);
+        homeRecycler.setAdapter(favsAdapter);
+    }
+
+
+    public void obtainFavs(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+            Log.d("list Favs", ds.getValue(UserFavs.class).getListFavs().toString());
+
+
+                listFavs = ds.getValue(UserFavs.class).getListFavs();
 
 
         }
     }
+
+    public void obtainDataFirebaseUserFavs() {
+        declareDatabase();
+        listFavs.clear();
+
+        userfavs_table.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                obtainFavs(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+    }
+
+
+    public void declareDatabase() {
+        database = FirebaseDatabase.getInstance();
+        userfavs_table = database.getReference("UserFavs");
+    }
+
 
     private void setupList() {
         for (int i=0; i<15; i++) {
