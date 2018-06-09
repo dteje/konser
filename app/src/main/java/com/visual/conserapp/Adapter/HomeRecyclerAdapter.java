@@ -6,81 +6,99 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.AlertFactory.AlertFactory;
+import com.visual.conserapp.AlertFactory.AlertParent;
+import com.visual.conserapp.Model.MenuDia;
+import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 
-    public Button btn1;
+    public TextView txt_menuName;
+    Button btn_detalles;
+    Button btn_anyadir;
 
-    private HomeRecyclerItemListener itemListener;
+
+    public void setMenuName(TextView menuName) {
+        this.txt_menuName = menuName;
+    }
+
 
     public RecyclerViewHolder(View itemView) {
         super(itemView);
-        //btn1 = (Button) itemView.findViewById(R.id.btn1);
-        btn1 = (Button) itemView.findViewById(R.id.btn1);
-        itemView.setOnClickListener(this);
-        itemView.setOnLongClickListener(this);
+        txt_menuName = (TextView) itemView.findViewById(R.id.home_adapter_item_name);
+        btn_detalles = (Button) itemView.findViewById(R.id.home_adapter_btn_detalles);
+        btn_anyadir = (Button) itemView.findViewById(R.id.home_adapter_btn_anyadir);
     }
 
-    public void setItemClickListener(HomeRecyclerItemListener itemListener){
-        this.itemListener = itemListener;
-    }
 
     @Override
     public void onClick(View v) {
-        itemListener.onClick(v, getAdapterPosition(),false);
 
     }
-
-    @Override
-    public boolean onLongClick(View v) {
-        itemListener.onClick(v, getAdapterPosition(), false);
-        return false;
-    }
-
-
 
 }
 
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder>{
 
-    private List<Button> listData = new ArrayList<>();
+    private ArrayList<MenuDia> listMenu = new ArrayList<>();
+    private FirebaseDatabase database;
+    private DatabaseReference menu_table;
     private Context context;
+    Order orderRes;
 
-
-    public HomeRecyclerAdapter(List<Button> listData, Context context) {
-        this.listData = listData;
+    public HomeRecyclerAdapter(ArrayList<MenuDia> listMenu, FirebaseDatabase database, DatabaseReference menu_table, Context context) {
+        this.listMenu = listMenu;
+        this.database = database;
+        this.menu_table = menu_table;
         this.context = context;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.home_recycler_item, parent, false);
-
+        View itemView = inflater.inflate(R.layout.manage_menu_layout, parent, false);
         return new RecyclerViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.btn1.setText((CharSequence) listData.get(position).getText());
+    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
+        String name = listMenu.get(position).getName();
+        String type = listMenu.get(position).getName();
+        final Double menuPrice = listMenu.get(position).getPrice();
 
-        holder.setItemClickListener(new HomeRecyclerItemListener() {
+        holder.txt_menuName.setText(name);
+
+        holder.btn_detalles.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view, int position, boolean isLongClick) {
-                if(isLongClick){
-                    Toast.makeText(context, "Has clickado el botón", Toast.LENGTH_SHORT).show();
-                }
+            public void onClick(View view) {
 
+            }
+        });
+
+        holder.btn_anyadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String orderId = "Order " + String.valueOf(System.currentTimeMillis());
+                String quantity = "1";
+                String price = String.valueOf(menuPrice);
+                String discount = "0";
+
+                AlertFactory alertFactory = new AlertFactory();
+                AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
+
+                if (listMenu.isEmpty()) alertParent.printAlert(context);
                 else {
-                    Toast.makeText(context, "El otro coment", Toast.LENGTH_SHORT).show();
+                    orderRes = new Order(orderId, listMenu.toString(), quantity, price, discount);
                 }
             }
         });
@@ -88,7 +106,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     @Override
     public int getItemCount() {
-        return listData.size();
+        return listMenu.size();
     }
 
 }

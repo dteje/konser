@@ -44,8 +44,7 @@
         <activity
             android:name=".Views.RequestDetails"
             android:label="@string/title_activity_request_details"
-            android:theme="@style/AppTheme"></activity>
-        <activity android:name=".Views.Detail"/>
+            android:theme="@style/AppTheme"></activity>/>
         <activity android:name=".IngredientesFerran.ManageIngredients"/>
         <activity android:name=".IngredientesFerran.uploadIngredients"/>
         <activity android:name=".IngredientesFerran.AdminIngredientsMenu"/>

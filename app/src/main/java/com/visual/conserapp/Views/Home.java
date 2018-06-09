@@ -19,7 +19,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.IngredientesFerran.AdminIngredientsMenu;
+import com.visual.conserapp.Model.MenuDia;
 import com.visual.conserapp.R;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
@@ -44,8 +48,9 @@ public class Home extends AppCompatActivity
     TextView textoCentro;
     RecyclerView homeRecycler;
     RecyclerView.LayoutManager layoutManager;
+
     HomeRecyclerAdapter adapter;
-    private List<Button> listData = new ArrayList<>();
+    ArrayList<MenuDia> listMenu;
 
     FirebaseDatabase database;
     DatabaseReference requests_table;
@@ -60,7 +65,7 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         database = FirebaseDatabase.getInstance();
-        requests_table = database.getReference("Config");
+        requests_table = database.getReference("Menu");
 
         Paper.init(this);
 
@@ -72,6 +77,10 @@ public class Home extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        listMenu = new ArrayList<>();
+        obtainDataFirebase();
 
         //Inicializar texto carrusel
 
@@ -119,18 +128,68 @@ public class Home extends AppCompatActivity
 
         //Organizar el recycler
 
-        setupList();
 
         homeRecycler = (RecyclerView) findViewById(R.id.rec1);
         homeRecycler.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         homeRecycler.setLayoutManager(layoutManager);
-        adapter = new HomeRecyclerAdapter(listData, this);
-        homeRecycler.setAdapter(adapter);
+        System.out.println("123444444");
+        System.out.println("444444444");
+        System.out.println("4444444444");
+        System.out.println("4444444444");
+        System.out.println("44444444444");
+        //adapter = new HomeRecyclerAdapter(listMenu, database, requests_table, this);
+        //homeRecycler.setAdapter(adapter);
 
         loadUserData();
 
 
+    }
+
+
+    //MÉTODOS NUEVOS
+
+    private void obtainDataFirebase() {
+        declareDatabase();
+
+        requests_table.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                obtainMenus(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Fail"+databaseError.getCode());
+            }
+        });
+
+    }
+
+    private void obtainMenus(DataSnapshot dataSnapshot) {
+        //listMenu.clear();
+        System.out.println("12123");
+
+        for(DataSnapshot ds : dataSnapshot.getChildren()){
+
+            String name = ds.getValue(MenuDia.class).getName();
+            MenuDia menu = new MenuDia(name);
+            listMenu.toString();
+            listMenu.add(menu);
+        }
+
+
+        loadMenus();
+    }
+
+    private void loadMenus() {
+        adapter = new HomeRecyclerAdapter(listMenu, database, requests_table, getApplicationContext());
+        homeRecycler.setAdapter(adapter);
+    }
+
+    private void declareDatabase() {
+        database = FirebaseDatabase.getInstance();
+        requests_table = database.getReference("Menu");
     }
 
     TextView tv_username;
@@ -153,47 +212,29 @@ public class Home extends AppCompatActivity
         switch(position){
             case 0:
                 textoCentro.setText("Bocadillos");
-                listData.clear();
-                setupList();
                 modifyAdapter();
                 break;
 
             case 1:
                 textoCentro.setText("Menú");
-                listData.clear();
-                setupList();
                 modifyAdapter();
                 break;
 
             case 2:
                 textoCentro.setText("Hoy");
-                listData.clear();
-                setupList();
                 modifyAdapter();
                 break;
 
             case 3:
                 textoCentro.setText("Complementos");
-                listData.clear();
-                setupList();
                 modifyAdapter();
                 break;
             case 4:
                 textoCentro.setText("Favoritos");
-                listData.clear();
-                setupList();
                 modifyAdapter();
                 break;
 
 
-        }
-    }
-
-    private void setupList() {
-        for (int i=0; i<15; i++) {
-            Button btn = new Button(this);
-            btn.setText(textoCentro.getText());
-            listData.add(btn);
         }
     }
 
