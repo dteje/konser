@@ -3,6 +3,7 @@ package com.visual.conserapp.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,13 @@ import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.Model.User;
 import com.visual.conserapp.Model.UserFavs;
 import com.visual.conserapp.R;
+import com.visual.conserapp.Views.FavDetails;
 import com.visual.conserapp.Views.Home;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-public class FavsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+class FavsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView txt_favourite_name;
     Button btn_eliminar;
@@ -61,8 +63,9 @@ public class FavsAdapter extends RecyclerView.Adapter<FavsViewHolder> {
     private String id = Common.currentUser.getEmailAsId();
     private UserFavs userFavs;
 
-    public FavsAdapter(UserFavs userFavs, Context context, FirebaseDatabase database, Home home) {
+    public FavsAdapter(UserFavs userFavs, Context context, ArrayList<Favs> listFav, FirebaseDatabase database, Home home) {
         this.userFavs = userFavs;
+        this.listFav = listFav;
         this.database = database;
         this.context = context;
         this.home = home;
@@ -115,37 +118,9 @@ public class FavsAdapter extends RecyclerView.Adapter<FavsViewHolder> {
     }
 
 
-    public void obtainFavs(DataSnapshot dataSnapshot) {
-        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-            if(ds.getKey().equals(id)) {
-                listFav = ds.getValue(UserFavs.class).getListFavs();
-            }
-
-        }
-    }
-
-    public void obtainDataFirebase() {
-        declareDatabase();
-        listFav.clear();
-
-        userfavs_table.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                obtainFavs(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-    }
-
-
-    public void declareDatabase() {
-        database = FirebaseDatabase.getInstance();
-        userfavs_table = database.getReference("UserFavs");
+    @Override
+    public int getItemCount() {
+        return listFav.size();
     }
 
 }
