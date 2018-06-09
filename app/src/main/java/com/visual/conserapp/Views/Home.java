@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 import com.google.firebase.database.DatabaseReference;
 import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
 
