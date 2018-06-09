@@ -27,7 +27,7 @@ public class FavDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.favs_card_view);
+        setContentView(R.layout.activity_details_favs);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Detalles");
         toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
@@ -42,7 +42,7 @@ public class FavDetails extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         String nameSandwichOfficial = extras.getString("nameSandwichOfficial");
         String nameSandwichUser = extras.getString("nameSandwichUser");
-        String ingredients = extras.getString("ingredients");
+        String ingredients = extras.getString("Ingredients");
         Double price = extras.getDouble("price");
 
         tv_nameSandwichOfficial.setText(nameSandwichOfficial);
