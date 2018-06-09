@@ -1,14 +1,9 @@
 package com.visual.conserapp.Views;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,27 +17,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.visual.conserapp.Adapter.WheelImageAdapter;
-import com.visual.conserapp.Common.Common;
-import com.visual.conserapp.Data.ImageData;
+import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-import github.hellocsl.cursorwheel.CursorWheelLayout;
 
 
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.IngredientesFerran.AdminIngredientsMenu;
 import com.visual.conserapp.R;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
@@ -237,8 +221,6 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(Home.this, AdminIngredientsMenu.class);
             startActivity(intent);
-        } else if (id == R.id.nav_slideshow) {
-
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_adminPanel) {

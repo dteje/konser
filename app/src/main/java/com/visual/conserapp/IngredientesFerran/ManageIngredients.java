@@ -1,37 +1,25 @@
-package com.visual.conserapp.Views;
+package com.visual.conserapp.IngredientesFerran;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Favs;
 import com.visual.conserapp.Model.Ingredient;
-import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
-import com.visual.conserapp.ViewHolders.CartAdapter;
-import com.visual.conserapp.ViewHolders.IngredientAdapter;
+import com.visual.conserapp.Adapter.IngredientAdapter;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
-
-import info.hoang8f.widget.FButton;
 
 public class ManageIngredients extends AppCompatActivity{
 

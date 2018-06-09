@@ -6,7 +6,7 @@ import android.view.View;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.visual.conserapp.Model.Ingredient;
-import com.visual.conserapp.ViewHolders.CRUDList.CrudIngredientsAdapter;
+import com.visual.conserapp.Adapter.CRUDList.CrudIngredientsAdapter;
 import com.visual.conserapp.Views.CRUD.Modify.CrudEditIngredients;
 
 import java.util.ArrayList;

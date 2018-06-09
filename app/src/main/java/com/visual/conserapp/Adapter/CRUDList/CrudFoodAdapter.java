@@ -1,4 +1,4 @@
-package com.visual.conserapp.ViewHolders.CRUDList;
+package com.visual.conserapp.Adapter.CRUDList;
 
 import android.content.Intent;
 import android.view.View;

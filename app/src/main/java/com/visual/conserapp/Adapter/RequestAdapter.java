@@ -1,35 +1,23 @@
-package com.visual.conserapp.ViewHolders;
+package com.visual.conserapp.Adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Interface.ItemClickListener;
-import com.visual.conserapp.Model.Order;
-import com.visual.conserapp.Model.Request;
 import com.visual.conserapp.Model.Request;
 import com.visual.conserapp.R;
 import com.visual.conserapp.Views.AdminHome;
-import com.visual.conserapp.Views.Cart;
 import com.visual.conserapp.Views.RequestDetails;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
 /**

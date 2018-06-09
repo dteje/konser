@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.R;
-import com.visual.conserapp.ViewHolders.CRUDList.CrudAdapter;
+import com.visual.conserapp.Adapter.CRUDList.CrudAdapter;
 import com.visual.conserapp.Views.AdminHome;
 import com.visual.conserapp.Views.AdminPanel;
 import com.visual.conserapp.Views.Home;

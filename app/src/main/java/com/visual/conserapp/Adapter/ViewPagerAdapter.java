@@ -1,4 +1,4 @@
-package com.visual.conserapp.ViewHolders;
+package com.visual.conserapp.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;

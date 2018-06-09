@@ -6,8 +6,7 @@ import android.view.View;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.visual.conserapp.Model.User;
-import com.visual.conserapp.ViewHolders.CRUDList.CrudUsersAdapter;
-import com.visual.conserapp.Views.CRUD.Modify.CrudEditIngredients;
+import com.visual.conserapp.Adapter.CRUDList.CrudUsersAdapter;
 import com.visual.conserapp.Views.CRUD.Modify.CrudEditUsers;
 
 import java.util.ArrayList;
