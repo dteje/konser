@@ -116,7 +116,7 @@ public class SandwitchCreator extends AppCompatActivity {
         int id = menuitem.getItemId();
         Intent intent;
         if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
-        else intent = new Intent(this, Offers.class);
+        else intent = new Intent(this, Home.class);
         startActivity(intent);
 
         return true;
