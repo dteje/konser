@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.visual.conserapp.Adapter.WheelImageAdapter;
+import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Data.ImageData;
 
 import org.w3c.dom.Text;
@@ -137,7 +138,20 @@ public class Home extends AppCompatActivity
         adapter = new HomeRecyclerAdapter(listData, this);
         homeRecycler.setAdapter(adapter);
 
+        loadUserData();
 
+
+    }
+
+    TextView tv_username;
+    TextView tv_usermail;
+    private void loadUserData() {
+        /*
+        tv_username = (TextView) findViewById(R.id.nav_header_name);
+        tv_usermail = (TextView) findViewById(R.id.nav_header_email);
+        tv_username.setText(Common.currentUser.getName());
+        tv_usermail.setText(Common.currentUser.getEmail());
+        */
     }
 
 

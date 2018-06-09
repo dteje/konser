@@ -70,13 +70,12 @@ class RequestViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
 
     private List<Request> listData = new ArrayList<Request>();
-    //private Context context;
     private AdminHome adminHome;
 
     public RequestAdapter(List<Request> listData, AdminHome adminHome) {
         this.adminHome = adminHome;
-
         this.listData = listData;
+
     }
 
     @Override

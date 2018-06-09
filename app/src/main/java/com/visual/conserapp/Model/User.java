@@ -7,26 +7,31 @@ package com.visual.conserapp.Model;
 public class User {
     private String Name;
     private String Password;
-
     private String Email;
+    private Boolean Admin;
 
-    public User(){
+    public User() {
 
     }
 
-    public User(String Name, String Password){
+    public User(String Name, String Password, String Email, Boolean Admin) {
         this.Name = Name;
         this.Password = Password;
+        this.Email = Email;
+        this.Admin = Admin;
     }
 
-    public User(String Name, String Password, String Email){
+    public User(String Name, String Password, String Email) {
+        this.Admin = false;
         this.Name = Name;
         this.Password = Password;
         this.Email = Email;
     }
 
 
-    public String getName() {        return Name;    }
+    public String getName() {
+        return Name;
+    }
 
     public void setName(String Name) {
         this.Name = Name;
@@ -41,13 +46,24 @@ public class User {
     }
 
     public String getEmail() {
-        return Email;
+        return this.Email;
     }
 
     public void setEmail(String Email) {
         this.Email = Email;
     }
 
+    public Boolean getAdmin() {
+        return Admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        Admin = admin;
+    }
+
+    public String getEmailAsId(){
+        return this.Email.replace(".",",");
+    }
 }
 
 

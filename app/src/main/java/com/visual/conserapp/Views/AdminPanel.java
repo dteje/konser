@@ -9,6 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.visual.conserapp.R;
+import com.visual.conserapp.Views.CRUD.List.Categories;
+import com.visual.conserapp.Views.CRUD.List.Foods;
+import com.visual.conserapp.Views.CRUD.List.Ingredients;
+import com.visual.conserapp.Views.CRUD.List.Users;
 
 /**
  * Created by daniel on 29/05/2018.
@@ -41,5 +45,25 @@ public class AdminPanel extends AppCompatActivity {
         else intent = new Intent(this, AdminPanel.class);
         startActivity(intent);
         return true;
+    }
+
+    public void onRestaurante(View view){
+        Intent intent = new Intent(AdminPanel.this,Ingredients.class);
+        int id = view.getId();
+        if (id == R.id.btn_ingredients) {
+            intent = new Intent(AdminPanel.this, Ingredients.class);
+        } else if (id == R.id.btn_categories) {
+            intent = new Intent(AdminPanel.this, Categories.class);
+        } else if (id == R.id.btn_foods) {
+            intent = new Intent(AdminPanel.this, Foods.class);
+        } else if (id == R.id.btn_clients || id == R.id.btn_admins){
+            intent = new Intent(AdminPanel.this, Users.class);
+        }
+        startActivity(intent);
+    }
+
+    public void onOfertas(View view){
+        Intent intent = new Intent(AdminPanel.this, AdminOfertasSemana.class);
+        startActivity(intent);
     }
     }

@@ -18,6 +18,19 @@ public class Food {
     private String Description;
     private String Image;
     private String CategoryID;
+    private String ID;
+
+    public Food(String CategoryID, String Description, String Discount, String Ingredientes, String Image, String Name, String Price, String ID) {
+        this.Name = Name;
+        this.Price = Price;
+        this.Discount = Discount;
+        this.Description = Description;
+        this.Image = Image;
+        this.CategoryID = CategoryID;
+        this.Ingredientes = Ingredientes;
+        this.ID = ID;
+        //this.Ingredientes = new ArrayList<>();
+    }
 
     public Food(String CategoryID, String Description, String Discount, String Ingredientes, String Image, String Name, String Price) {
         this.Name = Name;
@@ -37,6 +50,7 @@ public class Food {
         this.Name = name;
     }
 
+
     public String getName() {
         return Name;
     }
@@ -44,6 +58,8 @@ public class Food {
     public void setName(String name) {
         this.Name = name;
     }
+
+
 
     public String getPrice() {
         return Price;
@@ -53,6 +69,8 @@ public class Food {
         this.Price = price;
     }
 
+
+
     public String getDiscount() {
         return Discount;
     }
@@ -60,6 +78,8 @@ public class Food {
     public void setDiscount(String discount) {
         this.Discount = discount;
     }
+
+
 
     public String getIngredientes() {
         return this.Ingredientes;
@@ -69,6 +89,8 @@ public class Food {
         this.Ingredientes = ingredientes;
     }
 
+
+
     public String getDescription() {
         return Description;
     }
@@ -76,6 +98,8 @@ public class Food {
     public void setDescription(String description) {
         this.Description = description;
     }
+
+
 
     public String getImage() {
         return Image;
@@ -85,6 +109,8 @@ public class Food {
         this.Image = image;
     }
 
+
+
     public String getCategoryID() {
         return CategoryID;
     }
@@ -92,6 +118,17 @@ public class Food {
     public void setCategoryID(String categoryID) {
         CategoryID = categoryID;
     }
+
+
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
 
     public List<String> getListOfIngredients() {
         List<String> listaIds = Arrays.asList(this.Ingredientes.split(","));
