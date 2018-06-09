@@ -79,7 +79,7 @@ public class Login extends AppCompatActivity {
                         Intent intent = new Intent(Login.this, Home.class);
                         Common.currentUser = user;
                         startActivity(intent);
-                        finish(); //a
+                        finish();
                     } else {
                         Toast.makeText(Login.this, "Password incorrecto", Toast.LENGTH_SHORT).show();
                     }

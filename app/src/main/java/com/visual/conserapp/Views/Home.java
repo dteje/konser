@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 
@@ -30,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.IngredientesFerran.AdminIngredientsMenu;
+import com.visual.conserapp.Model.UserFavs;
 import com.visual.conserapp.R;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
@@ -180,6 +182,7 @@ public class Home extends AppCompatActivity
                 break;
             case 4:
                 textoCentro.setText("Favoritos");
+                initializeFavs();
                 listData.clear();
                 setupList();
                 modifyAdapter();
@@ -188,6 +191,12 @@ public class Home extends AppCompatActivity
 
         }
     }
+
+    public void initializeFavs(){
+        FavHashtable();
+    }
+
+    public Hashtable<UserFavs, String>
 
     private void setupList() {
         for (int i=0; i<15; i++) {
