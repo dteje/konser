@@ -1,6 +1,7 @@
 package com.visual.conserapp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
+import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.MenuDia;
 import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
+import com.visual.conserapp.Views.Detail;
+import com.visual.conserapp.Views.DetailMenu;
+import com.visual.conserapp.Views.Home;
 
 import java.util.ArrayList;
 
@@ -24,7 +29,6 @@ class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClick
 
 
     public TextView txt_menuName;
-    public TextView txt_ingredientes;
     Button btn_detalles;
     Button btn_anyadir;
 
@@ -37,7 +41,6 @@ class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClick
     public RecyclerViewHolder(View itemView) {
         super(itemView);
         txt_menuName = (TextView) itemView.findViewById(R.id.home_adapter_item_name);
-        txt_ingredientes = (TextView) itemView.findViewById(R.id.home_adapter_item_description);
         btn_detalles = (Button) itemView.findViewById(R.id.home_adapter_btn_detalles);
         btn_anyadir = (Button) itemView.findViewById(R.id.home_adapter_btn_anyadir);
     }
@@ -57,12 +60,15 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     private DatabaseReference menu_table;
     private Context context;
     Order orderRes;
+    private Home home;
 
-    public HomeRecyclerAdapter(ArrayList<MenuDia> listMenu, FirebaseDatabase database, DatabaseReference menu_table, Context context) {
+    public HomeRecyclerAdapter(ArrayList<MenuDia> listMenu, FirebaseDatabase database, DatabaseReference menu_table, Context context, Home home) {
         this.listMenu = listMenu;
         this.database = database;
         this.menu_table = menu_table;
         this.context = context;
+        this.home = home;
+
     }
 
     @Override
@@ -75,19 +81,23 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         String name = listMenu.get(position).getName();
-        String ingredientes = listMenu.get(position).getPlato1()+listMenu.get(position).getPlato2()+listMenu.get(position).getPlato3();
-        String type = listMenu.get(position).getName();
         final Double menuPrice = listMenu.get(position).getPrice();
 
         holder.txt_menuName.setText(name);
-        holder.txt_ingredientes.setText(ingredientes);
+
+        final Context context3 = this.context;
 
         holder.btn_detalles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(context3, DetailMenu.class);
+                home.startActivity(intent);
 
             }
         });
+
+        final Context context2 = this.context;
+        final String name2 = listMenu.get(position).getName();
 
         holder.btn_anyadir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +112,10 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
                 if (listMenu.isEmpty()) alertParent.printAlert(context);
                 else {
-                    orderRes = new Order(orderId, listMenu.toString(), quantity, price, discount);
+                    orderRes = new Order(orderId, name2, quantity, price, discount);
+
+                    new Database(context2).addToCart(orderRes);
+                    Toast.makeText(context2, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

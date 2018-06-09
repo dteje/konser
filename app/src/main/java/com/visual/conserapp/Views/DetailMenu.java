@@ -1,14 +1,11 @@
 package com.visual.conserapp.Views;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,10 +23,9 @@ import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
 
-import java.io.File;
 import java.util.List;
 
-public class Detail extends AppCompatActivity {
+public class DetailMenu extends AppCompatActivity {
 
     TextView tv_name, tv_price, tv_desc;
     ImageView image;
@@ -73,7 +69,7 @@ public class Detail extends AppCompatActivity {
                 Order pedido = new Order(food_id,food.getName(),elegantNumberButton.getNumber().toString(),
                         food.getPrice(),food.getDiscount());
                 new Database(getBaseContext()).addToCart(pedido);
-                Toast.makeText(Detail.this,"Añadido al carrito!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailMenu.this,"Añadido al carrito!", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -82,7 +78,7 @@ public class Detail extends AppCompatActivity {
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.ExpandedAppbar);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsedAppbar);
 
-        food_id = "100";
+        food_id = "105";
         getDetails(food_id);
     }
 
@@ -93,6 +89,7 @@ public class Detail extends AppCompatActivity {
                 food = (dataSnapshot.child(foodid)).getValue(Food.class);
                 Picasso.with(getBaseContext()).load(food.getImage()).into(image);
                 collapsingToolbarLayout.setTitle(food.getName());
+                System.out.println(food.toString());
                 ingredientsToDescription(food.getListOfIngredientes());
                 tv_name.setText(food.getName());
                 tv_price.setText(food.getPrice().toString());

@@ -185,7 +185,7 @@ public class Home extends AppCompatActivity
     }
 
     private void loadMenus() {
-        adapter = new HomeRecyclerAdapter(listMenu, database, requests_table, getApplicationContext());
+        adapter = new HomeRecyclerAdapter(listMenu, database, requests_table, getApplicationContext(), this);
         homeRecycler.setAdapter(adapter);
     }
 

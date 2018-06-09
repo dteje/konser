@@ -11,36 +11,50 @@ import java.util.List;
 
 public class Food {
 
+    @Override
+    public String toString() {
+        return "Food{" +
+                "Name='" + Name + '\'' +
+                ", Price='" + Price + '\'' +
+                ", Discount='" + Discount + '\'' +
+                ", Ingredients='" + Ingredients + '\'' +
+                ", Description='" + Description + '\'' +
+                ", Image='" + Image + '\'' +
+                ", CategoryID='" + CategoryID + '\'' +
+                ", ID='" + ID + '\'' +
+                '}';
+    }
+
     private String Name;
     private String Price;
     private String Discount;
-    private String Ingredientes;
+    private String Ingredients;
     private String Description;
     private String Image;
     private String CategoryID;
     private String ID;
 
-    public Food(String CategoryID, String Description, String Discount, String Ingredientes, String Image, String Name, String Price, String ID) {
+    public Food(String CategoryID, String Description, String Discount, String ID, String Ingredients, String Image, String Name, String Price) {
         this.Name = Name;
         this.Price = Price;
         this.Discount = Discount;
         this.Description = Description;
         this.Image = Image;
         this.CategoryID = CategoryID;
-        this.Ingredientes = Ingredientes;
+        this.Ingredients = Ingredients;
         this.ID = ID;
-        //this.Ingredientes = new ArrayList<>();
+        //this.Ingredients = new ArrayList<>();
     }
 
-    public Food(String CategoryID, String Description, String Discount, String Ingredientes, String Image, String Name, String Price) {
+    public Food(String CategoryID, String Description, String Discount, String Ingredients, String Image, String Name, String Price) {
         this.Name = Name;
         this.Price = Price;
         this.Discount = Discount;
         this.Description = Description;
         this.Image = Image;
         this.CategoryID = CategoryID;
-        this.Ingredientes = Ingredientes;
-        //this.Ingredientes = new ArrayList<>();
+        this.Ingredients = Ingredients;
+        //this.Ingredients = new ArrayList<>();
     }
 
     public Food() {
@@ -81,12 +95,12 @@ public class Food {
 
 
 
-    public String getIngredientes() {
-        return this.Ingredientes;
+    public String getIngredients() {
+        return this.Ingredients;
     }
 
-    public void setIngredientes(String ingredientes) {
-        this.Ingredientes = ingredientes;
+    public void setIngredients(String Ingredients) {
+        this.Ingredients = Ingredients;
     }
 
 
@@ -130,8 +144,8 @@ public class Food {
     }
 
 
-    public List<String> getListOfIngredients() {
-        List<String> listaIds = Arrays.asList(this.Ingredientes.split(","));
+    public List<String> getListOfIngredientes() {
+        List<String> listaIds = Arrays.asList(this.Ingredients.split(","));
         return listaIds;
     }
 
