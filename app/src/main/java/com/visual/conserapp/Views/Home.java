@@ -27,6 +27,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.Adapter.WheelImageAdapter;
 import com.visual.conserapp.Data.ImageData;
 
@@ -42,6 +43,8 @@ import github.hellocsl.cursorwheel.CursorWheelLayout;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.Model.Food;
+import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.R;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
@@ -60,6 +63,8 @@ public class Home extends AppCompatActivity
     private List<Button> listData = new ArrayList<>();
 
     FirebaseDatabase database;
+    DatabaseReference requests_table;
+    ArrayList<Food> listaFoodFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,7 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         database = FirebaseDatabase.getInstance();
+        requests_table = database.getReference("Config");
 
         Paper.init(this);
 
@@ -243,6 +249,7 @@ public class Home extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     public boolean onNavSuperior(MenuItem menuitem) {
         View view = menuitem.getActionView();
