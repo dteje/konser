@@ -27,10 +27,13 @@ import java.util.List;
 
 
 import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.IngredientesFerran.AdminIngredientsMenu;
 import com.visual.conserapp.R;
+
+import org.w3c.dom.Text;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 import io.paperdb.Paper;
@@ -55,6 +58,9 @@ public class Home extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        if(Common.currentUser.getAdmin()){
+            setContentView(R.layout.activity_home_admin);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Inicio");
         setSupportActionBar(toolbar);
@@ -64,7 +70,7 @@ public class Home extends AppCompatActivity
 
         Paper.init(this);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -72,6 +78,12 @@ public class Home extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+        tv_usermail = (TextView) headerView.findViewById(R.id.nav_header_email);
+        tv_username = (TextView) headerView .findViewById(R.id.nav_header_name);
+        tv_usermail.setText(Common.currentUser.getEmail());
+        tv_username.setText(Common.currentUser.getName());
 
         //Inicializar texto carrusel
 
