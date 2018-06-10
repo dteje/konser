@@ -46,6 +46,8 @@ public abstract class Crud extends AppCompatActivity {
     protected SearchView searchView;
     protected Toolbar toolbar;
     protected FloatingActionButton fab;
+    protected FloatingActionButton undo;
+    protected FloatingActionButton redo;
     protected Context context;
     protected int newId = 0;
 
@@ -62,6 +64,9 @@ public abstract class Crud extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         fab = findViewById(R.id.crud_fab);
+        undo = findViewById(R.id.undo_fab);
+        redo = findViewById(R.id.redo_fab);
+
 
         this.objects = new ArrayList<>();
         this.objectsfiltered = new ArrayList<>();

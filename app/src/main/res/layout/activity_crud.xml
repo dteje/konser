@@ -39,12 +39,33 @@
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/crud_fab"
+        android:id="@+id/undo_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="17dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/plus" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/redo_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/undo_fab"
+        android:layout_marginStart="65dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/plus" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/crud_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/undo_fab"
+        android:layout_marginEnd="12dp"
         android:clickable="true"
         app:srcCompat="@drawable/plus" />
 </RelativeLayout>

@@ -101,7 +101,6 @@ public class popFavs extends Activity {
 
             userfavs_table.child(userFavs.getId()).setValue(userFavs);
 
-
             Toast toast = Toast.makeText(this, "Añadido a favoritos!", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();

@@ -299,6 +299,8 @@ public class Home extends AppCompatActivity
             Intent intent = new Intent(Home.this, AdminIngredientsMenu.class);
             startActivity(intent);
         } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(this, TestMemento.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_adminPanel) {
             Intent intent = new Intent(Home.this, AdminPanel.class);
