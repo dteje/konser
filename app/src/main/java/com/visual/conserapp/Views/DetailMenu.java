@@ -42,6 +42,7 @@ public class DetailMenu extends AppCompatActivity {
 
     Food food;
     String food_id1, food_id2, food_id3;
+    TextView nombreMenu;
 
     Toolbar toolbar;
 
@@ -72,27 +73,28 @@ public class DetailMenu extends AppCompatActivity {
         idsPlato1 = (TextView) findViewById(R.id.ingredientes_plato1);
         idsPlato2 = (TextView) findViewById(R.id.ingredientes_plato2);
         idsPlato3 = (TextView) findViewById(R.id.ingredientes_plato3);
+        nombreMenu = (TextView) findViewById(R.id.nombre_menu);
 
 
         image = (ImageView) findViewById(R.id.img_sandwich);
 
         elegantNumberButton = (ElegantNumberButton) findViewById(R.id.btn_detail_number);
 
-        btn_add = (FloatingActionButton) findViewById(R.id.btn_addSandwich);
+        btn_add = (FloatingActionButton) findViewById(R.id.btn_add);
 
 
         //Añadimos funcionalidad al botón añadir al carrito
 
-        /*btn_add.setOnClickListener(new View.OnClickListener() {
+        btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Order pedido = new Order(food_id,food.getName(),elegantNumberButton.getNumber().toString(),
-                        food.getPrice(),food.getDiscount());
+                Order pedido = new Order(menuDia.getName(),menuDia.getName(),"1",
+                        menuDia.getPrice().toString(),"0");
                 new Database(getBaseContext()).addToCart(pedido);
                 Toast.makeText(DetailMenu.this,"Añadido al carrito!", Toast.LENGTH_SHORT).show();
             }
 
-        });*/
+        });
 
         //Más asignaciones pero ahora cuando se mueva
 
@@ -105,22 +107,25 @@ public class DetailMenu extends AppCompatActivity {
         buildFood();
     }
 
+
     private void buildFood() {
+
+        nombreMenu.setText(menuDia.getName().toUpperCase());
 
         //Plato1
         String nameP1 = listaPlatos.get(0).getName();
-        plato1.setText(nameP1);
+        plato1.setText("Plato1: "+ nameP1);
         ingredientsToDescription(listaPlatos.get(0).getListOfIngredientes(), 0);
 
         //Plato2
         String nameP2 = listaPlatos.get(1).getName();
-        plato2.setText(nameP2);
+        plato2.setText("Plato2: "+ nameP2);
         ingredientsToDescription(listaPlatos.get(1).getListOfIngredientes(), 1);
 
 
         //Plato3
         String nameP3 = listaPlatos.get(2).getName();
-        plato3.setText(nameP3);
+        plato3.setText("Plato3: "+ nameP3);
         ingredientsToDescription(listaPlatos.get(2).getListOfIngredientes(), 2);
 
 
