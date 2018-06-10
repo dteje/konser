@@ -115,18 +115,18 @@ public class DetailMenu extends AppCompatActivity {
         //Plato1
         String nameP1 = listaPlatos.get(0).getName();
         plato1.setText("Plato1: "+ nameP1);
-        ingredientsToDescription(listaPlatos.get(0).getListOfIngredientes(), 0);
+        ingredientsToDescription(listaPlatos.get(0).getListOfIngredients(), 0);
 
         //Plato2
         String nameP2 = listaPlatos.get(1).getName();
         plato2.setText("Plato2: "+ nameP2);
-        ingredientsToDescription(listaPlatos.get(1).getListOfIngredientes(), 1);
+        ingredientsToDescription(listaPlatos.get(1).getListOfIngredients(), 1);
 
 
         //Plato3
         String nameP3 = listaPlatos.get(2).getName();
         plato3.setText("Plato3: "+ nameP3);
-        ingredientsToDescription(listaPlatos.get(2).getListOfIngredientes(), 2);
+        ingredientsToDescription(listaPlatos.get(2).getListOfIngredients(), 2);
 
 
 

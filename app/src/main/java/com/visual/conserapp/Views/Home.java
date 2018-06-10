@@ -213,6 +213,8 @@ public class Home extends AppCompatActivity
     private void declareDatabase() {
         database = FirebaseDatabase.getInstance();
         requests_table = database.getReference("Menu");
+        userfavs_table = database.getReference("UserFavs");
+
     }
 
     TextView tv_username;
@@ -316,10 +318,6 @@ public class Home extends AppCompatActivity
     }
 
 
-    public void declareDatabase() {
-        database = FirebaseDatabase.getInstance();
-        userfavs_table = database.getReference("UserFavs");
-    }
 
 
     private void setupList() {
