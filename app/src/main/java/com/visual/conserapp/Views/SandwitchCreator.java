@@ -109,12 +109,7 @@ public class SandwitchCreator extends AppCompatActivity {
         btn_unfocus = btn[0];
         setFocus(btn_unfocus, btn[0]);
 
-        originator.setState((ArrayList<String>) listSandwich.clone());
-        careTaker.add(originator.saveStateToMemento());
-        saveFiles++;
-        currentFiles++;
-
-        Log.d("size init", String.valueOf(careTaker.getSize()));
+        saveMementoState();
 
         // Añadir el primer precio de los ingredientes, ya que no clickamos en el botón de Carne y por lo tanto no se cambia automaticamente
         ingredientPrice = 0.7;
@@ -163,14 +158,18 @@ public class SandwitchCreator extends AppCompatActivity {
             listSandwich.add(ingredientName);
             listPrice.add(ingredientPrice);
 
-            originator.setState((ArrayList<String>) listSandwich.clone());
-            careTaker.add(originator.saveStateToMemento());
-            saveFiles++;
-            currentFiles++;
-            Log.d("size add", String.valueOf(careTaker.getSize()));
+            saveMementoState();
 
             printIngredients();
         }
+    }
+
+    public void saveMementoState(){
+        originator.setState((ArrayList<String>) listSandwich.clone());
+        careTaker.add(originator.saveStateToMemento());
+        saveFiles++;
+        currentFiles++;
+
     }
 
     public boolean maxRepetitionIngredient(String ingredient) {
@@ -216,7 +215,6 @@ public class SandwitchCreator extends AppCompatActivity {
             currentFiles--;
             originator.getStateFromMemento(careTaker.get(currentFiles));
             listSandwich = originator.getState();
-            Log.d("list sandwich", listSandwich.toString());
 
             printIngredients();
         }
@@ -227,7 +225,6 @@ public class SandwitchCreator extends AppCompatActivity {
             currentFiles++;
             originator.getStateFromMemento(careTaker.get(currentFiles));
             listSandwich = originator.getState();
-            Log.d("list sandwich", listSandwich.toString());
 
             printIngredients();
         }
@@ -239,6 +236,9 @@ public class SandwitchCreator extends AppCompatActivity {
             if (id == R.id.removeAllButton) {
                 listSandwich.clear();
                 listPrice.clear();
+
+                saveMementoState();
+
             }
         }
         printIngredients();
@@ -294,10 +294,6 @@ public class SandwitchCreator extends AppCompatActivity {
 
         AlertFactory alertFactory = new AlertFactory();
         AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
-
-        for(int i = 0; i < careTaker.getSize(); i++){
-            Log.d("MEMENTO>", i + " " + careTaker.get(i).getState());
-        }
 
         if (listSandwich.size() == 0) alertParent.printAlert(this);
         else {

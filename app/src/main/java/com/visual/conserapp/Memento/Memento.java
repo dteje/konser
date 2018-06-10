@@ -16,7 +16,6 @@ public class Memento {
         this.listIngredients = listIngredients;
     }
 
-    public Memento(){}
 
     public ArrayList<String> getState(){
         return listIngredients;
