@@ -167,15 +167,6 @@ public class Home extends AppCompatActivity
 
         for(DataSnapshot ds : dataSnapshot.getChildren()){
 
-            /*String name = ds.getValue(MenuDia.class).getName();
-            String ingredientes = ds.getValue(MenuDia.class).getIdsPlato1()+ds.getValue(MenuDia.class).getIdsPlato2()+ds.getValue(MenuDia.class).getIdsPlato3();
-            Double price = ds.getValue(MenuDia.class).getPrice();
-            String plato1 = ds.getValue(MenuDia.class).getIdsPlato1();
-            String plato2 = ds.getValue(MenuDia.class).getIdsPlato2();
-            String plato3 = ds.getValue(MenuDia.class).getIdsPlato3();*/
-
-
-
             MenuDia menu = ds.getValue(MenuDia.class);
             listMenu.add(menu);
         }

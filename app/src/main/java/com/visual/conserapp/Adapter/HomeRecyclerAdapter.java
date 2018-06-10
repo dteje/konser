@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Database.Database;
@@ -83,6 +84,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         String name = listMenu.get(position).getName();
         final Double menuPrice = listMenu.get(position).getPrice();
 
+
         holder.txt_menuName.setText(name);
 
         final Context context3 = this.context;
@@ -91,6 +93,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context3, DetailMenu.class);
+                Gson gson = new Gson();
+                intent.putExtra("menu", gson.toJson(listMenu.get(position)));
                 home.startActivity(intent);
 
             }
