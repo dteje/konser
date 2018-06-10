@@ -205,7 +205,7 @@ public class Home extends AppCompatActivity
         switch(position){
             case 0:
                 textoCentro.setText("Bocadillos");
-                modifyAdapter();
+
                 break;
 
             case 1:
@@ -215,16 +215,15 @@ public class Home extends AppCompatActivity
 
             case 2:
                 textoCentro.setText("Hoy");
-                modifyAdapter();
                 break;
 
             case 3:
                 textoCentro.setText("Complementos");
-                modifyAdapter();
+
                 break;
             case 4:
                 textoCentro.setText("Favoritos");
-                modifyAdapter();
+
                 break;
 
 
