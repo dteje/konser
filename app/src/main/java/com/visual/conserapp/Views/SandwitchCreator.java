@@ -42,16 +42,22 @@ import java.util.ArrayList;
 
 public class SandwitchCreator extends AppCompatActivity {
 
-    ArrayList<String> listData;
+    ArrayList<String> listDataCarne;
+    ArrayList<String> listDataVerdura;
+    ArrayList<String> listDataQueso;
+    ArrayList<String> listDataSalsas;
+    ArrayList<String> listDataEspecial;
     ArrayList<String> listSandwich;
     ArrayList<Double> listPrice;
     double ingredientPrice;
 
     RecyclerView recycler;
     LinearLayout linearLayout;
+    TextView finalSandwitch;
 
     Favs favs;
     DatabaseReference favs_table;
+    DatabaseReference ing_table;
     FirebaseDatabase database;
     ArrayList<Ingredient> listIngredientsFireBase;
 
@@ -82,8 +88,14 @@ public class SandwitchCreator extends AppCompatActivity {
         currentFiles = 0;
 
         linearLayout = (LinearLayout) findViewById(R.id.generalLinearLayout);
+        finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
 
-        listData = new ArrayList<String>();
+        listDataCarne = new ArrayList<String>();
+        listDataVerdura = new ArrayList<String>();
+        listDataQueso = new ArrayList<String>();
+        listDataSalsas = new ArrayList<String>();
+        listDataEspecial = new ArrayList<String>();
+
         listSandwich = new ArrayList<String>();
         listPrice = new ArrayList<Double>();
         listIngredientsFireBase = new ArrayList<Ingredient>();
@@ -115,7 +127,6 @@ public class SandwitchCreator extends AppCompatActivity {
         ingredientPrice = 0.7;
 
 
-        declareDatabase();
         obtainDataFirebase();
 
     }
@@ -158,13 +169,15 @@ public class SandwitchCreator extends AppCompatActivity {
             listSandwich.add(ingredientName);
             listPrice.add(ingredientPrice);
 
+            printIngredients();
+
             saveMementoState();
 
-            printIngredients();
+            // printIngredients();
         }
     }
 
-    public void saveMementoState(){
+    public void saveMementoState() {
         originator.setState((ArrayList<String>) listSandwich.clone());
         careTaker.add(originator.saveStateToMemento());
         saveFiles++;
@@ -185,7 +198,6 @@ public class SandwitchCreator extends AppCompatActivity {
 
 
     public void printIngredients() {
-        TextView finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
         finalSandwitch.setText(listSandwich.toString());
     }
 
@@ -211,7 +223,7 @@ public class SandwitchCreator extends AppCompatActivity {
 
 
     public void undoLastIngredient(View view) {
-        if(currentFiles >= 1){
+        if (currentFiles >= 1) {
             currentFiles--;
             originator.getStateFromMemento(careTaker.get(currentFiles));
             listSandwich = originator.getState();
@@ -221,7 +233,7 @@ public class SandwitchCreator extends AppCompatActivity {
     }
 
     public void redoLastIngredient(View view) {
-        if((saveFiles-1) > currentFiles){
+        if ((saveFiles - 1) > currentFiles) {
             currentFiles++;
             originator.getStateFromMemento(careTaker.get(currentFiles));
             listSandwich = originator.getState();
@@ -236,9 +248,6 @@ public class SandwitchCreator extends AppCompatActivity {
             if (id == R.id.removeAllButton) {
                 listSandwich.clear();
                 listPrice.clear();
-
-                saveMementoState();
-
             }
         }
         printIngredients();
@@ -258,35 +267,53 @@ public class SandwitchCreator extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.bMeat:
                 setFocus(btn_unfocus, btn[0]);
-                generateIngredients("Carne_Pescado");
+                modifyAdapter("Carne_Pescado");
                 ingredientPrice = 0.7;
                 break;
             case R.id.bVeggies:
                 setFocus(btn_unfocus, btn[1]);
-                generateIngredients("Verduras");
+                modifyAdapter("Verduras");
                 ingredientPrice = 0.7;
                 break;
             case R.id.bCheese:
                 setFocus(btn_unfocus, btn[2]);
-                generateIngredients("Queso");
+                modifyAdapter("Queso");
                 ingredientPrice = 0.4;
                 break;
             case R.id.bSpecial:
                 setFocus(btn_unfocus, btn[3]);
-                generateIngredients("Especial");
+                modifyAdapter("Especial");
                 ingredientPrice = 0.6;
                 break;
             case R.id.bSauces:
                 setFocus(btn_unfocus, btn[4]);
-                generateIngredients("Salsas");
+                modifyAdapter("Salsas");
                 ingredientPrice = 0.4;
                 break;
         }
 
     }
 
-    public void modifyAdapter() {
-        AdapterData adapter = new AdapterData(listData);
+    public void modifyAdapter(String condition) {
+        AdapterData adapter = new AdapterData();
+
+        switch (condition) {
+            case "Carne_Pescado":
+                adapter = new AdapterData(listDataCarne);
+                break;
+            case "Verduras":
+                adapter = new AdapterData(listDataVerdura);
+                break;
+            case "Queso":
+                adapter = new AdapterData(listDataQueso);
+                break;
+            case "Salsas":
+                adapter = new AdapterData(listDataSalsas);
+                break;
+            case "Especial":
+                adapter = new AdapterData(listDataEspecial);
+                break;
+        }
         recycler.setAdapter(adapter);
     }
 
@@ -331,16 +358,13 @@ public class SandwitchCreator extends AppCompatActivity {
     public void declareDatabase() {
         database = FirebaseDatabase.getInstance();
         favs_table = database.getReference("Favs");
-
+        ing_table = database.getReference("Ingredient");
     }
 
     public void obtainDataFirebase() {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = database.getReference("Ingredient");
+        declareDatabase();
 
-        final ArrayList<Ingredient> test = new ArrayList<Ingredient>();
-
-        ref.addValueEventListener(new ValueEventListener() {
+        ing_table.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 obtainIngredients(dataSnapshot);
@@ -361,26 +385,58 @@ public class SandwitchCreator extends AppCompatActivity {
 
             Ingredient ing = new Ingredient(name, type);
 
-            listIngredientsFireBase.add(ing);
+            String condition = ing.getType();
+
+            switch (condition) {
+                case "Carne_Pescado":
+                    listDataCarne.add(ing.getName());
+                    break;
+                case "Verduras":
+                    listDataVerdura.add(ing.getName());
+                    break;
+                case "Queso":
+                    listDataQueso.add(ing.getName());
+                    break;
+                case "Salsas":
+                    listDataSalsas.add(ing.getName());
+                    break;
+                case "Especial":
+                    listDataEspecial.add(ing.getName());
+                    break;
+            }
         }
 
-        generateIngredients("Carne_Pescado");
+        modifyAdapter("Carne_Pescado");
     }
 
-    public void generateIngredients(String ingredientType) {
+    /*
+    public void generateIngredients() {
 
-        listData.clear();
 
         for (int i = 0; i < listIngredientsFireBase.size(); i++) {
             Ingredient ing = listIngredientsFireBase.get(i);
 
             String condition = ing.getType();
 
-            if (condition.equals(ingredientType)) {
-                listData.add(ing.getName());
+            switch (condition) {
+                case "Carne_Pescado":
+                    listDataCarne.add(ing.getName());
+                    break;
+                case "Verduras":
+                    listDataVerdura.add(ing.getName());
+                    break;
+                case "Queso":
+                    listDataQueso.add(ing.getName());
+                    break;
+                case "Salsas":
+                    listDataSalsas.add(ing.getName());
+                    break;
+                case "Especial":
+                    listDataEspecial.add(ing.getName());
+                    break;
             }
         }
 
-        modifyAdapter();
-    }
+        modifyAdapter("Carne_Pescado");
+    }*/
 }
