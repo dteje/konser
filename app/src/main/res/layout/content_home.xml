@@ -1,27 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.visual.conserapp.Views.Home"
     tools:showIn="@layout/app_bar_home">
 
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rec1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="505dp"
+        android:background="#fff">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/layout_hoy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rec1"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="505dp"
-            android:background="#fff">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        </android.support.v7.widget.RecyclerView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="25dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center|clip_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Bocata del día"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btn_add_sandwich"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:onClick="btn_add_swch"
+                    app:srcCompat="@drawable/cart" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:gravity="center|clip_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_dailysandwich"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="0"
+                    app:srcCompat="@mipmap/bocata_icon" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_dailysandwich_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="TextView" />
+
+                    <TextView
+                        android:id="@+id/txt_dailysandwich_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="TextView" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="25dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center|clip_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Menú del día"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btn_add_sandwich"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:onClick="btn_add_menu"
+                    app:srcCompat="@drawable/cart" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:gravity="center|clip_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_p1"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="0"
+                    app:srcCompat="@mipmap/bocata_icon" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/name1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="TextView" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:gravity="center|clip_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_p2"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="0"
+                    app:srcCompat="@mipmap/bocata_icon" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/name2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="TextView" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/rec1"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
 
         <in.goodiebag.carouselpicker.CarouselPicker
             android:id="@+id/carouselPicker"
@@ -41,8 +236,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
             android:gravity="bottom|center_horizontal"
             android:text="@string/bocadillos"
             android:textColor="#fff"
@@ -50,33 +245,11 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-
-    <!-- <github.hellocsl.cursorwheel.CursorWheelLayout
-            android:id="@+id/wheel_image"
-            android:layout_width="9000dip"
-            android:layout_height="205dip"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            app:wheelBackgroundColor="#10FFFFFF"
-            app:wheelCursorColor="#FFF"
-            app:wheelCursorHeight="0dp"
-            app:wheelSelectedAngle="270">
-
-            <TextView
-                android:id="@id/id_wheel_menu_center_item"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center_horizontal"
-                android:paddingBottom="80dp"
-                android:text="@string/bocadillos"
-                android:textColor="#000"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
-        </github.hellocsl.cursorwheel.CursorWheelLayout>-->
+</RelativeLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+
+
 
 
 

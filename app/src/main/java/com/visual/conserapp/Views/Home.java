@@ -3,8 +3,11 @@ package com.visual.conserapp.Views;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,18 +22,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.Adapter.DrinkAdapter;
+import com.squareup.picasso.Picasso;
 import com.visual.conserapp.Adapter.FavsAdapter;
 import com.visual.conserapp.Adapter.FoodAdapter;
 import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
@@ -40,10 +49,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.visual.conserapp.Adapter.IngredientAdapter;
 import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Model.Drink;
+import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Favs;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.IngredientesFerran.AdminIngredientsMenu;
+import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.Model.UserFavs;
 import com.visual.conserapp.Model.MenuDia;
 import com.visual.conserapp.R;
@@ -52,6 +63,8 @@ import org.w3c.dom.Text;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 import io.paperdb.Paper;
+
+import static java.time.LocalDate.now;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -76,6 +89,7 @@ public class Home extends AppCompatActivity
     DatabaseReference userfavs_table;
     String userFavId;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,11 +182,134 @@ public class Home extends AppCompatActivity
         homeRecycler.setLayoutManager(layoutManager);
         //adapter = new HomeRecyclerAdapter(listMenu, database, requests_table, this);
         //homeRecycler.setAdapter(adapter);
+        homeRecycler.setVisibility(View.INVISIBLE);
+
 
         loadUserData();
+        hoy_layout = (LinearLayout) findViewById(R.id.layout_hoy);
+        hoy_layout.setVisibility(View.VISIBLE);
 
+        txt_dailysandwich_name = (TextView) findViewById(R.id.txt_dailysandwich_name);
+        txt_dailysandwich_price = (TextView) findViewById(R.id.txt_dailysandwich_price);
+        img_dailysandiwch = (ImageView) findViewById(R.id.img_dailysandwich);
+
+        txt_n1 = (TextView) findViewById(R.id.name1);
+        txt_n2 = (TextView) findViewById(R.id.name2);
+        img1 = (ImageView) findViewById(R.id.img_p1);
+        img2 = (ImageView) findViewById(R.id.img_p2);
+
+        getDailySandwich();
 
     }
+
+    TextView txt_dailysandwich_name, txt_dailysandwich_price, txt_n1, txt_n2;
+    ImageView img_dailysandiwch, img1, img2;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void getDailySandwich() {
+        declareDatabase();
+        String day = now().getDayOfWeek().name();
+        switch (day) {
+            case "TUESDAY":
+                config_table = config_table.child("dailysandwich").child("2tuesday");
+                menu_table = menu_table.child("dailymenu").child("2tuesday");
+                break;
+            case "WEDNESDAY":
+                config_table = config_table.child("dailysandwich").child("3wednesday");
+                menu_table = menu_table.child("dailymenu").child("3wednesday");
+                break;
+            case "THURSDAY":
+                config_table = config_table.child("dailysandwich").child("4thursday");
+                menu_table = menu_table.child("dailymenu").child("4thursday");
+
+                break;
+            case "FRIDAY":
+                config_table = config_table.child("dailysandwich").child("5friday");
+                menu_table = menu_table.child("dailymenu").child("5friday");
+                break;
+            default:
+                config_table = config_table.child("dailysandwich").child("1monday");
+                menu_table = menu_table.child("dailymenu").child("1monday");
+                break;
+        }
+        config_table.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                displayDailySandwich(dataSnapshot.getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        menu_table.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                displayDailyMenu(dataSnapshot.getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    Food f, f1, f2;
+
+    private void displayDailySandwich(String id) {
+        table_foods.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                f = dataSnapshot.getValue(Food.class);
+                txt_dailysandwich_name.setText(f.getName() + " y bebida");
+                txt_dailysandwich_price.setText("3.00 €");
+                if (!f.getImage().isEmpty())
+                    Picasso.with(getBaseContext()).load(f.getImage()).into(img_dailysandiwch);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    DatabaseReference menu_table;
+
+    private void displayDailyMenu(String id) {
+
+        DatabaseReference p1 = database.getReference("Menu").child(id).child("listaPlatos").child("0");
+        DatabaseReference p2 = database.getReference("Menu").child(id).child("listaPlatos").child("1");
+        p1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                f1 = dataSnapshot.getValue(Food.class);
+                txt_n1.setText(f1.getName());
+                if (!f1.getImage().isEmpty())
+                       Picasso.with(getBaseContext()).load(f1.getImage()).into(img1);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        p2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                f2 = dataSnapshot.getValue(Food.class);
+                txt_n2.setText(f2.getName());
+                if (!f2.getImage().isEmpty())
+                    Picasso.with(getBaseContext()).load(f2.getImage()).into(img2);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    LinearLayout hoy_layout;
 
 
     //MÉTODOS NUEVOS
@@ -188,7 +325,7 @@ public class Home extends AppCompatActivity
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Fail"+databaseError.getCode());
+                System.out.println("Fail" + databaseError.getCode());
             }
         });
 
@@ -196,9 +333,7 @@ public class Home extends AppCompatActivity
 
     private void obtainMenus(DataSnapshot dataSnapshot) {
         //listMenu.clear();
-        System.out.println("12123");
-
-        for(DataSnapshot ds : dataSnapshot.getChildren()){
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
             MenuDia menu = ds.getValue(MenuDia.class);
             listMenu.add(menu);
@@ -217,8 +352,13 @@ public class Home extends AppCompatActivity
         database = FirebaseDatabase.getInstance();
         requests_table = database.getReference("Menu");
         userfavs_table = database.getReference("UserFavs");
+        table_foods = database.getReference("Food");
+        config_table = database.getReference("Config");
+        menu_table = database.getReference("Config");
+
     }
 
+    DatabaseReference table_foods, config_table;
     TextView tv_username;
     TextView tv_usermail;
 
@@ -235,25 +375,34 @@ public class Home extends AppCompatActivity
         switch (position) {
             case 0:
                 textoCentro.setText("Platos");
+                hoy_layout.setVisibility(View.INVISIBLE);
+                homeRecycler.setVisibility(View.VISIBLE);
                 getFoodsFromFirebaseAndSetAdapter();
                 break;
 
             case 1:
                 textoCentro.setText("Menú");
+                homeRecycler.setVisibility(View.VISIBLE);
+                hoy_layout.setVisibility(View.INVISIBLE);
                 modifyAdapter();
                 homeRecycler.setAdapter(adapter);
                 break;
 
             case 2:
                 textoCentro.setText("Hoy");
+                hoy_layout.setVisibility(View.VISIBLE);
+                homeRecycler.setVisibility(View.INVISIBLE);
                 break;
 
             case 3:
                 textoCentro.setText("Bebidas");
                 getDrinksFromFirebaseAndSetAdapter();
+                hoy_layout.setVisibility(View.INVISIBLE);
+                homeRecycler.setVisibility(View.VISIBLE);
                 break;
             case 4:
                 textoCentro.setText("Favoritos");
+                hoy_layout.setVisibility(View.INVISIBLE);
                 initializeFavs();
                 break;
         }
@@ -286,30 +435,31 @@ public class Home extends AppCompatActivity
         homeRecycler.setAdapter(drinkAdapter);
     }
 
-    private void getFoodsFromFirebaseAndSetAdapter(){
+    private void getFoodsFromFirebaseAndSetAdapter() {
+        declareDatabase();
         listaFoodFirebase = new ArrayList<>();
-        final DatabaseReference table_foods = database.getReference("Food");
         table_foods.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot d : dataSnapshot.getChildren()){
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
                     listaFoodFirebase.add(d.getValue(Food.class));
                 }
                 setFoodAdapter();
 
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
     }
-    void setFoodAdapter(){
+
+    void setFoodAdapter() {
         Collections.sort(listaFoodFirebase);
-        FoodAdapter foodAdapter = new FoodAdapter(listaFoodFirebase,this);
+        FoodAdapter foodAdapter = new FoodAdapter(listaFoodFirebase, this);
         homeRecycler.setAdapter(foodAdapter);
     }
-
 
 
     public void initializeFavs() {
@@ -347,7 +497,6 @@ public class Home extends AppCompatActivity
     }
 
 
-
     private void setupList() {
         for (int i = 0; i < 15; i++) {
             Button btn = new Button(this);
@@ -382,7 +531,7 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
             Intent intent = new Intent(Home.this, Detail.class);
-            intent.putExtra("id","100");
+            intent.putExtra("id", "100");
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(Home.this, AdminIngredientsMenu.class);
@@ -420,5 +569,23 @@ public class Home extends AppCompatActivity
         startActivity(intent);
         return true;
     }
+
+    public void btn_add_swch(View view) {
+        Order pedido = new Order(f.getID(), "Bocadillo del día", "1",
+                "3.00", f.getDiscount());
+        new Database(getBaseContext()).addToCart(pedido);
+        Toast.makeText(Home.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void btn_add_menu(View view) {
+        Order pedido = new Order(f1.getID(), f1.getName(), "1",
+                "2.50", f.getDiscount());
+        Order pedido2 = new Order(f2.getID(), f2.getName(), "1",
+                "2.50", f.getDiscount());
+        new Database(getBaseContext()).addToCart(pedido);
+        new Database(getBaseContext()).addToCart(pedido2);
+        Toast.makeText(Home.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
+    }
+
 
 }
