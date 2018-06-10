@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -22,15 +23,19 @@ import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Created by daniel on 08/06/2018.
  */
 
-public class AdminOfertasSemana extends AppCompatActivity {
+public class AdminOfertasSemana extends AppCompatActivity{
 
+    Map<String, Object> map = new HashMap<>();
+    List<String> previousdays, foodnames;
+    List<Food> foods;
     List<Spinner> spinners = new ArrayList<>();
     Spinner monday, tuesday, wednesday, thursday, friday;
     Toolbar toolbar;
@@ -49,7 +54,7 @@ public class AdminOfertasSemana extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         database = FirebaseDatabase.getInstance();
-        table_dailysandwich = database.getReference("Config");
+        table_dailysandwich = database.getReference("Config/dailysandwich");
         table_foods = database.getReference("Food");
 
         monday = (Spinner) findViewById(R.id.smon);
@@ -63,23 +68,16 @@ public class AdminOfertasSemana extends AppCompatActivity {
         friday = (Spinner) findViewById(R.id.sfri);
         spinners.add(friday);
 
+
         btn_update = (Button) findViewById(R.id.btn_update);
 
-        getFoodsFromFirebase();
-        getDaysFromFirebase();
-
-        fillSpinners();
+        getFoodsFromFirebaseAndFillSpinners();
+        getConfigFromDatabaseAndSetDefault();
     }
 
-    private void getDaysFromFirebase() {
-    }
-
-    List<Food> foods;
-    List<String> foodnames;
-
-    private void getFoodsFromFirebase() {
-        foods = new ArrayList<>();
+    private void getFoodsFromFirebaseAndFillSpinners() {
         foodnames = new ArrayList<>();
+        foods = new ArrayList<>();
         table_foods.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -88,33 +86,34 @@ public class AdminOfertasSemana extends AppCompatActivity {
                     foods.add(food);
                     foodnames.add(food.getName());
                 }
+                fillSpinners();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
+
 
     private void fillSpinners() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, R.layout.spinner_item, foodnames);
-        adapter.setDropDownViewResource(R.layout.spinner_item);
-        System.out.println(spinners.size()+"");
-        spinners.get(0).setAdapter(adapter);
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, foodnames.toArray(new String[0]));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        for (Spinner s : spinners) {
+            s.setAdapter(adapter);
+        }
     }
 
-    List<String> previousdays;
-
-    private void getConfigFromDatabase(){
-        table_dailysandwich.addValueEventListener(new ValueEventListener() {
+    private void getConfigFromDatabaseAndSetDefault() {
+        previousdays = new ArrayList<>();
+        table_dailysandwich.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot d : dataSnapshot.getChildren()){
-                    //String day =
-                }
+               for(DataSnapshot d : dataSnapshot.getChildren()){
+                   previousdays.add(d.getValue(String.class));
+               }
+               setDefaultItems();
             }
 
             @Override
@@ -123,9 +122,24 @@ public class AdminOfertasSemana extends AppCompatActivity {
             }
         });
     }
-    private void setPreviousConfig(){
 
+    private void setDefaultItems() {
+        for(int i=0 ; i<previousdays.size() ; i++){
+            String id = previousdays.get(i);
+            int pos = searchId(id);
+            spinners.get(i).setSelection(pos);
+        }
     }
+
+    int searchId(String id){
+        int pos = 0;
+        for(Food f : foods){
+            if(f.getID().equals(id)) return pos;
+            else pos++;
+        }
+        return pos;
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.admin_top_menu, menu);
@@ -145,10 +159,13 @@ public class AdminOfertasSemana extends AppCompatActivity {
     }
 
     public void onUpdate(View view) {
-        System.out.println(monday.toString());
-        System.out.println(monday.getSelectedItem().toString());
-
+        map.put("1monday",foods.get(monday.getSelectedItemPosition()).getID());
+        map.put("2tuesday",foods.get(tuesday.getSelectedItemPosition()).getID());
+        map.put("3wednesday",foods.get(wednesday.getSelectedItemPosition()).getID());
+        map.put("4thursday",foods.get(thursday.getSelectedItemPosition()).getID());
+        map.put("5friday",foods.get(friday.getSelectedItemPosition()).getID());
+        table_dailysandwich.updateChildren(map);
+        finish();
     }
-
 
 }

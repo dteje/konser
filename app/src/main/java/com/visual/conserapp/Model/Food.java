@@ -1,15 +1,18 @@
 package com.visual.conserapp.Model;
 
+import android.support.annotation.NonNull;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by daniel on 30/04/2018.
  */
 
-public class Food {
+public class Food implements Comparable{
 
     @Override
     public String toString() {
@@ -34,7 +37,7 @@ public class Food {
     private String CategoryID;
     private String ID;
 
-    public Food(String CategoryID, String Description, String Discount, String ID, String Ingredients, String Image, String Name, String Price) {
+    public Food(String CategoryID, String Description, String Discount, String Ingredients, String Image, String Name, String Price, String ID) {
         this.Name = Name;
         this.Price = Price;
         this.Discount = Discount;
@@ -54,7 +57,7 @@ public class Food {
         this.Image = Image;
         this.CategoryID = CategoryID;
         this.Ingredients = Ingredients;
-        //this.Ingredients = new ArrayList<>();
+        //this.Ingredientes = new ArrayList<>();
     }
 
     public Food() {
@@ -74,7 +77,6 @@ public class Food {
     }
 
 
-
     public String getPrice() {
         return Price;
     }
@@ -82,7 +84,6 @@ public class Food {
     public void setPrice(String price) {
         this.Price = price;
     }
-
 
 
     public String getDiscount() {
@@ -94,15 +95,13 @@ public class Food {
     }
 
 
-
     public String getIngredients() {
         return this.Ingredients;
     }
 
-    public void setIngredients(String Ingredients) {
-        this.Ingredients = Ingredients;
+    public void setIngredients(String ingredients) {
+        this.Ingredients = ingredients;
     }
-
 
 
     public String getDescription() {
@@ -114,7 +113,6 @@ public class Food {
     }
 
 
-
     public String getImage() {
         return Image;
     }
@@ -122,7 +120,6 @@ public class Food {
     public void setImage(String image) {
         this.Image = image;
     }
-
 
 
     public String getCategoryID() {
@@ -134,7 +131,6 @@ public class Food {
     }
 
 
-
     public String getID() {
         return ID;
     }
@@ -144,9 +140,14 @@ public class Food {
     }
 
 
-    public List<String> getListOfIngredientes() {
+    public List<String> getListOfIngredients() {
         List<String> listaIds = Arrays.asList(this.Ingredients.split(","));
         return listaIds;
     }
 
+    @Override
+    public int compareTo(@NonNull Object o) {
+        Food f = (Food) o;
+        return this.Name.toLowerCase().compareTo(f.getName().toLowerCase());
+    }
 }

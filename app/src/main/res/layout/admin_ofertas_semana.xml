@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:background="@color/red"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -24,6 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -47,14 +47,15 @@
 
             <Spinner
                 android:id="@+id/smon"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:layout_weight="1" />
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,14 +76,14 @@
 
             <Spinner
                 android:id="@+id/stue"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scrollbars="vertical" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
+                android:layout_height="30dp"
                 android:layout_weight="1" />
 
             <LinearLayout
@@ -104,13 +105,13 @@
 
             <Spinner
                 android:id="@+id/swed"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
+                android:layout_height="30dp"
                 android:layout_weight="1" />
 
             <LinearLayout
@@ -132,13 +133,13 @@
 
             <Spinner
                 android:id="@+id/sthu"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
+                android:layout_height="30dp"
                 android:layout_weight="1" />
 
             <LinearLayout
@@ -160,13 +161,13 @@
 
             <Spinner
                 android:id="@+id/sfri"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
+                android:layout_height="30dp"
                 android:layout_weight="1" />
 
             <LinearLayout
@@ -187,8 +188,10 @@
                     android:onClick="onUpdate"
                     android:text="Guardar cambios"
                     android:textColor="@android:color/white" />
+
             </LinearLayout>
         </LinearLayout>
+
 
     </LinearLayout>
 

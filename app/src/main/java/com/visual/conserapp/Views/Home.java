@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,24 +25,34 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.Adapter.FavsAdapter;
+import com.visual.conserapp.Adapter.FoodAdapter;
 import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Hashtable;
 import java.util.List;
 
 
 import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.Adapter.IngredientAdapter;
+import com.visual.conserapp.Common.Common;
+import com.visual.conserapp.Model.Favs;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.IngredientesFerran.AdminIngredientsMenu;
+import com.visual.conserapp.Model.UserFavs;
 import com.visual.conserapp.Model.MenuDia;
 import com.visual.conserapp.R;
+
+import org.w3c.dom.Text;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 import io.paperdb.Paper;
 
 public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
 
     CarouselPicker.CarouselViewAdapter imageAdapter;
@@ -51,15 +63,23 @@ public class Home extends AppCompatActivity
 
     HomeRecyclerAdapter adapter;
     ArrayList<MenuDia> listMenu;
+    private List<Button> listData = new ArrayList<>();
+    ArrayList<Favs> listFavs;
 
     FirebaseDatabase database;
     DatabaseReference requests_table;
+
     ArrayList<Food> listaFoodFirebase;
+    DatabaseReference userfavs_table;
+    String userFavId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        if (Common.currentUser.getAdmin()) {
+            setContentView(R.layout.activity_home_admin);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Inicio");
         setSupportActionBar(toolbar);
@@ -69,7 +89,7 @@ public class Home extends AppCompatActivity
 
         Paper.init(this);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -81,6 +101,16 @@ public class Home extends AppCompatActivity
 
         listMenu = new ArrayList<>();
         obtainDataFirebase();
+
+        userFavId = Common.currentUser.getEmailAsId();
+        listFavs = new ArrayList<Favs>();
+        obtainDataFirebaseUserFavs();
+
+        View headerView = navigationView.getHeaderView(0);
+        tv_usermail = (TextView) headerView.findViewById(R.id.nav_header_email);
+        tv_username = (TextView) headerView.findViewById(R.id.nav_header_name);
+        tv_usermail.setText(Common.currentUser.getEmail());
+        tv_username.setText(Common.currentUser.getName());
 
         //Inicializar texto carrusel
 
@@ -187,13 +217,9 @@ public class Home extends AppCompatActivity
 
     TextView tv_username;
     TextView tv_usermail;
+
     private void loadUserData() {
-        /*
-        tv_username = (TextView) findViewById(R.id.nav_header_name);
-        tv_usermail = (TextView) findViewById(R.id.nav_header_email);
-        tv_username.setText(Common.currentUser.getName());
-        tv_usermail.setText(Common.currentUser.getEmail());
-        */
+
     }
 
 
@@ -202,15 +228,16 @@ public class Home extends AppCompatActivity
     }
 
     private void carruselListener(int position) {
-        switch(position){
+        switch (position) {
             case 0:
-                textoCentro.setText("Bocadillos");
-
+                textoCentro.setText("Platos");
+                getFoodsFromFirebaseAndSetAdapter();
                 break;
 
             case 1:
                 textoCentro.setText("Menú");
                 modifyAdapter();
+                homeRecycler.setAdapter(adapter);
                 break;
 
             case 2:
@@ -223,10 +250,83 @@ public class Home extends AppCompatActivity
                 break;
             case 4:
                 textoCentro.setText("Favoritos");
-
+                initializeFavs();
                 break;
+        }
+    }
+
+    private void getFoodsFromFirebaseAndSetAdapter(){
+        listaFoodFirebase = new ArrayList<>();
+        final DatabaseReference table_foods = database.getReference("Food");
+        table_foods.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot d : dataSnapshot.getChildren()){
+                    listaFoodFirebase.add(d.getValue(Food.class));
+                }
+                setFoodAdapter();
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    void setFoodAdapter(){
+        Collections.sort(listaFoodFirebase);
+        FoodAdapter foodAdapter = new FoodAdapter(listaFoodFirebase,this);
+        homeRecycler.setAdapter(foodAdapter);
+    }
 
 
+
+    public void initializeFavs() {
+        UserFavs userFavs = new UserFavs(Common.currentUser.getName(), listFavs, userFavId);
+        FavsAdapter favsAdapter = new FavsAdapter(userFavs, getApplicationContext(), listFavs, database, this);
+        homeRecycler.setAdapter(favsAdapter);
+    }
+
+
+    public void obtainFavs(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+            if (ds.getKey().equals(userFavId)) {
+                listFavs = ds.getValue(UserFavs.class).getListFavs();
+            }
+
+        }
+    }
+
+    public void obtainDataFirebaseUserFavs() {
+        declareDatabase();
+        listFavs.clear();
+
+        userfavs_table.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                obtainFavs(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+    }
+
+
+    public void declareDatabase() {
+        database = FirebaseDatabase.getInstance();
+        userfavs_table = database.getReference("UserFavs");
+    }
+
+
+    private void setupList() {
+        for (int i = 0; i < 15; i++) {
+            Button btn = new Button(this);
+            btn.setText(textoCentro.getText());
+            listData.add(btn);
         }
     }
 
@@ -256,6 +356,7 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
             Intent intent = new Intent(Home.this, Detail.class);
+            intent.putExtra("id","100");
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(Home.this, AdminIngredientsMenu.class);
@@ -263,14 +364,14 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_adminPanel) {
-            Intent intent = new Intent(Home.this,AdminPanel.class);
+            Intent intent = new Intent(Home.this, AdminPanel.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_adminPending) {
-            Intent intent = new Intent(Home.this,AdminHome.class);
+            Intent intent = new Intent(Home.this, AdminHome.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_logout || id == R.id.nav_logout2){
+        } else if (id == R.id.nav_logout || id == R.id.nav_logout2) {
             Paper.book().destroy();
             Intent intent = new Intent(Home.this, Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -287,9 +388,9 @@ public class Home extends AppCompatActivity
         View view = menuitem.getActionView();
         int id = menuitem.getItemId();
         Intent intent;
-        if(id == R.id.cart_id)  intent = new Intent(this,Cart.class);
+        if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
         else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwitchCreator.class);
-        else intent = new Intent(this,Offers.class);
+        else intent = new Intent(this, Home.class);
         startActivity(intent);
         return true;
     }
