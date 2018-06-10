@@ -46,7 +46,7 @@ public class CrudEditFood extends CrudEdit {
         txt_id.setText("ID " + id);
         txt_name.setText(food.getName());
         txt_price.setText(food.getPrice());
-        txt_ings.setText(food.getIngredientes());
+        txt_ings.setText(food.getIngredients());
         txt_img.setText(food.getImage());
         txt_desc.setText(food.getDescription());
 
@@ -84,7 +84,7 @@ public class CrudEditFood extends CrudEdit {
         //TODO CHECK FIELDS ARE OK
         food.setName(txt_name.getText().toString());
         food.setPrice(txt_price.getText().toString());
-        food.setIngredientes(txt_price.getText().toString());
+        food.setIngredients(txt_price.getText().toString());
         food.setDescription(txt_desc.getText().toString());
         food.setImage(txt_img.getText().toString());
 

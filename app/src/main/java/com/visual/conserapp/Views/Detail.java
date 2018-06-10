@@ -93,7 +93,7 @@ public class Detail extends AppCompatActivity {
                 food = (dataSnapshot.child(foodid)).getValue(Food.class);
                 Picasso.with(getBaseContext()).load(food.getImage()).into(image);
                 collapsingToolbarLayout.setTitle(food.getName());
-                ingredientsToDescription(food.getListOfIngredients());
+                ingredientsToDescription(food.getListOfIngredientes());
                 tv_name.setText(food.getName());
                 tv_price.setText(food.getPrice().toString());
             }
