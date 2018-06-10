@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.Adapter.FavsAdapter;
+import com.visual.conserapp.Adapter.FoodAdapter;
 import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -166,12 +167,7 @@ public class Home extends AppCompatActivity
     TextView tv_usermail;
 
     private void loadUserData() {
-        /*
-        tv_username = (TextView) findViewById(R.id.nav_header_name);
-        tv_usermail = (TextView) findViewById(R.id.nav_header_email);
-        tv_username.setText(Common.currentUser.getName());
-        tv_usermail.setText(Common.currentUser.getEmail());
-        */
+
     }
 
 
@@ -182,11 +178,8 @@ public class Home extends AppCompatActivity
     private void carruselListener(int position) {
         switch (position) {
             case 0:
-                textoCentro.setText("Bocadillos");
-                listData.clear();
-                setupList();
-                modifyAdapter();
-                homeRecycler.setAdapter(adapter);
+                textoCentro.setText("Platos");
+                intializeFoods();
                 break;
 
             case 1:
@@ -218,6 +211,12 @@ public class Home extends AppCompatActivity
                 break;
         }
     }
+
+    private void intializeFoods() {
+        FoodAdapter foodAdapter = new FoodAdapter()
+
+    }
+
 
     public void initializeFavs() {
         UserFavs userFavs = new UserFavs(Common.currentUser.getName(), listFavs, userFavId);
@@ -327,7 +326,7 @@ public class Home extends AppCompatActivity
         Intent intent;
         if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
         else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwitchCreator.class);
-        else intent = new Intent(this, Offers.class);
+        else intent = new Intent(this, Home.class);
         startActivity(intent);
         return true;
     }
