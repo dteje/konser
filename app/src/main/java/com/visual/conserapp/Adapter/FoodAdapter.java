@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Interface.ItemClickListener;
+import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
 import com.visual.conserapp.Views.Cart;
@@ -28,35 +29,28 @@ import static java.lang.Integer.parseInt;
 
 class FoodsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txt_cart_name;
-    ElegantNumberButton btn_detail_number;
-    public TextView txt_cart_price;
-    public ImageView img;
-    Button btn_eliminar;
+    TextView txt_cart_name, txt_cart_price;
+    ImageView img;
+    Button btn_add;
+    ItemClickListener itemClickListener;
 
 
-
-    public void setTxt_cart_price(TextView txt_cart_price) {
-        this.txt_cart_price = txt_cart_price;
+    public void setBtn(Button btn){this.btn_add = btn; }
+    public void setImage(ImageView img) { this.img = img;}
+    public void setPrice(String txt_cart_price) {
+        this.txt_cart_price.setText(txt_cart_price);
+    }
+    public void setName(String txt_cart_name) {
+        this.txt_cart_name.setText(txt_cart_name);
     }
 
-    public void setTxt_name(TextView txt_cart_name) {
-        this.txt_cart_name = txt_cart_name;
-    }
-
-    public String getQuantity() {
-        return btn_detail_number.getNumber();
-    }
-
-    private ItemClickListener itemClickListener;
 
     public FoodsHolder(View itemView) {
         super(itemView);
-        txt_cart_name = (TextView) itemView.findViewById(R.id.cart_adapter_item_name);
-        txt_cart_price = (TextView) itemView.findViewById(R.id.cart_adapter_item_price);
-        btn_detail_number = (ElegantNumberButton) itemView.findViewById(R.id.cart_adapter_btn_detail_number);
-        btn_eliminar = (Button) itemView.findViewById(R.id.cart_adapter_btn_eliminar);
-
+        txt_cart_name = (TextView) itemView.findViewById(R.id.item_food_txt_name);
+        txt_cart_price = (TextView) itemView.findViewById(R.id.item_food_txt_price);
+        btn_add = (Button) itemView.findViewById(R.id.item_food_btn);
+        img = (ImageView) itemView.findViewById(R.id.item_food_img);
     }
 
 
@@ -66,59 +60,34 @@ class FoodsHolder extends RecyclerView.ViewHolder implements View.OnClickListene
 
 }
 
-public class FoodAdapter extends RecyclerView.Adapter<CartViewHolder> {
+public class FoodAdapter extends RecyclerView.Adapter<FoodsHolder> {
 
-    private List<Order> listData = new ArrayList<Order>();
-    //private Context context;
+    private List<Food> listData = new ArrayList<>();
     private Home home;
 
-    public FoodAdapter(List<Order> listData, Home home) {
+    public FoodAdapter(List<Food> listData, Home home) {
         this.home = home;
         this.listData = listData;
     }
 
     @Override
-    public CartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+    public FoodsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(this.home);
-        View itemView = layoutInflater.inflate(R.layout.cart_layout, parent, false);
-        return new CartViewHolder(itemView);
+        View itemView = layoutInflater.inflate(R.layout.item_food_home, parent, false);
+        return new FoodsHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final CartViewHolder holder, final int position) {
-        int quant = parseInt(listData.get(position).getQuantity());
-        holder.btn_detail_number.setNumber(quant + "");
-        holder.btn_detail_number.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
-            @Override
-            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                Order order = listData.get(position);
-                order.setQuantity(String.valueOf(newValue));
-                new Database(home).updateCart(order);
-                cart.updateCart();
-            }
-        });
-        double price = parseDouble(listData.get(position).getPrice());
-        double total = quant * price;
-        String name = listData.get(position).getProductName();
-        holder.txt_cart_price.setText(price + " €");
-        holder.txt_cart_name.setText(name + "");
-        holder.btn_eliminar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Order order = listData.get(position);
-                new Database(cart).removeFromCart(order);
-                cart.loadCart();
-            }
-        });
+    public void onBindViewHolder(final FoodsHolder holder, final int position) {
+        holder.setName(listData.get(position).getName());
+        holder.setPrice(listData.get(position).getPrice());
     }
 
     @Override
     public int getItemCount() {
         return listData.size();
     }
-
-    public Order getItem(int position) {
+    public Food getItem(int position) {
         return listData.get(position);
     }
 }

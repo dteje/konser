@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -179,7 +180,7 @@ public class Home extends AppCompatActivity
         switch (position) {
             case 0:
                 textoCentro.setText("Platos");
-                intializeFoods();
+                getFoodsFromFirebaseAndSetAdapter();
                 break;
 
             case 1:
@@ -212,10 +213,29 @@ public class Home extends AppCompatActivity
         }
     }
 
-    private void intializeFoods() {
-        FoodAdapter foodAdapter = new FoodAdapter()
+    private void getFoodsFromFirebaseAndSetAdapter(){
+        listaFoodFirebase = new ArrayList<>();
+        final DatabaseReference table_foods = database.getReference("Food");
+        table_foods.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot d : dataSnapshot.getChildren()){
+                    listaFoodFirebase.add(d.getValue(Food.class));
+                }
+                setFoodAdapter();
 
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
+    void setFoodAdapter(){
+        FoodAdapter foodAdapter = new FoodAdapter(listaFoodFirebase,this);
+        homeRecycler.setAdapter(foodAdapter);
+    }
+
 
 
     public void initializeFavs() {
