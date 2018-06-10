@@ -86,7 +86,7 @@ public class Detail extends AppCompatActivity {
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.ExpandedAppbar);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsedAppbar);
 
-        food_id = "100";
+        food_id = getIntent().getStringExtra("id");
         getDetails(food_id);
     }
 
@@ -95,9 +95,11 @@ public class Detail extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 food = (dataSnapshot.child(foodid)).getValue(Food.class);
+                if(!food.getImage().isEmpty())
                 Picasso.with(getBaseContext()).load(food.getImage()).into(image);
                 collapsingToolbarLayout.setTitle(food.getName());
-                ingredientsToDescription(food.getListOfIngredients());
+                if(food.getDescription().isEmpty())ingredientsToDescription(food.getListOfIngredients());
+                else tv_desc.setText(food.getDescription());
                 tv_name.setText(food.getName());
                 tv_price.setText(food.getPrice().toString());
             }
@@ -111,7 +113,7 @@ public class Detail extends AppCompatActivity {
 
     }
 
-    String ingredientes = "";
+    String ingredientes = "   ";
 
     private void ingredientsToDescription(final List<String> listOfIngredients) {
         DatabaseReference ingredients = database.getReference("Ingredient");
@@ -120,7 +122,7 @@ public class Detail extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (String ingredientId : listOfIngredients) {
                     Ingredient ingredient = (dataSnapshot.child(ingredientId)).getValue(Ingredient.class);
-                    ingredientes += ingredient.getName() + ", ";
+                    if(ingredient!=null)ingredientes += ingredient.getName() + ", ";
                 }
                 tv_desc.setText("Compuesto por: " + ingredientes.substring(0, ingredientes.length() - 2));
             }

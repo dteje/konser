@@ -19,9 +19,10 @@
 
         <ImageView
             android:id="@+id/item_food_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
+            android:padding="3dp"
             app:srcCompat="@mipmap/bocata_icon" />
 
         <LinearLayout
@@ -58,18 +59,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/item_food_btn"
-            style="@style/Widget.AppCompat.Button.Colored"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/item_food_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="Ver" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:clickable="true"
+            app:srcCompat="@drawable/cart" />
 
 
     </LinearLayout>

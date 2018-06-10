@@ -30,6 +30,7 @@ import com.visual.conserapp.Adapter.FoodAdapter;
 import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -232,6 +233,7 @@ public class Home extends AppCompatActivity
         });
     }
     void setFoodAdapter(){
+        Collections.sort(listaFoodFirebase);
         FoodAdapter foodAdapter = new FoodAdapter(listaFoodFirebase,this);
         homeRecycler.setAdapter(foodAdapter);
     }
@@ -313,6 +315,7 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
             Intent intent = new Intent(Home.this, Detail.class);
+            intent.putExtra("id","100");
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(Home.this, AdminIngredientsMenu.class);
