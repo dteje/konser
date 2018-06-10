@@ -12,9 +12,15 @@ public class CareTaker {
 
     public void add(Memento state){
         mementoList.add(state);
+        state = new Memento();
     }
+
 
     public Memento get(int index){
         return mementoList.get(index);
+    }
+
+    public int getSize(){
+        return mementoList.size();
     }
 }

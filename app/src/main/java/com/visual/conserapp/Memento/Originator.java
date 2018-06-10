@@ -1,8 +1,9 @@
 package com.visual.conserapp.Memento;
 
-import com.visual.conserapp.Model.Food;
+        import com.visual.conserapp.Model.Food;
 
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
 /**
  * Created by daniel on 10/06/2018.
@@ -10,13 +11,13 @@ import java.util.List;
 
 public class Originator {
 
-    private List<Food> state;
+    private ArrayList<String> state;
 
-    public void setState(List<Food> state){
+    public void setState(ArrayList<String> state){
         this.state = state;
     }
 
-    public List<Food> getState(){
+    public ArrayList<String> getState(){
         return state;
     }
 

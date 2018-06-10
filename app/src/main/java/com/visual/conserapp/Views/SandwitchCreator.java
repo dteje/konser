@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,9 @@ import com.visual.conserapp.Adapter.RecyclerClickListener;
 import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Database.Database;
+import com.visual.conserapp.Memento.CareTaker;
+import com.visual.conserapp.Memento.Memento;
+import com.visual.conserapp.Memento.Originator;
 import com.visual.conserapp.Model.Favs;
 
 import java.text.DecimalFormat;
@@ -51,6 +55,11 @@ public class SandwitchCreator extends AppCompatActivity {
     FirebaseDatabase database;
     ArrayList<Ingredient> listIngredientsFireBase;
 
+    Originator originator;
+    CareTaker careTaker;
+    int saveFiles;
+    int currentFiles;
+
     Order orderRes;
 
     int numButtons = 5;
@@ -67,6 +76,10 @@ public class SandwitchCreator extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
         setSupportActionBar(toolbar);
 
+        originator = new Originator();
+        careTaker = new CareTaker();
+        saveFiles = 0;
+        currentFiles = 0;
 
         linearLayout = (LinearLayout) findViewById(R.id.generalLinearLayout);
 
@@ -95,6 +108,13 @@ public class SandwitchCreator extends AppCompatActivity {
 
         btn_unfocus = btn[0];
         setFocus(btn_unfocus, btn[0]);
+
+        originator.setState((ArrayList<String>) listSandwich.clone());
+        careTaker.add(originator.saveStateToMemento());
+        saveFiles++;
+        currentFiles++;
+
+        Log.d("size init", String.valueOf(careTaker.getSize()));
 
         // Añadir el primer precio de los ingredientes, ya que no clickamos en el botón de Carne y por lo tanto no se cambia automaticamente
         ingredientPrice = 0.7;
@@ -142,6 +162,13 @@ public class SandwitchCreator extends AppCompatActivity {
         } else {
             listSandwich.add(ingredientName);
             listPrice.add(ingredientPrice);
+
+            originator.setState((ArrayList<String>) listSandwich.clone());
+            careTaker.add(originator.saveStateToMemento());
+            saveFiles++;
+            currentFiles++;
+            Log.d("size add", String.valueOf(careTaker.getSize()));
+
             printIngredients();
         }
     }
@@ -184,13 +211,24 @@ public class SandwitchCreator extends AppCompatActivity {
     }
 
 
-    public void removeLastElement(View view) {
-        int id = view.getId();
-        if (listSandwich.size() != 0) {
-            if (id == R.id.removeLastButton) {
-                listSandwich.remove(listSandwich.size() - 1);
-                listPrice.remove(listPrice.size() - 1);
-            }
+    public void undoLastIngredient(View view) {
+        if(currentFiles >= 1){
+            currentFiles--;
+            originator.getStateFromMemento(careTaker.get(currentFiles));
+            listSandwich = originator.getState();
+            Log.d("list sandwich", listSandwich.toString());
+
+            printIngredients();
+        }
+    }
+
+    public void redoLastIngredient(View view) {
+        if((saveFiles-1) > currentFiles){
+            currentFiles++;
+            originator.getStateFromMemento(careTaker.get(currentFiles));
+            listSandwich = originator.getState();
+            Log.d("list sandwich", listSandwich.toString());
+
             printIngredients();
         }
     }
@@ -256,6 +294,10 @@ public class SandwitchCreator extends AppCompatActivity {
 
         AlertFactory alertFactory = new AlertFactory();
         AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
+
+        for(int i = 0; i < careTaker.getSize(); i++){
+            Log.d("MEMENTO>", i + " " + careTaker.get(i).getState());
+        }
 
         if (listSandwich.size() == 0) alertParent.printAlert(this);
         else {

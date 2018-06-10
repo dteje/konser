@@ -2,6 +2,7 @@ package com.visual.conserapp.Memento;
 
 import com.visual.conserapp.Model.Food;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,14 +10,18 @@ import java.util.List;
  */
 
 public class Memento {
-    private List<Food> state;
+    private ArrayList<String> listIngredients;
 
-    public Memento(List<Food> state) {
-        this.state = state;
+    public Memento(ArrayList<String> listIngredients) {
+        this.listIngredients = listIngredients;
     }
 
-    public List<Food> getState() {
-        return state;
+    public Memento(){}
+
+    public ArrayList<String> getState(){
+        return listIngredients;
     }
+
+
 
 }

@@ -31,8 +31,6 @@ public class Foods extends Crud {
     protected void onCreateChild() {
         this.foods = new ArrayList<>();
         this.foodsfiltered = new ArrayList<>();
-
-
     }
 
     @Override
@@ -76,8 +74,6 @@ public class Foods extends Crud {
         }
         newId++;
         objectsfiltered = objects;
-        originator.setState(foods);
-        careTaker.add(originator.saveStateToMemento());
         displayData();
     }
 
