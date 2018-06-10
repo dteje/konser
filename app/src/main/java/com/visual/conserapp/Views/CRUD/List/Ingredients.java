@@ -44,6 +44,8 @@ public class Ingredients extends Crud {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 Intent intent = new Intent(context, CrudEditIngredients.class);
                 intent.putExtra("id","new");
                 intent.putExtra("newid",newId++ +"");
