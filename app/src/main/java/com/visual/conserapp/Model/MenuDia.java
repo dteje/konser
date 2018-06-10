@@ -79,4 +79,14 @@ public class MenuDia {
     public void setIdsPlato3(String idsPlato3) {
         IdsPlato3 = idsPlato3;
     }
+
+    public String getPlatosOrdenados(){
+        String res1 = listaPlatos.get(0).getName();
+        String res2 = listaPlatos.get(1).getName();
+        String res3 = listaPlatos.get(2).getName();
+
+        String res = res1+", "+res2+", "+res3;
+
+        return res;
+    }
 }

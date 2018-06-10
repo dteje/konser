@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.Adapter.DrinkAdapter;
 import com.visual.conserapp.Adapter.FavsAdapter;
 import com.visual.conserapp.Adapter.FoodAdapter;
 import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
@@ -38,6 +39,7 @@ import java.util.List;
 import com.google.firebase.database.FirebaseDatabase;
 import com.visual.conserapp.Adapter.IngredientAdapter;
 import com.visual.conserapp.Common.Common;
+import com.visual.conserapp.Model.Drink;
 import com.visual.conserapp.Model.Favs;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
@@ -70,6 +72,7 @@ public class Home extends AppCompatActivity
     DatabaseReference requests_table;
 
     ArrayList<Food> listaFoodFirebase;
+    ArrayList<Drink> listaDrinkFirebase;
     DatabaseReference userfavs_table;
     String userFavId;
 
@@ -213,6 +216,7 @@ public class Home extends AppCompatActivity
     private void declareDatabase() {
         database = FirebaseDatabase.getInstance();
         requests_table = database.getReference("Menu");
+        userfavs_table = database.getReference("UserFavs");
     }
 
     TextView tv_username;
@@ -245,14 +249,41 @@ public class Home extends AppCompatActivity
                 break;
 
             case 3:
-                textoCentro.setText("Complementos");
-
+                textoCentro.setText("Bebidas");
+                getDrinksFromFirebaseAndSetAdapter();
                 break;
             case 4:
                 textoCentro.setText("Favoritos");
                 initializeFavs();
                 break;
         }
+    }
+
+
+    private void getDrinksFromFirebaseAndSetAdapter(){
+        listaDrinkFirebase = new ArrayList<>();
+        final DatabaseReference table_drinks = database.getReference("Drink");
+        table_drinks.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot d : dataSnapshot.getChildren()){
+                    listaDrinkFirebase.add(d.getValue(Drink.class));
+                }
+                setDrinkAdapter();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void setDrinkAdapter() {
+        Collections.sort(listaDrinkFirebase);
+        DrinkAdapter drinkAdapter = new DrinkAdapter(listaDrinkFirebase,this);
+        homeRecycler.setAdapter(drinkAdapter);
     }
 
     private void getFoodsFromFirebaseAndSetAdapter(){
@@ -315,11 +346,6 @@ public class Home extends AppCompatActivity
         });
     }
 
-
-    public void declareDatabase() {
-        database = FirebaseDatabase.getInstance();
-        userfavs_table = database.getReference("UserFavs");
-    }
 
 
     private void setupList() {

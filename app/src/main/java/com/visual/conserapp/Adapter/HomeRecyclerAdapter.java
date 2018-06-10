@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
+import com.rey.material.widget.FloatingActionButton;
 import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Database.Database;
@@ -29,9 +30,9 @@ import java.util.ArrayList;
 class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 
-    public TextView txt_menuName;
+    public TextView txt_menuName, txt_platos;
     Button btn_detalles;
-    Button btn_anyadir;
+    android.support.design.widget.FloatingActionButton btn_anyadir;
 
 
     public void setMenuName(TextView menuName) {
@@ -42,8 +43,8 @@ class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClick
     public RecyclerViewHolder(View itemView) {
         super(itemView);
         txt_menuName = (TextView) itemView.findViewById(R.id.home_adapter_item_name);
-        btn_detalles = (Button) itemView.findViewById(R.id.home_adapter_btn_detalles);
-        btn_anyadir = (Button) itemView.findViewById(R.id.home_adapter_btn_anyadir);
+        txt_platos = (TextView) itemView.findViewById(R.id.home_adapter_platos);
+        btn_anyadir = (android.support.design.widget.FloatingActionButton) itemView.findViewById(R.id.home_adapter_btn_anyadir);
     }
 
 
@@ -83,20 +84,22 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         String name = listMenu.get(position).getName();
         final Double menuPrice = listMenu.get(position).getPrice();
+        String platos = listMenu.get(position).getPlatosOrdenados();
 
 
         holder.txt_menuName.setText(name);
+        holder.txt_platos.setText(platos);
 
         final Context context3 = this.context;
 
-        holder.btn_detalles.setOnClickListener(new View.OnClickListener() {
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context3, DetailMenu.class);
                 Gson gson = new Gson();
                 intent.putExtra("menu", gson.toJson(listMenu.get(position)));
                 home.startActivity(intent);
-
             }
         });
 
