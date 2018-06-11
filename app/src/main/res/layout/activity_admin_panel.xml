@@ -46,10 +46,11 @@
             android:text="Ofertas de la semana" />
 
         <Button
-            android:id="@+id/btn_specialoffers"
+            android:id="@+id/btn_menus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Especiales" />
+            android:onClick="onMenus"
+            android:text="Menú del día" />
 
     </LinearLayout>
 
@@ -83,13 +84,6 @@
             android:layout_height="wrap_content"
             android:onClick="onRestaurante"
             android:text="Platos" />
-
-        <Button
-            android:id="@+id/btn_categories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onRestaurante"
-            android:text="Categorías" />
 
     </LinearLayout>
 

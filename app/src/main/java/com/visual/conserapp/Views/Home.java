@@ -528,16 +528,16 @@ public class Home extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_sandwich) {
             // Handle the camera action
-            Intent intent = new Intent(Home.this, Detail.class);
-            intent.putExtra("id", "100");
+            Intent intent = new Intent(Home.this, SandwitchCreator.class);
             startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
-            Intent intent = new Intent(Home.this, AdminIngredientsMenu.class);
+        } else if (id == R.id.nav_cart) {
+            Intent intent = new Intent(Home.this, Cart.class);
             startActivity(intent);
         } else if (id == R.id.nav_manage) {
-
+            Intent intent = new Intent(Home.this, ConfigUser.class);
+            startActivity(intent);
         } else if (id == R.id.nav_adminPanel) {
             Intent intent = new Intent(Home.this, AdminPanel.class);
             startActivity(intent);

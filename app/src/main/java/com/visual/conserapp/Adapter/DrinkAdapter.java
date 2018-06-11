@@ -98,7 +98,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkHolder> {
         holder.btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Order pedido = new Order(drink.getID(), drink.getName(), "1",
+                Order pedido = new Order(listData.get(position).getID(), listData.get(position).getName(), "1",
                         drink.getPrice(), "0");
                 new Database(home).addToCart(pedido);
                 Toast.makeText(home, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
