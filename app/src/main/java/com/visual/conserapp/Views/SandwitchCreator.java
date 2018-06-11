@@ -188,8 +188,6 @@ public class SandwitchCreator extends AppCompatActivity {
             Toast.makeText(SandwitchCreator.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
         }
 
-        Log.d("totalprice", obtainPrice());
-
     }
 
     public void addToFavs(View view) {
@@ -235,11 +233,6 @@ public class SandwitchCreator extends AppCompatActivity {
         careTaker.add(originator.saveStateToMemento());
         saveFiles++;
         currentFiles++;
-        Log.d("CURRENT FILES",String.valueOf(currentFiles));
-        Log.d("SAVE FILES",String.valueOf(saveFiles));
-        for (int i = 0; i < careTaker.getSize(); i++) {
-            Log.d("MEMENTOS " + i + " >", careTaker.get(i).getState().toString());
-        }
     }
 
     public void resetMemento() {
@@ -266,9 +259,6 @@ public class SandwitchCreator extends AppCompatActivity {
             listSandwich = originator.getState();
             listSandwich = (ArrayList<String>) listSandwich.clone();
 
-            Log.d("CURRENT FILES",String.valueOf(currentFiles));
-            Log.d("SAVE FILES",String.valueOf(saveFiles));
-
             manageIngredientPrice(ingredientPrice, "subs");
 
             finalSandwitch.setText(listSandwich.toString());
@@ -285,9 +275,6 @@ public class SandwitchCreator extends AppCompatActivity {
             originator.getStateFromMemento(careTaker.get(currentFiles));
             listSandwich = originator.getState();
             listSandwich = (ArrayList<String>) listSandwich.clone();
-
-            Log.d("CURRENT FILES",String.valueOf(currentFiles));
-            Log.d("SAVE FILES",String.valueOf(saveFiles));
 
             manageIngredientPrice(ingredientPrice, "add");
 
