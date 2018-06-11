@@ -104,8 +104,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodsHolder> {
         holder.btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Order pedido = new Order(food.getID(), food.getName(), "1",
-                        food.getPrice(), food.getDiscount());
+                Order pedido = new Order(listData.get(position).getID(), listData.get(position).getName(), "1",
+                        listData.get(position).getPrice(), listData.get(position).getDiscount());
                 new Database(home).addToCart(pedido);
                 Toast.makeText(home, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
             }

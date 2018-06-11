@@ -6,18 +6,18 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,28 +27,26 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.visual.conserapp.Adapter.DrinkAdapter;
 import com.squareup.picasso.Picasso;
+import com.visual.conserapp.Adapter.DrinkAdapter;
 import com.visual.conserapp.Adapter.FavsAdapter;
 import com.visual.conserapp.Adapter.FoodAdapter;
 import com.visual.conserapp.Adapter.MenuAdapter;
+import com.visual.conserapp.Common.Common;
+import com.visual.conserapp.Database.Database;
+import com.visual.conserapp.Model.Drink;
+import com.visual.conserapp.Model.Favs;
+import com.visual.conserapp.Model.Food;
+import com.visual.conserapp.Model.MenuDia;
+import com.visual.conserapp.Model.Order;
+import com.visual.conserapp.Model.UserFavs;
+import com.visual.conserapp.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-
-import com.google.firebase.database.FirebaseDatabase;
-import com.visual.conserapp.Common.Common;
-import com.visual.conserapp.Model.Drink;
-import com.visual.conserapp.Database.Database;
-import com.visual.conserapp.Model.Favs;
-import com.visual.conserapp.Model.Food;
-import com.visual.conserapp.Model.Order;
-import com.visual.conserapp.Model.UserFavs;
-import com.visual.conserapp.Model.MenuDia;
-import com.visual.conserapp.R;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 import io.paperdb.Paper;
@@ -58,25 +56,27 @@ import static java.time.LocalDate.now;
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private CarouselPicker carouselPicker;
+    private TextView textoCentro;
+    private RecyclerView homeRecycler;
+    private RecyclerView.LayoutManager layoutManager;
 
-    CarouselPicker.CarouselViewAdapter imageAdapter;
-    CarouselPicker carouselPicker;
-    TextView textoCentro;
-    RecyclerView homeRecycler;
-    RecyclerView.LayoutManager layoutManager;
+    private MenuAdapter adapter;
+    private FoodAdapter foodAdapter;
 
-    MenuAdapter adapter;
-    ArrayList<MenuDia> listMenu;
-    private List<Button> listData = new ArrayList<>();
-    ArrayList<Favs> listFavs;
+    private ArrayList<MenuDia> listMenu;
+    private ArrayList<Favs> listFavs;
+    private ArrayList<Food> listaFoodFirebase;
+    private ArrayList<Drink> listaDrinkFirebase;
 
-    FirebaseDatabase database;
-    DatabaseReference requests_table;
+    private FirebaseDatabase database;
+    private DatabaseReference requests_table, userfavs_table, menu_table, config_table, foods_table;
 
-    ArrayList<Food> listaFoodFirebase;
-    ArrayList<Drink> listaDrinkFirebase;
-    DatabaseReference userfavs_table;
-    String userFavId;
+
+    TextView tv_username;
+    TextView tv_usermail;
+
+    private String userFavId;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -170,8 +170,6 @@ public class Home extends AppCompatActivity
         homeRecycler.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         homeRecycler.setLayoutManager(layoutManager);
-        //adapter = new MenuAdapter(listMenu, database, requests_table, this);
-        //homeRecycler.setAdapter(adapter);
         homeRecycler.setVisibility(View.INVISIBLE);
 
 
@@ -248,7 +246,7 @@ public class Home extends AppCompatActivity
     Food f, f1, f2;
 
     private void displayDailySandwich(String id) {
-        table_foods.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+        foods_table.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 f = dataSnapshot.getValue(Food.class);
@@ -263,8 +261,6 @@ public class Home extends AppCompatActivity
             }
         });
     }
-
-    DatabaseReference menu_table;
 
     private void displayDailyMenu(String id) {
 
@@ -343,15 +339,12 @@ public class Home extends AppCompatActivity
         database = FirebaseDatabase.getInstance();
         requests_table = database.getReference("Menu");
         userfavs_table = database.getReference("UserFavs");
-        table_foods = database.getReference("Food");
+        foods_table = database.getReference("Food");
         config_table = database.getReference("Config");
         menu_table = database.getReference("Config");
 
     }
 
-    DatabaseReference table_foods, config_table;
-    TextView tv_username;
-    TextView tv_usermail;
 
     private void carruselListener(int position) {
         switch (position) {
@@ -419,7 +412,7 @@ public class Home extends AppCompatActivity
     private void getFoodsFromFirebaseAndSetAdapter() {
         declareDatabase();
         listaFoodFirebase = new ArrayList<>();
-        table_foods.addValueEventListener(new ValueEventListener() {
+        foods_table.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {

@@ -121,7 +121,6 @@ public class Cart extends AppCompatActivity {
                 dialogInterface.dismiss();
             }
         });
-
         hourdialog.show();
     }
 
