@@ -293,7 +293,7 @@ public class SandwichCreator extends AppCompatActivity {
         recycler.addItemDecoration(dividerItemDecoration);
     }
 
-    public void buttonIngredient(View view) {
+    public void buttonIngredientsManager(View view) {
         String type;
 
         switch (view.getId()) {
