@@ -32,7 +32,7 @@ import com.visual.conserapp.Adapter.DrinkAdapter;
 import com.squareup.picasso.Picasso;
 import com.visual.conserapp.Adapter.FavsAdapter;
 import com.visual.conserapp.Adapter.FoodAdapter;
-import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
+import com.visual.conserapp.Adapter.MenuAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,7 +65,7 @@ public class Home extends AppCompatActivity
     RecyclerView homeRecycler;
     RecyclerView.LayoutManager layoutManager;
 
-    HomeRecyclerAdapter adapter;
+    MenuAdapter adapter;
     ArrayList<MenuDia> listMenu;
     private List<Button> listData = new ArrayList<>();
     ArrayList<Favs> listFavs;
@@ -170,7 +170,7 @@ public class Home extends AppCompatActivity
         homeRecycler.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         homeRecycler.setLayoutManager(layoutManager);
-        //adapter = new HomeRecyclerAdapter(listMenu, database, requests_table, this);
+        //adapter = new MenuAdapter(listMenu, database, requests_table, this);
         //homeRecycler.setAdapter(adapter);
         homeRecycler.setVisibility(View.INVISIBLE);
 
@@ -336,7 +336,7 @@ public class Home extends AppCompatActivity
     private void loadMenus() {
         Collections.sort(listMenu);
         System.out.println(listMenu.toString());
-        adapter = new HomeRecyclerAdapter(listMenu, getApplicationContext(), this);
+        adapter = new MenuAdapter(listMenu, getApplicationContext(), this);
         homeRecycler.setAdapter(adapter);
     }
 
