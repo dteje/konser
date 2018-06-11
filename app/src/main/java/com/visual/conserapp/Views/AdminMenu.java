@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -186,10 +187,10 @@ public class AdminMenu extends AppCompatActivity {
     }
 
     public void onUpdate(View view) {
-        System.out.println("key + " + smenu.getSelectedItem().toString());
         map.put("0",foods.get(sp1.getSelectedItemPosition()));
         map.put("1",foods.get(sp2.getSelectedItemPosition()));
         table_menus.child(smenu.getSelectedItem().toString()).child("listaPlatos").updateChildren(map);
+        Toast.makeText(this, "Editado con éxito", Toast.LENGTH_SHORT).show();
         finish();
     }
 }
