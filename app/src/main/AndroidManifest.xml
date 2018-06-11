@@ -36,9 +36,9 @@
         <activity android:name=".Views.SandwichCreator" />
         <activity android:name=".Views.AdminPanel" />
         <activity android:name=".Views.AdminDailyEdit" />
-        <activity android:name=".Views.CRUD.List.Ingredients" />
+        <activity android:name=".Views.CRUD.List.IngredientList" />
         <activity android:name=".Views.CRUD.List.FoodList" />
-        <activity android:name=".Views.CRUD.List.Users" />
+        <activity android:name=".Views.CRUD.List.UserList" />
         <activity android:name=".Views.CRUD.Modify.CrudEditFood"/>
         <activity android:name=".Views.CRUD.Modify.CrudEditUsers"/>
         <activity android:name=".Views.CRUD.Modify.CrudEditIngredients"/>

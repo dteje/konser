@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.visual.conserapp.AlertFactory.AlertEnum;
 import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Model.Favs;
@@ -96,7 +97,7 @@ public class EditIngredient extends AppCompatActivity {
         newName = obtainName(view);
 
         AlertFactory alertFactory = new AlertFactory();
-        AlertParent alertParent = alertFactory.generateAlert("nullIngredient");
+        AlertParent alertParent = alertFactory.generateAlert(AlertEnum.NULL_INGREDIENT);
 
         if (newName.equals("")) alertParent.printAlert(this);
         else {

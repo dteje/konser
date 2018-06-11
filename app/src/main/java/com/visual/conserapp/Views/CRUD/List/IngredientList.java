@@ -5,6 +5,9 @@ import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
+import com.visual.conserapp.AlertFactory.AlertEnum;
+import com.visual.conserapp.AlertFactory.AlertFactory;
+import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.Adapter.CRUDList.CrudIngredientsAdapter;
 import com.visual.conserapp.Views.CRUD.Modify.CrudEditIngredients;
@@ -63,6 +66,7 @@ public class IngredientList extends CrudList {
             ingredients.add(ingredient);
             objects.add((Object) ingredient);
             newId = Integer.parseInt(ingredient.getId());
+
         }
         newId++;
         objectsfiltered = objects;

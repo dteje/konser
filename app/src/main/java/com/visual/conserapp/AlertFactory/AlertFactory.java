@@ -2,18 +2,19 @@ package com.visual.conserapp.AlertFactory;
 
 public class AlertFactory {
 
-    public AlertParent generateAlert(String alertType){
-        AlertParent alert = null;
-        if(alertType.equals("nullIngredient")) {
-            return new  AlertNullingredient();
-        } else if (alertType.equals("RepetitionSandwich")){
-            return new AlertRepetitionSandwich();
-        } else if (alertType.equals("EmptySandwich")){
-            return new AlertEmptySandwich();
+    public AlertParent generateAlert(AlertEnum alertType){
+
+        switch(alertType){
+
+            case NULL_INGREDIENT:
+                return new AlertNullingredient();
+            case REPETITION_SANDWICH:
+                return new AlertRepetitionSandwich();
+            case EMPTY_SANDWICH:
+                return new AlertEmptySandwich();
+            default:
+                return new AlertNullingredient();
         }
 
-        return alert;
     }
 }
-
-

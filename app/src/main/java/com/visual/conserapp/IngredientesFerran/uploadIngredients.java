@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.AlertFactory.AlertEnum;
 import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Model.Favs;
@@ -66,7 +67,7 @@ public class uploadIngredients extends AppCompatActivity {
         String ingregientType = obtainType(); //si esto peta añadirle el view
         String name = obtainName(view);
         AlertFactory alertFactory = new AlertFactory();
-        AlertParent alertParent = alertFactory.generateAlert("nullIngredient");
+        AlertParent alertParent = alertFactory.generateAlert(AlertEnum.NULL_INGREDIENT);
 
         if (name.equals("")) alertParent.printAlert(this);
         else {

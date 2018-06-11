@@ -14,6 +14,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.rey.material.widget.FloatingActionButton;
+import com.visual.conserapp.AlertFactory.AlertEmptySandwich;
+import com.visual.conserapp.AlertFactory.AlertEnum;
 import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Database.Database;
@@ -105,7 +107,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuHolder>{
                 String discount = "0";
 
                 AlertFactory alertFactory = new AlertFactory();
-                AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
+                AlertParent alertParent = alertFactory.generateAlert(AlertEnum.EMPTY_SANDWICH);
 
                 if (listMenu.isEmpty()) alertParent.printAlert(home);
                 else {

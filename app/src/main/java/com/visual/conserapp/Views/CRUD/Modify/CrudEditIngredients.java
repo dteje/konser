@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
+import com.visual.conserapp.AlertFactory.AlertEnum;
+import com.visual.conserapp.AlertFactory.AlertFactory;
+import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.R;
 
@@ -20,11 +23,12 @@ import com.visual.conserapp.R;
 
 public class CrudEditIngredients extends CrudEdit {
 
-    private String toolbarTitle = "Plato";
+    private String toolbarTitle = "Ingrediente";
     private TextView txt_id;
     private EditText txt_name;
     private RadioGroup radioGroup;
     private Ingredient ingredient;
+    private boolean condition;
 
 
 
@@ -63,21 +67,34 @@ public class CrudEditIngredients extends CrudEdit {
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 createNewObject();
-                table.child(newid).setValue(map);
-                finish();
+                if(condition == true) {
+                    table.child(newid).setValue(map);
+                    finish();
+                }
             }
         });
     }
 
     @Override
     protected void createNewObject() {
-        ingredient = new Ingredient(txt_name.getText().toString(),obtainType());
-        map.put("id",newid);
-        map.put("name",txt_name.getText().toString());
-        map.put("type",obtainType());
-        map.put("pricebuy",0);
-        map.put("pricesell",0);
+            AlertFactory alertFactory = new AlertFactory();
+            AlertParent alertParent = alertFactory.generateAlert(AlertEnum.NULL_INGREDIENT);
+
+            if (txt_name.getText().toString().equals("")){
+                alertParent.printAlert(this);
+                condition = false;
+            }
+            else {
+                ingredient = new Ingredient(txt_name.getText().toString(), obtainType());
+                map.put("id", newid);
+                map.put("name", txt_name.getText().toString());
+                map.put("type", obtainType());
+                map.put("pricebuy", 0);
+                map.put("pricesell", 0);
+            }
+
     }
 
     @Override

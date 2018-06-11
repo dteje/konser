@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.AlertFactory.AlertEnum;
 import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Common.Common;
@@ -83,7 +84,7 @@ public class FavsPopWindow extends Activity {
         String userName = textInputLayout.getText().toString();
 
         AlertFactory alertFactory = new AlertFactory();
-        AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
+        AlertParent alertParent = alertFactory.generateAlert(AlertEnum.EMPTY_SANDWICH);
 
         if (userName.equals("")) alertParent.printAlert(this);
         else {
