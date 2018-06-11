@@ -25,8 +25,8 @@
             android:name=".Views.popFavs"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity android:name=".Views.Cart" />
-        <activity android:name=".Views.Offers" />
         <activity android:name=".Views.Home" />
+        <activity android:name=".Views.AdminMenu"/>
         <activity android:name=".Views.SignIn" />
         <activity android:name=".Views.Detail" />
         <activity android:name=".Views.DetailMenu" />
@@ -37,7 +37,6 @@
         <activity android:name=".Views.AdminOfertasSemana" />
         <activity android:name=".Views.CRUD.List.Ingredients" />
         <activity android:name=".Views.CRUD.List.Foods" />
-        <activity android:name=".Views.CRUD.List.Categories" />
         <activity android:name=".Views.CRUD.List.Users" />
         <activity android:name=".Views.CRUD.Modify.CrudEditFood"/>
         <activity android:name=".Views.CRUD.Modify.CrudEditUsers"/>

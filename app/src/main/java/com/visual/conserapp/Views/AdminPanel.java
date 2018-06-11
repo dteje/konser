@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.visual.conserapp.R;
-import com.visual.conserapp.Views.CRUD.List.Categories;
 import com.visual.conserapp.Views.CRUD.List.Foods;
 import com.visual.conserapp.Views.CRUD.List.Ingredients;
 import com.visual.conserapp.Views.CRUD.List.Users;
@@ -52,8 +51,6 @@ public class AdminPanel extends AppCompatActivity {
         int id = view.getId();
         if (id == R.id.btn_ingredients) {
             intent = new Intent(AdminPanel.this, Ingredients.class);
-        } else if (id == R.id.btn_categories) {
-            intent = new Intent(AdminPanel.this, Categories.class);
         } else if (id == R.id.btn_foods) {
             intent = new Intent(AdminPanel.this, Foods.class);
         } else if (id == R.id.btn_clients || id == R.id.btn_admins){
@@ -64,6 +61,11 @@ public class AdminPanel extends AppCompatActivity {
 
     public void onOfertas(View view){
         Intent intent = new Intent(AdminPanel.this, AdminOfertasSemana.class);
+        startActivity(intent);
+    }
+
+    public void onMenus(View view){
+        Intent intent = new Intent(AdminPanel.this, AdminMenu.class);
         startActivity(intent);
     }
     }
