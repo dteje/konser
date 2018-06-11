@@ -104,6 +104,8 @@ public class SandwitchCreator extends AppCompatActivity {
         listPrice = new ArrayList<Double>();
         listPriceTypes = new ArrayList<String>();
 
+        saveMementoState();
+
         recycler = (RecyclerView) findViewById(R.id.recyclerIngredientesId);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recycleDividerManager();
@@ -117,10 +119,6 @@ public class SandwitchCreator extends AppCompatActivity {
         setFocus(btn_unfocus, btn[0]);
 
         ingredientPrice = 0.7;
-
-
-        saveMementoState();
-
 
         obtainDataFirebase();
 
@@ -161,13 +159,12 @@ public class SandwitchCreator extends AppCompatActivity {
             alertParent.printAlert(this);
         } else {
             listSandwich.add(ingredientName);
-            listPriceTypes.add(type);
+
+            saveMementoState();
 
             manageIngredientPrice(ingredientPrice, "add");
 
             finalSandwitch.setText(listSandwich.toString());
-
-            saveMementoState();
 
 
         }
@@ -238,6 +235,8 @@ public class SandwitchCreator extends AppCompatActivity {
         careTaker.add(originator.saveStateToMemento());
         saveFiles++;
         currentFiles++;
+
+        Log.d("SAVE MEMETO>", "aqui llega correcamente siempre");
     }
 
     public void resetMemento() {
