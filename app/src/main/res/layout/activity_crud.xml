@@ -47,4 +47,15 @@
         android:layout_margin="10dp"
         android:clickable="true"
         app:srcCompat="@drawable/plus" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/crud_undo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:onClick="onUndo"
+        app:srcCompat="@drawable/plus" />
 </RelativeLayout>

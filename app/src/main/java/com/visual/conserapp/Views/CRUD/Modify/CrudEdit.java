@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.WebStorage;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toolbar;
@@ -13,6 +14,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.Memento.CareTaker;
+import com.visual.conserapp.Memento.Memento;
+import com.visual.conserapp.Memento.Originator;
 import com.visual.conserapp.R;
 
 import java.util.HashMap;
@@ -32,6 +36,8 @@ public abstract class CrudEdit extends AppCompatActivity {
     protected TextView txt_id;
     protected String newid;
     protected Map<String, Object> map;
+    protected CareTaker careTaker;
+    protected Originator originator;
 
 
     @Override
@@ -99,6 +105,7 @@ public abstract class CrudEdit extends AppCompatActivity {
     }
 
     private void updateFirebase() {
+
         table.updateChildren(map);
     }
 

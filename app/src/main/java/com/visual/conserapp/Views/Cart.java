@@ -141,8 +141,8 @@ public class Cart extends AppCompatActivity {
         int id = menuitem.getItemId();
         Intent intent;
         if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
-        else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwitchCreator.class);
-        else intent = new Intent(this, Home.class);
+        else if (id == R.id.home_id) intent = new Intent(this, Home.class);
+        else intent = new Intent(this, SandwitchCreator.class);
         startActivity(intent);
         return true;
     }
