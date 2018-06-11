@@ -510,7 +510,7 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_sandwich) {
             // Handle the camera action
-            Intent intent = new Intent(Home.this, SandwitchCreator.class);
+            Intent intent = new Intent(Home.this, SandwichCreator.class);
             startActivity(intent);
         } else if (id == R.id.nav_cart) {
             Intent intent = new Intent(Home.this, Cart.class);
@@ -544,7 +544,7 @@ public class Home extends AppCompatActivity
         int id = menuitem.getItemId();
         Intent intent;
         if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
-        else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwitchCreator.class);
+        else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwichCreator.class);
         else intent = new Intent(this, Home.class);
         startActivity(intent);
         return true;
