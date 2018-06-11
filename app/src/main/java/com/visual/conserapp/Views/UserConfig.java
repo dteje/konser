@@ -23,7 +23,7 @@ import java.util.Map;
  * Created by daniel on 11/06/2018.
  */
 
-public class ConfigUser extends AppCompatActivity{
+public class UserConfig extends AppCompatActivity{
 
     private Toolbar toolbar;
     private DatabaseReference table_user;

@@ -9,9 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.visual.conserapp.R;
-import com.visual.conserapp.Views.CRUD.List.Foods;
-import com.visual.conserapp.Views.CRUD.List.Ingredients;
-import com.visual.conserapp.Views.CRUD.List.Users;
+import com.visual.conserapp.Views.CRUD.List.FoodList;
+import com.visual.conserapp.Views.CRUD.List.IngredientList;
+import com.visual.conserapp.Views.CRUD.List.UserList;
 
 /**
  * Created by daniel on 29/05/2018.
@@ -40,32 +40,33 @@ public class AdminPanel extends AppCompatActivity {
         int id = menuitem.getItemId();
         Intent intent;
         if (id == R.id.admin_top_menu_item_client_view) intent = new Intent(this, Home.class);
-        else if (id == R.id.admin_top_menu_item_pending_requests) intent = new Intent(this, AdminHome.class);
+        else if (id == R.id.admin_top_menu_item_pending_requests)
+            intent = new Intent(this, AdminOrders.class);
         else intent = new Intent(this, AdminPanel.class);
         startActivity(intent);
         return true;
     }
 
-    public void onRestaurante(View view){
-        Intent intent = new Intent(AdminPanel.this,Ingredients.class);
+    public void onRestaurante(View view) {
+        Intent intent = new Intent(AdminPanel.this, IngredientList.class);
         int id = view.getId();
         if (id == R.id.btn_ingredients) {
-            intent = new Intent(AdminPanel.this, Ingredients.class);
+            intent = new Intent(AdminPanel.this, IngredientList.class);
         } else if (id == R.id.btn_foods) {
-            intent = new Intent(AdminPanel.this, Foods.class);
-        } else if (id == R.id.btn_clients || id == R.id.btn_admins){
-            intent = new Intent(AdminPanel.this, Users.class);
+            intent = new Intent(AdminPanel.this, FoodList.class);
+        } else if (id == R.id.btn_clients || id == R.id.btn_admins) {
+            intent = new Intent(AdminPanel.this, UserList.class);
         }
         startActivity(intent);
     }
 
-    public void onOfertas(View view){
-        Intent intent = new Intent(AdminPanel.this, AdminOfertasSemana.class);
+    public void onOfertas(View view) {
+        Intent intent = new Intent(AdminPanel.this, AdminDailyEdit.class);
         startActivity(intent);
     }
 
-    public void onMenus(View view){
-        Intent intent = new Intent(AdminPanel.this, AdminMenu.class);
+    public void onMenus(View view) {
+        Intent intent = new Intent(AdminPanel.this, AdminMenuEdit.class);
         startActivity(intent);
     }
-    }
+}

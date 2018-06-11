@@ -5,9 +5,9 @@ import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.visual.conserapp.Model.User;
-import com.visual.conserapp.Adapter.CRUDList.CrudUsersAdapter;
-import com.visual.conserapp.Views.CRUD.Modify.CrudEditUsers;
+import com.visual.conserapp.Model.Ingredient;
+import com.visual.conserapp.Adapter.CRUDList.CrudIngredientsAdapter;
+import com.visual.conserapp.Views.CRUD.Modify.CrudEditIngredients;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,27 +16,27 @@ import java.util.List;
  * Created by daniel on 29/05/2018.
  */
 
-public class Users extends Crud {
+public class IngredientList extends CrudList {
 
-    String toolbarTitle = "Usuarios";
+    String toolbarTitle = "Ingredientes";
 
-    List<User> users;
-    List<User> usersfiltered;
+    List<Ingredient> ingredients;
+    List<Ingredient> ingredientsfiltered;
 
     @Override
     protected void onCreateChild() {
-        this.users = new ArrayList<>();
-        this.usersfiltered = new ArrayList<>();
+        this.ingredients = new ArrayList<>();
+        this.ingredientsfiltered = new ArrayList<>();
     }
 
     @Override
     Object getDataFromSnapshot(DataSnapshot dataSnapshot) {
-        return dataSnapshot.getValue(User.class);
+        return dataSnapshot.getValue(Ingredient.class);
     }
 
     @Override
     DatabaseReference createTable() {
-        return database.getReference("User");
+        return database.getReference("Ingredient");
     }
 
     @Override
@@ -44,9 +44,11 @@ public class Users extends Crud {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, CrudEditUsers.class);
+
+
+                Intent intent = new Intent(context, CrudEditIngredients.class);
                 intent.putExtra("id","new");
-                intent.putExtra("newid","0");
+                intent.putExtra("newid",newId++ +"");
                 startActivity(intent);
             }
         });
@@ -54,18 +56,21 @@ public class Users extends Crud {
 
     @Override
     void displayData() {
-        crudAdapter = new CrudUsersAdapter(objects, this); //S
+        crudAdapter = new CrudIngredientsAdapter(objects, this);
         recyclerView.setAdapter(crudAdapter);
+
     }
 
     @Override
     protected void collectDataCrud(DataSnapshot dataSnapshot) {
         clearData(true);
         for (DataSnapshot d : dataSnapshot.getChildren()) {
-            User user = d.getValue(User.class);
-            users.add(user);
-            objects.add((Object) user);
+            Ingredient ingredient = d.getValue(Ingredient.class);
+            ingredients.add(ingredient);
+            objects.add((Object) ingredient);
+            newId = Integer.parseInt(ingredient.getId());
         }
+        newId++;
         objectsfiltered = objects;
         displayData();
     }
@@ -75,11 +80,11 @@ public class Users extends Crud {
         return toolbarTitle;
     }
 
-    void clearData(boolean all) {
-        usersfiltered.clear();
+    void clearData(boolean all){
+        ingredientsfiltered.clear();
         objectsfiltered.clear();
         objects.clear();
-        if(all)users.clear();
+        if(all)ingredients.clear();
     }
 
     @Override
@@ -87,10 +92,10 @@ public class Users extends Crud {
         clearData(false);
         s = s.toLowerCase();
         boolean flag = false;
-        for (User u : users) {
-            if (u.getName().toLowerCase().contains(s) || u.getEmail().toLowerCase().contains(s)) {
-                usersfiltered.add(u);
-                objectsfiltered.add((Object) u);
+        for(Ingredient i : ingredients){
+            if(i.getName().toLowerCase().contains(s) || i.getType().toLowerCase().contains(s) || i.getId().contains(s)){
+                ingredientsfiltered.add(i);
+                objectsfiltered.add((Object) i);
                 flag = true;
             }
         }

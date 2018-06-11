@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import com.visual.conserapp.Interface.ItemClickListener;
 import com.visual.conserapp.Model.Request;
 import com.visual.conserapp.R;
-import com.visual.conserapp.Views.AdminHome;
+import com.visual.conserapp.Views.AdminOrders;
 import com.visual.conserapp.Views.RequestDetails;
 
 import java.util.ArrayList;
@@ -58,17 +58,17 @@ class RequestViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
 
     private List<Request> listData = new ArrayList<Request>();
-    private AdminHome adminHome;
+    private AdminOrders adminOrders;
 
-    public RequestAdapter(List<Request> listData, AdminHome adminHome) {
-        this.adminHome = adminHome;
+    public RequestAdapter(List<Request> listData, AdminOrders adminOrders) {
+        this.adminOrders = adminOrders;
         this.listData = listData;
 
     }
 
     @Override
     public RequestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(this.adminHome);
+        LayoutInflater layoutInflater = LayoutInflater.from(this.adminOrders);
         View itemView = layoutInflater.inflate(R.layout.item_admin_order, parent, false);
         return new RequestViewHolder(itemView);
     }
@@ -82,9 +82,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
         holder.btn_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(adminHome,RequestDetails.class);
+                Intent intent = new Intent(adminOrders,RequestDetails.class);
                 intent.putExtra("request_id",(new Gson()).toJson(listData.get(position),Request.class));
-                adminHome.startActivity(intent);
+                adminOrders.startActivity(intent);
             }
         });
     }

@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.visual.conserapp.R;
-import com.visual.conserapp.Views.CRUD.List.Crud;
+import com.visual.conserapp.Views.CRUD.List.CrudList;
 
 import java.util.List;
 
@@ -47,18 +47,18 @@ class CrudViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 
 public abstract class CrudAdapter extends RecyclerView.Adapter<CrudViewHolder>  {
 
-    protected Crud crud;
+    protected CrudList crudList;
     protected List<Object> listDataObjects;
 
 
-    public CrudAdapter(List<Object> listData, Crud crud){
+    public CrudAdapter(List<Object> listData, CrudList crudList){
         this.listDataObjects = listData;
-        this.crud = crud;
+        this.crudList = crudList;
     }
 
     @Override
     public CrudViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(this.crud);
+        LayoutInflater layoutInflater = LayoutInflater.from(this.crudList);
         View itemView = layoutInflater.inflate(R.layout.crud_list_item, parent, false);
         return new CrudViewHolder(itemView);
     }

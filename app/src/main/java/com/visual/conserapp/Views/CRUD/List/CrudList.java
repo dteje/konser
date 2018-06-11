@@ -23,7 +23,7 @@ import com.visual.conserapp.Memento.CareTaker;
 import com.visual.conserapp.Memento.Originator;
 import com.visual.conserapp.R;
 import com.visual.conserapp.Adapter.CRUDList.CrudAdapter;
-import com.visual.conserapp.Views.AdminHome;
+import com.visual.conserapp.Views.AdminOrders;
 import com.visual.conserapp.Views.AdminPanel;
 import com.visual.conserapp.Views.Home;
 
@@ -34,7 +34,7 @@ import java.util.List;
  * Created by daniel on 29/05/2018.
  */
 
-public abstract class Crud extends AppCompatActivity {
+public abstract class CrudList extends AppCompatActivity {
 
     protected CrudAdapter crudAdapter;
     protected List<Object> objects;
@@ -128,7 +128,7 @@ public abstract class Crud extends AppCompatActivity {
         Intent intent;
         if (id == R.id.admin_top_menu_item_client_view) intent = new Intent(this, Home.class);
         else if (id == R.id.admin_top_menu_item_pending_requests)
-            intent = new Intent(this, AdminHome.class);
+            intent = new Intent(this, AdminOrders.class);
         else intent = new Intent(this, AdminPanel.class);
         startActivity(intent);
         return true;
