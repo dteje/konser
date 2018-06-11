@@ -54,7 +54,7 @@ public class OrderTest {
 
     @Test
     public void setProductName() throws Exception {
-        order.setProductID("Bocadillo irlandes");
+        order.setProductName("Bocadillo irlandes");
         assertEquals("Bocadillo irlandes", order.getProductName());
     }
 
@@ -65,7 +65,7 @@ public class OrderTest {
 
     @Test
     public void setQuantity() throws Exception {
-        order.setProductID("10");
+        order.setQuantity("10");
         assertEquals("10", order.getQuantity());
     }
 
@@ -76,7 +76,7 @@ public class OrderTest {
 
     @Test
     public void setPrice() throws Exception {
-        order.setProductID("5.45");
+        order.setPrice("5.45");
         assertEquals("5.45", order.getPrice());
     }
 
@@ -87,7 +87,7 @@ public class OrderTest {
 
     @Test
     public void setDiscount() throws Exception {
-        order.setProductID("4");
+        order.setDiscount("4");
         assertEquals("4", order.getDiscount());
     }
 

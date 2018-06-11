@@ -49,7 +49,7 @@ public class Order {
     }
 
     public void setProductID(String productID) {
-        ProductID = productID;
+        this.ProductID = productID;
     }
 
     public String getProductName() {
@@ -57,7 +57,7 @@ public class Order {
     }
 
     public void setProductName(String productName) {
-        ProductName = productName;
+        this.ProductName = productName;
     }
 
     public String getQuantity() {
@@ -65,7 +65,7 @@ public class Order {
     }
 
     public void setQuantity(String quantity) {
-        Quantity = quantity;
+        this.Quantity = quantity;
     }
 
     public String getPrice() {
@@ -73,7 +73,7 @@ public class Order {
     }
 
     public void setPrice(String price) {
-        Price = price;
+        this.Price = price;
     }
 
     public String getDiscount() {
@@ -81,7 +81,7 @@ public class Order {
     }
 
     public void setDiscount(String discount) {
-        Discount = discount;
+        this.Discount = discount;
     }
 
 
