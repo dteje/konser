@@ -89,7 +89,7 @@ public class SandwitchCreator extends AppCompatActivity {
         originator = new Originator();
         careTaker = new CareTaker();
         saveFiles = 0;
-        currentFiles = 0;
+        currentFiles = -1;
 
         linearLayout = (LinearLayout) findViewById(R.id.generalLinearLayout);
         finalSandwitch = (TextView) linearLayout.findViewById(R.id.finalSandWitch);
@@ -244,7 +244,7 @@ public class SandwitchCreator extends AppCompatActivity {
 
     public void resetMemento() {
         careTaker.cleanMementoList();
-        currentFiles = 0;
+        currentFiles = -1;
         saveFiles = 0;
     }
 
@@ -264,6 +264,7 @@ public class SandwitchCreator extends AppCompatActivity {
             currentFiles--;
             originator.getStateFromMemento(careTaker.get(currentFiles));
             listSandwich = originator.getState();
+            listSandwich = (ArrayList<String>) listSandwich.clone();
 
             Log.d("CURRENT FILES",String.valueOf(currentFiles));
             Log.d("SAVE FILES",String.valueOf(saveFiles));
@@ -283,6 +284,7 @@ public class SandwitchCreator extends AppCompatActivity {
             currentFiles++;
             originator.getStateFromMemento(careTaker.get(currentFiles));
             listSandwich = originator.getState();
+            listSandwich = (ArrayList<String>) listSandwich.clone();
 
             Log.d("CURRENT FILES",String.valueOf(currentFiles));
             Log.d("SAVE FILES",String.valueOf(saveFiles));
@@ -304,8 +306,11 @@ public class SandwitchCreator extends AppCompatActivity {
             saveMementoState();
 
             manageIngredientPrice(ingredientPrice, "clear");
+            finalSandwitch.setText(listSandwich.toString());
+        } else {
+            Toast.makeText(SandwitchCreator.this, "Ya tienes un bocadillo vacio!", Toast.LENGTH_SHORT).show();
         }
-        finalSandwitch.setText(listSandwich.toString());
+
     }
 
     public void recycleDividerManager() {
