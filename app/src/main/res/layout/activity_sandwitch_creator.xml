@@ -113,9 +113,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textStyle="bold"
-                android:text="Your sandwitch: "
-                android:textSize="19sp" />
+                android:text="Tu bocadillo:"
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/finalSandWitch"
@@ -132,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="addToFavs"
-                android:text="Add to Favs" />
+                android:text="Añadir a Favs" />
         </LinearLayout>
 
         <LinearLayout
@@ -160,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:onClick="undoLastIngredient"
-                        android:text="Undo Ingredient"/>
+                        android:text="Deshacer" />
 
                     <Button
                         android:id="@+id/redoLastIngredients"
@@ -168,7 +168,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:onClick="redoLastIngredient"
-                        android:text="Redo Ingredient" />
+                        android:text="Rehacer" />
                 </LinearLayout>
 
                 <Button
@@ -177,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="removeAllElements"
-                    android:text="Remove All" />
+                    android:text="Limpiar bocadillo" />
 
             </LinearLayout>
 
