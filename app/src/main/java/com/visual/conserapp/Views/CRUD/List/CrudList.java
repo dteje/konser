@@ -8,19 +8,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
-import android.widget.Toolbar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.visual.conserapp.Memento.CareTaker;
-import com.visual.conserapp.Memento.Originator;
 import com.visual.conserapp.R;
 import com.visual.conserapp.Adapter.CRUDList.CrudAdapter;
 import com.visual.conserapp.Views.AdminOrders;
@@ -37,10 +35,8 @@ import java.util.List;
 public abstract class CrudList extends AppCompatActivity {
 
     protected CrudAdapter crudAdapter;
-    protected List<Object> objects;
-    protected List<Object> objectsfiltered;
-    protected String name;
-    protected String id;
+    protected List<Object> objects, objectsfiltered;
+    protected String name, id;
     protected FirebaseDatabase database;
     protected DatabaseReference table;
     protected RecyclerView recyclerView;
@@ -50,32 +46,31 @@ public abstract class CrudList extends AppCompatActivity {
     protected FloatingActionButton fab;
     protected Context context;
     protected int newId = 0;
-    protected Originator originator = new Originator();
-    protected CareTaker careTaker = new CareTaker();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.context = this;
-
-        database = FirebaseDatabase.getInstance();
         setContentView(R.layout.activity_crud);
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        context = this;
+
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.setTitle(getToolbarTitle());
+        toolbar.setTitle(getToolbarTitleFromSubclass());
         setSupportActionBar(toolbar);
 
+        database = FirebaseDatabase.getInstance();
+        table = getTableFromSubclass();
+
         fab = findViewById(R.id.crud_fab);
+        searchView = (SearchView) findViewById(R.id.searchview);
+        recyclerView = (RecyclerView) findViewById(R.id.crud_recyclerview);
 
         this.objects = new ArrayList<>();
         this.objectsfiltered = new ArrayList<>();
 
-        recyclerView = (RecyclerView) findViewById(R.id.crud_recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        searchView = (SearchView) findViewById(R.id.searchview);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -92,15 +87,14 @@ public abstract class CrudList extends AppCompatActivity {
         });
 
         onCreateChild();
-        table = createTable();
-        retrieveData();
+        retrieveDataFromFirebase();
         setFABOnClick();
     }
 
     protected abstract void setFABOnClick();
 
 
-    void retrieveData() {
+    void retrieveDataFromFirebase() {
         table.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -113,8 +107,6 @@ public abstract class CrudList extends AppCompatActivity {
             }
         });
     }
-
-    abstract void displayData();
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -134,13 +126,13 @@ public abstract class CrudList extends AppCompatActivity {
         return true;
     }
 
-    abstract void collectDataCrud(DataSnapshot dataSnapshot);
+    protected abstract void displayData();
 
-    abstract String getToolbarTitle();
+    protected abstract void collectDataCrud(DataSnapshot dataSnapshot);
 
-    abstract Object getDataFromSnapshot(DataSnapshot dataSnapshot);
+    protected abstract String getToolbarTitleFromSubclass();
 
-    abstract DatabaseReference createTable();
+    protected abstract DatabaseReference getTableFromSubclass();
 
     protected abstract boolean search(String query);
 

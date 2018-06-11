@@ -20,8 +20,7 @@ public class UserList extends CrudList {
 
     String toolbarTitle = "Usuarios";
 
-    List<User> users;
-    List<User> usersfiltered;
+    List<User> users, usersfiltered;
 
     @Override
     protected void onCreateChild() {
@@ -30,12 +29,7 @@ public class UserList extends CrudList {
     }
 
     @Override
-    Object getDataFromSnapshot(DataSnapshot dataSnapshot) {
-        return dataSnapshot.getValue(User.class);
-    }
-
-    @Override
-    DatabaseReference createTable() {
+    protected DatabaseReference getTableFromSubclass() {
         return database.getReference("User");
     }
 
@@ -53,8 +47,8 @@ public class UserList extends CrudList {
     }
 
     @Override
-    void displayData() {
-        crudAdapter = new CrudUsersAdapter(objects, this); //S
+    protected void displayData() {
+        crudAdapter = new CrudUsersAdapter(objects, this);
         recyclerView.setAdapter(crudAdapter);
     }
 
@@ -71,7 +65,7 @@ public class UserList extends CrudList {
     }
 
     @Override
-    String getToolbarTitle() {
+    protected String getToolbarTitleFromSubclass() {
         return toolbarTitle;
     }
 

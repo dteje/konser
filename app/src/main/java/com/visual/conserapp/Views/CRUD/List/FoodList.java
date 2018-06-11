@@ -20,8 +20,7 @@ public class FoodList extends CrudList {
 
     String toolbarTitle = "Platos";
 
-    List<Food> foods;
-    List<Food> foodsfiltered;
+    List<Food> foods, foodsfiltered;
 
 
     @Override
@@ -31,12 +30,7 @@ public class FoodList extends CrudList {
     }
 
     @Override
-    Object getDataFromSnapshot(DataSnapshot dataSnapshot) {
-        return dataSnapshot.getValue(Food.class);
-    }
-
-    @Override
-    DatabaseReference createTable() {
+    protected DatabaseReference getTableFromSubclass() {
         return database.getReference("Food");
     }
 
@@ -54,8 +48,8 @@ public class FoodList extends CrudList {
     }
 
     @Override
-    void displayData() {
-        crudAdapter = new CrudFoodAdapter(objects, this); //S
+    protected void displayData() {
+        crudAdapter = new CrudFoodAdapter(objects, this);
         recyclerView.setAdapter(crudAdapter);
     }
 
@@ -66,7 +60,6 @@ public class FoodList extends CrudList {
             Food f = d.getValue(Food.class);
             foods.add(f);
             objects.add((Object) f);
-            System.out.println(f.toString());
             newId = Integer.parseInt(f.getID());
         }
         newId++;
@@ -75,7 +68,7 @@ public class FoodList extends CrudList {
     }
 
     @Override
-    String getToolbarTitle() {
+    protected String getToolbarTitleFromSubclass() {
         return toolbarTitle;
     }
 

@@ -94,11 +94,9 @@ public class Cart extends AppCompatActivity {
         hourdialog.setTitle("Solo falta un detalle");
         hourdialog.setMessage("Indica la hora a la que recogeras tu pedido");
 
-
         final TimePicker timePicker = new TimePicker(Cart.this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         timePicker.setLayoutParams(lp);
-
 
         final EditText edt_address = new EditText(Cart.this);
         edt_address.setLayoutParams(lp);
@@ -109,7 +107,7 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String key = String.valueOf(System.currentTimeMillis());
-                Request request = new Request(key, Common.currentUser.getName(), txt_totalprice.getText().toString(), cart, timePicker.getHour()+":"+timePicker.getMinute());
+                Request request = new Request(key, Common.currentUser.getName(), txt_totalprice.getText().toString(), cart, timePicker.getHour() + ":" + timePicker.getMinute());
                 requests_table.child(key).setValue(request);
                 Toast.makeText(Cart.this, "Gracias! Pedido realizado", Toast.LENGTH_SHORT).show();
                 new Database(getBaseContext()).cleanCart();
@@ -154,7 +152,7 @@ public class Cart extends AppCompatActivity {
         return true;
     }
 
-    public void updateCart(){
+    public void updateCart() {
         double total = 0;
         for (Order o : cart) {
             total += (Double.parseDouble(o.getPrice())) * (Integer.parseInt(o.getQuantity()));

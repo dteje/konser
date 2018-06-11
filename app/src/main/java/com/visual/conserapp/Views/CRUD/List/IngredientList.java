@@ -20,8 +20,7 @@ public class IngredientList extends CrudList {
 
     String toolbarTitle = "Ingredientes";
 
-    List<Ingredient> ingredients;
-    List<Ingredient> ingredientsfiltered;
+    List<Ingredient> ingredients, ingredientsfiltered;
 
     @Override
     protected void onCreateChild() {
@@ -30,12 +29,7 @@ public class IngredientList extends CrudList {
     }
 
     @Override
-    Object getDataFromSnapshot(DataSnapshot dataSnapshot) {
-        return dataSnapshot.getValue(Ingredient.class);
-    }
-
-    @Override
-    DatabaseReference createTable() {
+    protected DatabaseReference getTableFromSubclass() {
         return database.getReference("Ingredient");
     }
 
@@ -55,7 +49,7 @@ public class IngredientList extends CrudList {
     }
 
     @Override
-    void displayData() {
+    protected void displayData() {
         crudAdapter = new CrudIngredientsAdapter(objects, this);
         recyclerView.setAdapter(crudAdapter);
 
@@ -76,7 +70,7 @@ public class IngredientList extends CrudList {
     }
 
     @Override
-    String getToolbarTitle() {
+    protected String getToolbarTitleFromSubclass() {
         return toolbarTitle;
     }
 
