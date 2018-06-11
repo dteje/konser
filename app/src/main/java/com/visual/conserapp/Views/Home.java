@@ -175,7 +175,6 @@ public class Home extends AppCompatActivity
         homeRecycler.setVisibility(View.INVISIBLE);
 
 
-        loadUserData();
         hoy_layout = (LinearLayout) findViewById(R.id.layout_hoy);
         hoy_layout.setVisibility(View.VISIBLE);
 
@@ -353,12 +352,6 @@ public class Home extends AppCompatActivity
     DatabaseReference table_foods, config_table;
     TextView tv_username;
     TextView tv_usermail;
-
-    private void loadUserData() {
-
-    }
-
-
 
     private void carruselListener(int position) {
         switch (position) {
