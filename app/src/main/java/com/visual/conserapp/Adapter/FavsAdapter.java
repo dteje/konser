@@ -39,8 +39,9 @@ import java.util.Hashtable;
 class FavsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView txt_favourite_name;
+    public TextView txt_favourite_price;
+    public TextView txt_favourite_ingredients;
     Button btn_eliminar;
-    Button btn_detalles;
     public FloatingActionButton btn_add;
 
     public void setTxt_favourite_name(TextView txt_favourite_name) {
@@ -51,8 +52,9 @@ class FavsViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     public FavsViewHolder(View itemView) {
         super(itemView);
         txt_favourite_name = (TextView) itemView.findViewById(R.id.fav_adapter_item_name);
+        txt_favourite_price = (TextView) itemView.findViewById(R.id.fav_adapter_price);
+        txt_favourite_ingredients = (TextView) itemView.findViewById(R.id.fav_adapter_ingredients);
         btn_eliminar = (Button) itemView.findViewById(R.id.fav_adapter_btn_eliminar);
-        btn_detalles = (Button) itemView.findViewById(R.id.fav_adapter_btn_details);
         btn_add = (FloatingActionButton) itemView.findViewById(R.id.favs_addtoCart);
     }
 
@@ -90,8 +92,12 @@ public class FavsAdapter extends RecyclerView.Adapter<FavsViewHolder> {
     @Override
     public void onBindViewHolder(final FavsViewHolder holder, final int position) {
         String name = listFav.get(position).getNameSandwichUser();
+        String ingredients = listFav.get(position).getIngredientes();
+        String price = String.valueOf(listFav.get(position).getPrice()) + "€";
 
         holder.txt_favourite_name.setText(name);
+        holder.txt_favourite_ingredients.setText(ingredients);
+        holder.txt_favourite_price.setText(price);
 
         holder.btn_eliminar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,26 +108,6 @@ public class FavsAdapter extends RecyclerView.Adapter<FavsViewHolder> {
                 database.getReference("UserFavs").child(id).setValue(userFavs);
 
                 home.initializeFavs();
-            }
-        });
-
-        holder.btn_detalles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Favs favs = listFav.get(position);
-
-                String nameSandwichOfficial = favs.getNameSandwichOfficial();
-                String nameSandwichUser = favs.getNameSandwichUser();
-                String ingredients = favs.getIngredientes();
-                Double price = favs.getPrice();
-
-                Intent i = new Intent(context, FavDetails.class);
-                i.putExtra("nameSandwichOfficial", nameSandwichOfficial);
-                i.putExtra("nameSandwichUser", nameSandwichUser);
-                i.putExtra("Ingredients", ingredients);
-                i.putExtra("price", price);
-
-                context.startActivity(i);
             }
         });
 
