@@ -27,6 +27,7 @@
         <activity android:name=".Views.Cart" />
         <activity android:name=".Views.Home" />
         <activity android:name=".Views.AdminMenu"/>
+        <activity android:name=".Views.ConfigUser"/>
         <activity android:name=".Views.SignIn" />
         <activity android:name=".Views.Detail" />
         <activity android:name=".Views.DetailMenu" />
