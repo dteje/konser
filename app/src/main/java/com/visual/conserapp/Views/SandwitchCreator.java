@@ -2,14 +2,12 @@ package com.visual.conserapp.Views;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,14 +21,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.visual.conserapp.Adapter.AdapterData;
-import com.visual.conserapp.Adapter.RecyclerClickListener;
 import com.visual.conserapp.Adapter.SandwichCreatorAdapter;
 import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Memento.CareTaker;
-import com.visual.conserapp.Memento.Memento;
 import com.visual.conserapp.Memento.Originator;
 import com.visual.conserapp.Model.Favs;
 
@@ -50,11 +45,9 @@ public class SandwitchCreator extends AppCompatActivity {
     ArrayList<String> listDataSalsas;
     ArrayList<String> listDataEspecial;
     ArrayList<String> listSandwich;
-    ArrayList<Double> listPrice;
     double ingredientPrice;
     double totalprice;
     String currentType;
-    ArrayList<String> listPriceTypes;
 
     RecyclerView recycler;
     LinearLayout linearLayout;
@@ -82,7 +75,7 @@ public class SandwitchCreator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sandwitch_creator);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Sandwitch Creator");
+        toolbar.setTitle("Crear mi bocadillo");
         toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
         setSupportActionBar(toolbar);
 
@@ -101,8 +94,6 @@ public class SandwitchCreator extends AppCompatActivity {
         listDataEspecial = new ArrayList<String>();
 
         listSandwich = new ArrayList<String>();
-        listPrice = new ArrayList<Double>();
-        listPriceTypes = new ArrayList<String>();
 
         saveMementoState();
 
@@ -172,7 +163,7 @@ public class SandwitchCreator extends AppCompatActivity {
 
     public void addToCart(View view) {
 
-        String orderId = "Order " + String.valueOf(System.currentTimeMillis());
+        String productID = "Order " + String.valueOf(System.currentTimeMillis());
         String quantity = "1";
         String price = obtainPrice();
         String discount = "0";
@@ -182,13 +173,11 @@ public class SandwitchCreator extends AppCompatActivity {
 
         if (listSandwich.isEmpty()) alertParent.printAlert(this);
         else {
-            orderRes = new Order(orderId, listSandwich.toString(), quantity, price, discount);
+            orderRes = new Order(productID, listSandwich.toString(), quantity, price, discount);
 
             new Database(getBaseContext()).addToCart(orderRes);
             Toast.makeText(SandwitchCreator.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
         }
-
-        Log.d("totalprice", obtainPrice());
 
     }
 
@@ -200,7 +189,7 @@ public class SandwitchCreator extends AppCompatActivity {
         if (listSandwich.size() == 0) alertParent.printAlert(this);
         else {
 
-            Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
+            Intent popUp = new Intent(SandwitchCreator.this, FavsPopWindow.class);
 
             String nameSandwichOfficial = listSandwich.toString();
             double price = Double.parseDouble(obtainPrice());
@@ -235,11 +224,6 @@ public class SandwitchCreator extends AppCompatActivity {
         careTaker.add(originator.saveStateToMemento());
         saveFiles++;
         currentFiles++;
-        Log.d("CURRENT FILES",String.valueOf(currentFiles));
-        Log.d("SAVE FILES",String.valueOf(saveFiles));
-        for (int i = 0; i < careTaker.getSize(); i++) {
-            Log.d("MEMENTOS " + i + " >", careTaker.get(i).getState().toString());
-        }
     }
 
     public void resetMemento() {
@@ -266,9 +250,6 @@ public class SandwitchCreator extends AppCompatActivity {
             listSandwich = originator.getState();
             listSandwich = (ArrayList<String>) listSandwich.clone();
 
-            Log.d("CURRENT FILES",String.valueOf(currentFiles));
-            Log.d("SAVE FILES",String.valueOf(saveFiles));
-
             manageIngredientPrice(ingredientPrice, "subs");
 
             finalSandwitch.setText(listSandwich.toString());
@@ -286,9 +267,6 @@ public class SandwitchCreator extends AppCompatActivity {
             listSandwich = originator.getState();
             listSandwich = (ArrayList<String>) listSandwich.clone();
 
-            Log.d("CURRENT FILES",String.valueOf(currentFiles));
-            Log.d("SAVE FILES",String.valueOf(saveFiles));
-
             manageIngredientPrice(ingredientPrice, "add");
 
             finalSandwitch.setText(listSandwich.toString());
@@ -300,7 +278,6 @@ public class SandwitchCreator extends AppCompatActivity {
     public void removeAllElements(View view) {
         if (listSandwich.size() != 0) {
             listSandwich.clear();
-            listPrice.clear();
 
             resetMemento();
             saveMementoState();
@@ -392,21 +369,6 @@ public class SandwitchCreator extends AppCompatActivity {
         totalprice = Double.parseDouble(decimalFormat.format(totalprice));
         return String.valueOf(totalprice);
     }
-    /*
-    public String obtainPrice() {
-        String res;
-        DecimalFormat twoDForm = new DecimalFormat("#.##");
-        for (int i = 0; i < listPrice.size(); i++) {
-            res = listSandwich.get(i);
-
-        }
-        if (res < 2) res = 2;
-        DecimalFormat decimalFormat = new DecimalFormat("#.00");
-        res = Double.parseDouble(decimalFormat.format(res));
-        return res;
-    }
-    */
-
 
     public void declareDatabase() {
         database = FirebaseDatabase.getInstance();

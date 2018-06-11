@@ -1,10 +1,8 @@
 package com.visual.conserapp.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,35 +10,24 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.visual.conserapp.AlertFactory.AlertFactory;
-import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Database.Database;
-import com.visual.conserapp.IngredientesFerran.EditIngredient;
-import com.visual.conserapp.IngredientesFerran.ManageIngredients;
 import com.visual.conserapp.Model.Favs;
-import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.Model.Order;
-import com.visual.conserapp.Model.User;
 import com.visual.conserapp.Model.UserFavs;
 import com.visual.conserapp.R;
-import com.visual.conserapp.Views.FavDetails;
 import com.visual.conserapp.Views.Home;
-import com.visual.conserapp.Views.SandwitchCreator;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 class FavsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView txt_favourite_name;
+    public TextView txt_favourite_price;
+    public TextView txt_favourite_ingredients;
     Button btn_eliminar;
-    Button btn_detalles;
     public FloatingActionButton btn_add;
 
     public void setTxt_favourite_name(TextView txt_favourite_name) {
@@ -51,8 +38,9 @@ class FavsViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     public FavsViewHolder(View itemView) {
         super(itemView);
         txt_favourite_name = (TextView) itemView.findViewById(R.id.fav_adapter_item_name);
+        txt_favourite_price = (TextView) itemView.findViewById(R.id.fav_adapter_price);
+        txt_favourite_ingredients = (TextView) itemView.findViewById(R.id.fav_adapter_ingredients);
         btn_eliminar = (Button) itemView.findViewById(R.id.fav_adapter_btn_eliminar);
-        btn_detalles = (Button) itemView.findViewById(R.id.fav_adapter_btn_details);
         btn_add = (FloatingActionButton) itemView.findViewById(R.id.favs_addtoCart);
     }
 
@@ -90,8 +78,12 @@ public class FavsAdapter extends RecyclerView.Adapter<FavsViewHolder> {
     @Override
     public void onBindViewHolder(final FavsViewHolder holder, final int position) {
         String name = listFav.get(position).getNameSandwichUser();
+        String ingredients = listFav.get(position).getIngredientes();
+        String price = String.valueOf(listFav.get(position).getPrice()) + "€";
 
         holder.txt_favourite_name.setText(name);
+        holder.txt_favourite_ingredients.setText(ingredients);
+        holder.txt_favourite_price.setText(price);
 
         holder.btn_eliminar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,26 +94,6 @@ public class FavsAdapter extends RecyclerView.Adapter<FavsViewHolder> {
                 database.getReference("UserFavs").child(id).setValue(userFavs);
 
                 home.initializeFavs();
-            }
-        });
-
-        holder.btn_detalles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Favs favs = listFav.get(position);
-
-                String nameSandwichOfficial = favs.getNameSandwichOfficial();
-                String nameSandwichUser = favs.getNameSandwichUser();
-                String ingredients = favs.getIngredientes();
-                Double price = favs.getPrice();
-
-                Intent i = new Intent(context, FavDetails.class);
-                i.putExtra("nameSandwichOfficial", nameSandwichOfficial);
-                i.putExtra("nameSandwichUser", nameSandwichUser);
-                i.putExtra("Ingredients", ingredients);
-                i.putExtra("price", price);
-
-                context.startActivity(i);
             }
         });
 
