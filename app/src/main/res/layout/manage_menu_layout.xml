@@ -23,22 +23,20 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/home_adapter_item_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical|start"
                     android:text="Menu1"
-                    android:textAllCaps="true"/>
+                    android:textAllCaps="true" />
 
                 <TextView
-                    android:id="@+id/home_adapter_platos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical|start"
                     android:text="Platos"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -49,7 +47,6 @@
 
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/home_adapter_btn_anyadir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
