@@ -27,7 +27,7 @@ import com.visual.conserapp.Views.Home;
 import java.util.ArrayList;
 
 
-class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+class MenuHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 
     public TextView txt_menuName, txt_platos;
@@ -39,7 +39,7 @@ class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClick
     }
 
 
-    public RecyclerViewHolder(View itemView) {
+    public MenuHolder(View itemView) {
         super(itemView);
         txt_menuName = (TextView) itemView.findViewById(R.id.home_adapter_item_name);
         txt_platos = (TextView) itemView.findViewById(R.id.home_adapter_platos);
@@ -54,14 +54,14 @@ class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClick
 
 }
 
-public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder>{
+public class MenuAdapter extends RecyclerView.Adapter<MenuHolder>{
 
     private ArrayList<MenuDia> listMenu = new ArrayList<>();
    // private Context context;
     Order orderRes;
     private Home home;
 
-    public HomeRecyclerAdapter(ArrayList<MenuDia> listMenu, Context context, Home home) {
+    public MenuAdapter(ArrayList<MenuDia> listMenu, Context context, Home home) {
         this.listMenu = listMenu;
         //this.context = context;
         this.home = home;
@@ -69,14 +69,14 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     }
 
     @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MenuHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.item_menu_home, parent, false);
-        return new RecyclerViewHolder(itemView);
+        return new MenuHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
+    public void onBindViewHolder(MenuHolder holder, final int position) {
         String name = listMenu.get(position).getName();
         final Double menuPrice = listMenu.get(position).getPrice();
         String platos = listMenu.get(position).getPlatosOrdenados();
