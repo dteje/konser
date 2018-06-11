@@ -60,13 +60,6 @@ public class Cart extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
         setSupportActionBar(toolbar);
 
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-        //        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //drawer.addDrawerListener(toggle);
-        //toggle.syncState();
-
-
         txt_totalprice = (TextView) findViewById(R.id.cart_tv_total);
         btn_placeorder = (FButton) findViewById(R.id.cart_btn_placeorder);
 
