@@ -1,10 +1,8 @@
 package com.visual.conserapp.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,29 +10,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.visual.conserapp.AlertFactory.AlertFactory;
-import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Database.Database;
-import com.visual.conserapp.IngredientesFerran.EditIngredient;
-import com.visual.conserapp.IngredientesFerran.ManageIngredients;
 import com.visual.conserapp.Model.Favs;
-import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.Model.Order;
-import com.visual.conserapp.Model.User;
 import com.visual.conserapp.Model.UserFavs;
 import com.visual.conserapp.R;
-import com.visual.conserapp.Views.FavDetails;
 import com.visual.conserapp.Views.Home;
-import com.visual.conserapp.Views.SandwitchCreator;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 class FavsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 

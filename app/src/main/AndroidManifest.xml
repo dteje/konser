@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Views.popFavs"
+            android:name=".Views.FavsPopWindow"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity android:name=".Views.Cart" />
         <activity android:name=".Views.Home" />
@@ -46,7 +46,6 @@
             android:name=".Views.RequestDetails"
             android:label="@string/title_activity_request_details"
             android:theme="@style/AppTheme"></activity>
-        <activity android:name=".Views.FavDetails"/>
         <activity android:name=".IngredientesFerran.ManageIngredients"/>
         <activity android:name=".IngredientesFerran.uploadIngredients"/>
         <activity android:name=".IngredientesFerran.AdminIngredientsMenu"/>

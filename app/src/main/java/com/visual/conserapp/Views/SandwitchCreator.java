@@ -2,14 +2,12 @@ package com.visual.conserapp.Views;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,14 +21,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.visual.conserapp.Adapter.AdapterData;
-import com.visual.conserapp.Adapter.RecyclerClickListener;
 import com.visual.conserapp.Adapter.SandwichCreatorAdapter;
 import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Memento.CareTaker;
-import com.visual.conserapp.Memento.Memento;
 import com.visual.conserapp.Memento.Originator;
 import com.visual.conserapp.Model.Favs;
 
@@ -50,11 +45,9 @@ public class SandwitchCreator extends AppCompatActivity {
     ArrayList<String> listDataSalsas;
     ArrayList<String> listDataEspecial;
     ArrayList<String> listSandwich;
-    ArrayList<Double> listPrice;
     double ingredientPrice;
     double totalprice;
     String currentType;
-    ArrayList<String> listPriceTypes;
 
     RecyclerView recycler;
     LinearLayout linearLayout;
@@ -101,8 +94,6 @@ public class SandwitchCreator extends AppCompatActivity {
         listDataEspecial = new ArrayList<String>();
 
         listSandwich = new ArrayList<String>();
-        listPrice = new ArrayList<Double>();
-        listPriceTypes = new ArrayList<String>();
 
         saveMementoState();
 
@@ -198,7 +189,7 @@ public class SandwitchCreator extends AppCompatActivity {
         if (listSandwich.size() == 0) alertParent.printAlert(this);
         else {
 
-            Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
+            Intent popUp = new Intent(SandwitchCreator.this, FavsPopWindow.class);
 
             String nameSandwichOfficial = listSandwich.toString();
             double price = Double.parseDouble(obtainPrice());
@@ -287,7 +278,6 @@ public class SandwitchCreator extends AppCompatActivity {
     public void removeAllElements(View view) {
         if (listSandwich.size() != 0) {
             listSandwich.clear();
-            listPrice.clear();
 
             resetMemento();
             saveMementoState();
@@ -379,21 +369,6 @@ public class SandwitchCreator extends AppCompatActivity {
         totalprice = Double.parseDouble(decimalFormat.format(totalprice));
         return String.valueOf(totalprice);
     }
-    /*
-    public String obtainPrice() {
-        String res;
-        DecimalFormat twoDForm = new DecimalFormat("#.##");
-        for (int i = 0; i < listPrice.size(); i++) {
-            res = listSandwich.get(i);
-
-        }
-        if (res < 2) res = 2;
-        DecimalFormat decimalFormat = new DecimalFormat("#.00");
-        res = Double.parseDouble(decimalFormat.format(res));
-        return res;
-    }
-    */
-
 
     public void declareDatabase() {
         database = FirebaseDatabase.getInstance();

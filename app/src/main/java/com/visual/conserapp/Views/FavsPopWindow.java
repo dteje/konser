@@ -30,7 +30,7 @@ import com.visual.conserapp.R;
 
 import java.util.ArrayList;
 
-public class popFavs extends Activity {
+public class FavsPopWindow extends Activity {
 
     Favs favs;
     UserFavs userFavs;
@@ -45,7 +45,6 @@ public class popFavs extends Activity {
     ArrayList<Favs> listFavs;
 
     String nameOfficial;
-    String nameUser;
     double price;
     String listIngredients;
 
@@ -53,7 +52,6 @@ public class popFavs extends Activity {
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.pop_favs);
-
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -88,14 +86,14 @@ public class popFavs extends Activity {
 
     public void generateFavs(View view) {
 
-        nameUser = askName();
+        String userName = textInputLayout.getText().toString();
 
         AlertFactory alertFactory = new AlertFactory();
         AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
 
-        if (nameUser.equals("")) alertParent.printAlert(this);
+        if (userName.equals("")) alertParent.printAlert(this);
         else {
-            favs = new Favs(nameOfficial, nameUser, listIngredients, price);
+            favs = new Favs(nameOfficial, userName, listIngredients, price);
             listFavs.add(favs);
             userFavs.setListFavs(listFavs);
 
@@ -108,16 +106,6 @@ public class popFavs extends Activity {
             finish();
         }
 
-    }
-
-
-    public void closePopUp(View view) {
-        finish();
-    }
-
-    public String askName() {
-        String userName = textInputLayout.getText().toString();
-        return userName;
     }
 
     public void declareDatabase() {
