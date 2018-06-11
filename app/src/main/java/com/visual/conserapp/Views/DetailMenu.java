@@ -21,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
@@ -167,7 +166,7 @@ public class DetailMenu extends AppCompatActivity {
         int id = menuitem.getItemId();
         Intent intent;
         if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
-        else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwitchCreator.class);
+        else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwichCreator.class);
         else intent = new Intent(this, Home.class);
         startActivity(intent);
         return true;

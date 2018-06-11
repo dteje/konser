@@ -3,15 +3,12 @@ package com.visual.conserapp.Views;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -37,29 +34,21 @@ import com.visual.conserapp.Adapter.FavsAdapter;
 import com.visual.conserapp.Adapter.FoodAdapter;
 import com.visual.conserapp.Adapter.HomeRecyclerAdapter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Hashtable;
 import java.util.List;
 
 
 import com.google.firebase.database.FirebaseDatabase;
-import com.visual.conserapp.Adapter.IngredientAdapter;
 import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Model.Drink;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Favs;
 import com.visual.conserapp.Model.Food;
-import com.visual.conserapp.Model.Ingredient;
-import com.visual.conserapp.IngredientesFerran.AdminIngredientsMenu;
 import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.Model.UserFavs;
 import com.visual.conserapp.Model.MenuDia;
 import com.visual.conserapp.R;
-
-import org.w3c.dom.Text;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 import io.paperdb.Paper;
@@ -521,7 +510,7 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_sandwich) {
             // Handle the camera action
-            Intent intent = new Intent(Home.this, SandwitchCreator.class);
+            Intent intent = new Intent(Home.this, SandwichCreator.class);
             startActivity(intent);
         } else if (id == R.id.nav_cart) {
             Intent intent = new Intent(Home.this, Cart.class);
@@ -555,7 +544,7 @@ public class Home extends AppCompatActivity
         int id = menuitem.getItemId();
         Intent intent;
         if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
-        else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwitchCreator.class);
+        else if (id == R.id.sandwitchCreator_id) intent = new Intent(this, SandwichCreator.class);
         else intent = new Intent(this, Home.class);
         startActivity(intent);
         return true;

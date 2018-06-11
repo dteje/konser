@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.SandwitchCreator">
+    tools:context=".Views.SandwichCreator">
 
 
 
@@ -109,7 +109,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textYourSandwitch"
+                android:id="@+id/textYourSandwich"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -118,7 +118,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/finalSandWitch"
+                android:id="@+id/txt_sandwich"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"

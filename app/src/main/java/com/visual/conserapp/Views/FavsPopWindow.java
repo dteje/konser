@@ -1,16 +1,11 @@
 package com.visual.conserapp.Views;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,7 +18,6 @@ import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Model.Favs;
-import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.Model.User;
 import com.visual.conserapp.Model.UserFavs;
 import com.visual.conserapp.R;
@@ -51,7 +45,7 @@ public class FavsPopWindow extends Activity {
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
-        setContentView(R.layout.pop_favs);
+        setContentView(R.layout.activity_favs_popwindow);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

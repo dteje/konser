@@ -33,7 +33,7 @@
         <activity android:name=".Views.DetailMenu" />
         <activity android:name=".Views.SignUp" />
         <activity android:name=".Views.AdminHome" />
-        <activity android:name=".Views.SandwitchCreator" />
+        <activity android:name=".Views.SandwichCreator" />
         <activity android:name=".Views.AdminPanel" />
         <activity android:name=".Views.AdminOfertasSemana" />
         <activity android:name=".Views.CRUD.List.Ingredients" />
@@ -50,7 +50,7 @@
         <activity android:name=".IngredientesFerran.uploadIngredients"/>
         <activity android:name=".IngredientesFerran.AdminIngredientsMenu"/>
         <activity android:name=".IngredientesFerran.EditIngredient"></activity>
-        <activity android:name=".Views.SandwitchCreator"></activity>
+        <activity android:name=".Views.SandwichCreator"></activity>
         <activity android:name=".Views.SignUp"></activity>
     </application>
 

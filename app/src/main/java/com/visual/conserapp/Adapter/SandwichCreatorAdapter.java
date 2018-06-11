@@ -1,7 +1,6 @@
 package com.visual.conserapp.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.visual.conserapp.IngredientesFerran.EditIngredient;
-import com.visual.conserapp.IngredientesFerran.ManageIngredients;
-import com.visual.conserapp.Model.Ingredient;
 import com.visual.conserapp.R;
-import com.visual.conserapp.Views.SandwitchCreator;
+import com.visual.conserapp.Views.SandwichCreator;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 class SandwichCreatorViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
 
@@ -43,13 +36,13 @@ class SandwichCreatorViewHolder extends RecyclerView.ViewHolder implements  View
 public class SandwichCreatorAdapter extends RecyclerView.Adapter<SandwichCreatorViewHolder> {
 
     private ArrayList<String> listIngredients = new ArrayList<String>();
-    private SandwitchCreator sandwitchCreator;
+    private SandwichCreator sandwichCreator;
     private Context context;
 
     public SandwichCreatorAdapter(){}
 
-    public SandwichCreatorAdapter(ArrayList<String> listIngredients, Context context, SandwitchCreator sandwitchCreator) {
-        this.sandwitchCreator = sandwitchCreator;
+    public SandwichCreatorAdapter(ArrayList<String> listIngredients, Context context, SandwichCreator sandwichCreator) {
+        this.sandwichCreator = sandwichCreator;
         this.listIngredients = listIngredients;
         this.context = context;
     }
@@ -71,7 +64,7 @@ public class SandwichCreatorAdapter extends RecyclerView.Adapter<SandwichCreator
         holder.btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sandwitchCreator.addToSandwitch(view, name);
+                sandwichCreator.addIngredientToSandwich(view, name);
             }
         });
     }
