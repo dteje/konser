@@ -230,7 +230,7 @@ public class Home extends AppCompatActivity
     }
 
     private void displayDailySandwich(String id) {
-        foods_table.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+        table_foods.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 f = dataSnapshot.getValue(Food.class);
@@ -338,7 +338,7 @@ public class Home extends AppCompatActivity
     private void getFoodsFromFirebaseAndSetAdapter() {
         declareDatabase();
         listaFoodFirebase = new ArrayList<>();
-        foods_table.addValueEventListener(new ValueEventListener() {
+        table_foods.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 obtainFoods(dataSnapshot);
