@@ -119,6 +119,7 @@ public class Home extends AppCompatActivity
         listMenu = new ArrayList<>();
         obtainDataFirebase();
 
+
         userFavId = Common.currentUser.getEmailAsId();
         listFavs = new ArrayList<Favs>();
         obtainDataFirebaseUserFavs();
@@ -316,6 +317,7 @@ public class Home extends AppCompatActivity
 
     private void obtainDataFirebase() {
         declareDatabase();
+        listMenu = new ArrayList<>();
 
         requests_table.addValueEventListener(new ValueEventListener() {
             @Override
@@ -328,7 +330,6 @@ public class Home extends AppCompatActivity
                 System.out.println("Fail" + databaseError.getCode());
             }
         });
-
     }
 
     private void obtainMenus(DataSnapshot dataSnapshot) {
@@ -344,6 +345,7 @@ public class Home extends AppCompatActivity
     }
 
     private void loadMenus() {
+        Collections.sort(listMenu);
         System.out.println(listMenu.toString());
         adapter = new HomeRecyclerAdapter(listMenu, getApplicationContext(), this);
         homeRecycler.setAdapter(adapter);
@@ -368,9 +370,6 @@ public class Home extends AppCompatActivity
     }
 
 
-    public void modifyAdapter() {
-        adapter.notifyDataSetChanged();
-    }
 
     private void carruselListener(int position) {
         switch (position) {
@@ -383,10 +382,9 @@ public class Home extends AppCompatActivity
 
             case 1:
                 textoCentro.setText("Menú");
-                homeRecycler.setVisibility(View.VISIBLE);
                 hoy_layout.setVisibility(View.INVISIBLE);
-                modifyAdapter();
-                homeRecycler.setAdapter(adapter);
+                homeRecycler.setVisibility(View.VISIBLE);
+                obtainDataFirebase();
                 break;
 
             case 2:
@@ -497,14 +495,6 @@ public class Home extends AppCompatActivity
         });
     }
 
-
-    private void setupList() {
-        for (int i = 0; i < 15; i++) {
-            Button btn = new Button(this);
-            btn.setText(textoCentro.getText());
-            listData.add(btn);
-        }
-    }
 
     @Override
     public void onBackPressed() {

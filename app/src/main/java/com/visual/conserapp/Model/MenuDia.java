@@ -1,5 +1,8 @@
 package com.visual.conserapp.Model;
 
+import android.support.annotation.NonNull;
+import android.view.Menu;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,7 +10,7 @@ import java.util.List;
  * Created by daniel on 30/04/2018.
  */
 
-public class MenuDia {
+public class MenuDia implements Comparable{
 
     private String Name;
     private Double Price;
@@ -88,5 +91,11 @@ public class MenuDia {
         String res = res1+", "+res2+", "+res3;
 
         return res;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        MenuDia m = (MenuDia) o;
+        return this.Name.toLowerCase().compareTo(m.getName().toLowerCase());
     }
 }
