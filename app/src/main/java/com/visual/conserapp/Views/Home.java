@@ -58,25 +58,29 @@ import static java.time.LocalDate.now;
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
+    MenuAdapter menuAdapter;
     CarouselPicker.CarouselViewAdapter imageAdapter;
     CarouselPicker carouselPicker;
-    TextView textoCentro;
     RecyclerView homeRecycler;
     RecyclerView.LayoutManager layoutManager;
+    ImageView img_dailysandiwch, img1, img2;
+    TextView textoCentro, txt_dailysandwich_name, txt_dailysandwich_price, txt_n1, txt_n2, tv_username, tv_usermail;
+    ;
+    LinearLayout hoy_layout;
 
-    MenuAdapter adapter;
-    ArrayList<MenuDia> listMenu;
     private List<Button> listData = new ArrayList<>();
+    ArrayList<MenuDia> listMenu;
     ArrayList<Favs> listFavs;
-
-    FirebaseDatabase database;
-    DatabaseReference requests_table;
-
     ArrayList<Food> listaFoodFirebase;
     ArrayList<Drink> listaDrinkFirebase;
-    DatabaseReference userfavs_table;
+
     String userFavId;
+    Food f, f1, f2;
+
+    FirebaseDatabase database;
+    DatabaseReference requests_table, userfavs_table, menu_table, table_foods, config_table;
+    ;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -89,9 +93,6 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Inicio");
         setSupportActionBar(toolbar);
-
-        database = FirebaseDatabase.getInstance();
-        requests_table = database.getReference("Menu");
 
         Paper.init(this);
 
@@ -119,61 +120,20 @@ public class Home extends AppCompatActivity
         tv_usermail.setText(Common.currentUser.getEmail());
         tv_username.setText(Common.currentUser.getName());
 
-        //Inicializar texto carrusel
-
         textoCentro = (TextView) findViewById(R.id.carruselText);
         textoCentro.setText("Hoy");
         Typeface lobster = Typeface.createFromAsset(getAssets(), "fonts/Lobster-Regular.ttf");
         textoCentro.setTypeface(lobster);
 
-        //Inicializar carrusel
-
-        carouselPicker = (CarouselPicker) findViewById(R.id.carouselPicker);
-        List<CarouselPicker.PickerItem> itemsImages = new ArrayList<>();
-        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.bocata_icon));
-        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.menu_icon));
-        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.hoy_icon));
-        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.complementos_icon));
-        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.favoritos_icon));
-        CarouselPicker.CarouselViewAdapter imageAdapter = new CarouselPicker.CarouselViewAdapter(this, itemsImages, 0);
-        carouselPicker.setAdapter(imageAdapter);
-        carouselPicker.setCurrentItem(2);
-
-
-        //Iniciar el listener del carrusel
-
-        carouselPicker.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                carruselListener(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        //Coger la fuente para el texto del carrusel
+        iniciarCarrusel();
 
         AssetManager am = getApplicationContext().getAssets();
-
-        //Organizar el recycler
-
 
         homeRecycler = (RecyclerView) findViewById(R.id.rec1);
         homeRecycler.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         homeRecycler.setLayoutManager(layoutManager);
-        //adapter = new MenuAdapter(listMenu, database, requests_table, this);
-        //homeRecycler.setAdapter(adapter);
         homeRecycler.setVisibility(View.INVISIBLE);
-
 
         hoy_layout = (LinearLayout) findViewById(R.id.layout_hoy);
         hoy_layout.setVisibility(View.VISIBLE);
@@ -191,8 +151,35 @@ public class Home extends AppCompatActivity
 
     }
 
-    TextView txt_dailysandwich_name, txt_dailysandwich_price, txt_n1, txt_n2;
-    ImageView img_dailysandiwch, img1, img2;
+    private void iniciarCarrusel() {
+        carouselPicker = (CarouselPicker) findViewById(R.id.carouselPicker);
+        List<CarouselPicker.PickerItem> itemsImages = new ArrayList<>();
+        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.bocata_icon));
+        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.menu_icon));
+        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.hoy_icon));
+        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.complementos_icon));
+        itemsImages.add(new CarouselPicker.DrawableItem(R.mipmap.favoritos_icon));
+        CarouselPicker.CarouselViewAdapter imageAdapter = new CarouselPicker.CarouselViewAdapter(this, itemsImages, 0);
+        carouselPicker.setAdapter(imageAdapter);
+        carouselPicker.setCurrentItem(2);
+
+        carouselPicker.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                carruselListener(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void getDailySandwich() {
@@ -245,8 +232,6 @@ public class Home extends AppCompatActivity
         });
     }
 
-    Food f, f1, f2;
-
     private void displayDailySandwich(String id) {
         table_foods.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -264,7 +249,6 @@ public class Home extends AppCompatActivity
         });
     }
 
-    DatabaseReference menu_table;
 
     private void displayDailyMenu(String id) {
 
@@ -276,7 +260,7 @@ public class Home extends AppCompatActivity
                 f1 = dataSnapshot.getValue(Food.class);
                 txt_n1.setText(f1.getName());
                 if (!f1.getImage().isEmpty())
-                       Picasso.with(getBaseContext()).load(f1.getImage()).into(img1);
+                    Picasso.with(getBaseContext()).load(f1.getImage()).into(img1);
             }
 
             @Override
@@ -298,11 +282,6 @@ public class Home extends AppCompatActivity
         });
     }
 
-    LinearLayout hoy_layout;
-
-
-    //MÉTODOS NUEVOS
-
     private void obtainDataFirebase() {
         declareDatabase();
         listMenu = new ArrayList<>();
@@ -321,22 +300,11 @@ public class Home extends AppCompatActivity
     }
 
     private void obtainMenus(DataSnapshot dataSnapshot) {
-        //listMenu.clear();
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
             MenuDia menu = ds.getValue(MenuDia.class);
             listMenu.add(menu);
         }
-
-
-        loadMenus();
-    }
-
-    private void loadMenus() {
-        Collections.sort(listMenu);
-        System.out.println(listMenu.toString());
-        adapter = new MenuAdapter(listMenu, getApplicationContext(), this);
-        homeRecycler.setAdapter(adapter);
+             generateAdapter("Menu");
     }
 
     private void declareDatabase() {
@@ -346,12 +314,7 @@ public class Home extends AppCompatActivity
         table_foods = database.getReference("Food");
         config_table = database.getReference("Config");
         menu_table = database.getReference("Config");
-
     }
-
-    DatabaseReference table_foods, config_table;
-    TextView tv_username;
-    TextView tv_usermail;
 
     private void carruselListener(int position) {
         switch (position) {
@@ -384,22 +347,48 @@ public class Home extends AppCompatActivity
             case 4:
                 textoCentro.setText("Favoritos");
                 hoy_layout.setVisibility(View.INVISIBLE);
-                initializeFavs();
+                generateAdapter("Favs");
                 break;
         }
     }
 
+    private void generateAdapter(String adapterType){
+        switch (adapterType){
+            case "Menu":
+                Collections.sort(listMenu);
+                menuAdapter = new MenuAdapter(listMenu, getApplicationContext(), this);
+                homeRecycler.setAdapter(menuAdapter);
+                break;
+            case "Drink":
+                Collections.sort(listaDrinkFirebase);
+                DrinkAdapter drinkAdapter = new DrinkAdapter(listaDrinkFirebase, this);
+                homeRecycler.setAdapter(drinkAdapter);
+                break;
+            case "Food":
+                Collections.sort(listaFoodFirebase);
+                FoodAdapter foodAdapter = new FoodAdapter(listaFoodFirebase, this);
+                homeRecycler.setAdapter(foodAdapter);
+                break;
+            case "Favs":
+                UserFavs userFavs = new UserFavs(Common.currentUser.getName(), listFavs, userFavId);
+                FavsAdapter favsAdapter = new FavsAdapter(userFavs, getApplicationContext(), listFavs, database, this);
+                homeRecycler.setAdapter(favsAdapter);
+                break;
+        }
 
-    private void getDrinksFromFirebaseAndSetAdapter(){
+    }
+
+
+    private void getDrinksFromFirebaseAndSetAdapter() {
         listaDrinkFirebase = new ArrayList<>();
         final DatabaseReference table_drinks = database.getReference("Drink");
         table_drinks.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot d : dataSnapshot.getChildren()){
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
                     listaDrinkFirebase.add(d.getValue(Drink.class));
                 }
-                setDrinkAdapter();
+                generateAdapter("Drink");
             }
 
             @Override
@@ -408,12 +397,6 @@ public class Home extends AppCompatActivity
             }
         });
 
-    }
-
-    private void setDrinkAdapter() {
-        Collections.sort(listaDrinkFirebase);
-        DrinkAdapter drinkAdapter = new DrinkAdapter(listaDrinkFirebase,this);
-        homeRecycler.setAdapter(drinkAdapter);
     }
 
     private void getFoodsFromFirebaseAndSetAdapter() {
@@ -425,7 +408,7 @@ public class Home extends AppCompatActivity
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     listaFoodFirebase.add(d.getValue(Food.class));
                 }
-                setFoodAdapter();
+                generateAdapter("Food");
 
             }
 
@@ -434,30 +417,6 @@ public class Home extends AppCompatActivity
 
             }
         });
-    }
-
-    void setFoodAdapter() {
-        Collections.sort(listaFoodFirebase);
-        FoodAdapter foodAdapter = new FoodAdapter(listaFoodFirebase, this);
-        homeRecycler.setAdapter(foodAdapter);
-    }
-
-
-    public void initializeFavs() {
-        UserFavs userFavs = new UserFavs(Common.currentUser.getName(), listFavs, userFavId);
-        FavsAdapter favsAdapter = new FavsAdapter(userFavs, getApplicationContext(), listFavs, database, this);
-        homeRecycler.setAdapter(favsAdapter);
-    }
-
-
-    public void obtainFavs(DataSnapshot dataSnapshot) {
-        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-            if (ds.getKey().equals(userFavId)) {
-                listFavs = ds.getValue(UserFavs.class).getListFavs();
-            }
-
-        }
     }
 
     public void obtainDataFirebaseUserFavs() {
@@ -467,7 +426,7 @@ public class Home extends AppCompatActivity
         userfavs_table.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                obtainFavs(dataSnapshot);
+                obtainFavsFromDatabase(dataSnapshot);
             }
 
             @Override
@@ -477,6 +436,15 @@ public class Home extends AppCompatActivity
         });
     }
 
+    public void obtainFavsFromDatabase(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+            if (ds.getKey().equals(userFavId)) {
+                listFavs = ds.getValue(UserFavs.class).getListFavs();
+            }
+
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -490,7 +458,6 @@ public class Home extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
@@ -499,10 +466,8 @@ public class Home extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_sandwich) {
-            // Handle the camera action
             Intent intent = new Intent(Home.this, SandwichCreator.class);
             startActivity(intent);
         } else if (id == R.id.nav_cart) {
