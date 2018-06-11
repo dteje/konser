@@ -13,7 +13,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec1"
         android:layout_width="match_parent"
-        android:layout_height="505dp"
+        android:layout_height="wrap_content"
+        android:minHeight="505dp"
         android:background="#fff">
 
     </android.support.v7.widget.RecyclerView>
@@ -23,13 +24,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:minHeight="400dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
             android:layout_weight="1"
+            android:layout_marginBottom="50dp"
             android:orientation="vertical">
 
             <LinearLayout

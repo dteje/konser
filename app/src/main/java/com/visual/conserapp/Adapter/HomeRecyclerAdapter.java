@@ -76,7 +76,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.manage_menu_layout, parent, false);
+        View itemView = inflater.inflate(R.layout.item_menu_home, parent, false);
         return new RecyclerViewHolder(itemView);
     }
 
@@ -88,7 +88,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
 
         holder.txt_menuName.setText(name);
-        holder.txt_platos.setText(platos);
+        //holder.txt_platos.setText(platos);
 
         final Context context3 = this.context;
 
