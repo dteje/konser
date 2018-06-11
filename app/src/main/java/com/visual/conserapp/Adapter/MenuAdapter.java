@@ -80,7 +80,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuHolder>{
         String name = listMenu.get(position).getName();
         final Double menuPrice = listMenu.get(position).getPrice();
         String platos = listMenu.get(position).getPlatosOrdenados();
-        System.out.println(listMenu.size());
         holder.txt_menuName.setText(name);
         holder.txt_platos.setText(platos);
 
