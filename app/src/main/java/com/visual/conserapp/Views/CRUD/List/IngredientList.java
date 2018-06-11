@@ -41,8 +41,6 @@ public class IngredientList extends CrudList {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 Intent intent = new Intent(context, CrudEditIngredients.class);
                 intent.putExtra("id","new");
                 intent.putExtra("newid",newId++ +"");
@@ -65,6 +63,7 @@ public class IngredientList extends CrudList {
             Ingredient ingredient = d.getValue(Ingredient.class);
             ingredients.add(ingredient);
             objects.add((Object) ingredient);
+            System.out.println(ingredient.getId());
             newId = Integer.parseInt(ingredient.getId());
 
         }
