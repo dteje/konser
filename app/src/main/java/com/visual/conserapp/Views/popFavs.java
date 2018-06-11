@@ -148,8 +148,6 @@ public class popFavs extends Activity {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
             if(ds.getKey().equals(Common.currentUser.getEmailAsId())){
-                Log.d("aqui he llegado", ":D");
-                Log.d("test", ds.getValue(UserFavs.class).getUsername());
                 listFavs = ds.getValue(UserFavs.class).getListFavs();
             }
         }

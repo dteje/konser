@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.visual.conserapp.Adapter.AdapterData;
 import com.visual.conserapp.Adapter.RecyclerClickListener;
+import com.visual.conserapp.Adapter.SandwichCreatorAdapter;
 import com.visual.conserapp.AlertFactory.AlertFactory;
 import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Database.Database;
@@ -50,6 +51,9 @@ public class SandwitchCreator extends AppCompatActivity {
     ArrayList<String> listSandwich;
     ArrayList<Double> listPrice;
     double ingredientPrice;
+    double totalprice;
+    String currentType;
+    ArrayList<String> listPriceTypes;
 
     RecyclerView recycler;
     LinearLayout linearLayout;
@@ -59,7 +63,6 @@ public class SandwitchCreator extends AppCompatActivity {
     DatabaseReference favs_table;
     DatabaseReference ing_table;
     FirebaseDatabase database;
-    ArrayList<Ingredient> listIngredientsFireBase;
 
     Originator originator;
     CareTaker careTaker;
@@ -98,7 +101,7 @@ public class SandwitchCreator extends AppCompatActivity {
 
         listSandwich = new ArrayList<String>();
         listPrice = new ArrayList<Double>();
-        listIngredientsFireBase = new ArrayList<Ingredient>();
+        listPriceTypes = new ArrayList<String>();
 
         recycler = (RecyclerView) findViewById(R.id.recyclerIngredientesId);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -144,7 +147,6 @@ public class SandwitchCreator extends AppCompatActivity {
         if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
         else intent = new Intent(this, Offers.class);
         startActivity(intent);
-
         return true;
     }
 
@@ -156,9 +158,11 @@ public class SandwitchCreator extends AppCompatActivity {
         this.btn_unfocus = btn_focus;
     }
 
-    public void addToSandwitch(View view, int position) {
+    public void addToSandwitch(View view) {
         TextView textView = (TextView) view.findViewById(R.id.idData);
         String ingredientName = textView.getText().toString();
+        String type = currentType;
+
 
         AlertFactory alertFactory = new AlertFactory();
         AlertParent alertParent = alertFactory.generateAlert("RepetitionSandwich");
@@ -167,13 +171,22 @@ public class SandwitchCreator extends AppCompatActivity {
             alertParent.printAlert(this);
         } else {
             listSandwich.add(ingredientName);
-            listPrice.add(ingredientPrice);
+            listPriceTypes.add(currentType);
 
-            printIngredients();
+            manageIngredientPrice(ingredientPrice, "add");
+
+            finalSandwitch.setText(listSandwich.toString());
 
             saveMementoState();
 
-            // printIngredients();
+        }
+    }
+
+    public void manageIngredientPrice(double price, String operation){
+        switch (operation){
+            case "add": totalprice += price; break;
+            case "subs": totalprice -= price; break;
+            case "clear" : totalprice = 0; break;
         }
     }
 
@@ -197,10 +210,6 @@ public class SandwitchCreator extends AppCompatActivity {
     }
 
 
-    public void printIngredients() {
-        finalSandwitch.setText(listSandwich.toString());
-    }
-
     public void addToCart(View view) {
 
         String orderId = "Order " + String.valueOf(System.currentTimeMillis());
@@ -219,6 +228,8 @@ public class SandwitchCreator extends AppCompatActivity {
             Toast.makeText(SandwitchCreator.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
         }
 
+        Log.d("totalprice", String.valueOf(obtainPrice()));
+
     }
 
 
@@ -228,8 +239,10 @@ public class SandwitchCreator extends AppCompatActivity {
             originator.getStateFromMemento(careTaker.get(currentFiles));
             listSandwich = originator.getState();
 
-            printIngredients();
-        }
+            manageIngredientPrice(ingredientPrice, "subs");
+
+            finalSandwitch.setText(listSandwich.toString());
+        } else Toast.makeText(SandwitchCreator.this, "Ninguna acción para deshacer", Toast.LENGTH_SHORT).show();
     }
 
     public void redoLastIngredient(View view) {
@@ -238,19 +251,22 @@ public class SandwitchCreator extends AppCompatActivity {
             originator.getStateFromMemento(careTaker.get(currentFiles));
             listSandwich = originator.getState();
 
-            printIngredients();
-        }
+            manageIngredientPrice(ingredientPrice, "add");
+
+            finalSandwitch.setText(listSandwich.toString());
+        } else Toast.makeText(SandwitchCreator.this, "Ninguna acción para rehacer", Toast.LENGTH_SHORT).show();
     }
 
     public void removeAllElements(View view) {
-        int id = view.getId();
         if (listSandwich.size() != 0) {
-            if (id == R.id.removeAllButton) {
                 listSandwich.clear();
                 listPrice.clear();
-            }
+
+                saveMementoState();
+
+                manageIngredientPrice(ingredientPrice, "clear");
         }
-        printIngredients();
+        finalSandwitch.setText(listSandwich.toString());
     }
 
     public void recycleDividerManager() {
@@ -259,35 +275,43 @@ public class SandwitchCreator extends AppCompatActivity {
         recycler.addItemDecoration(dividerItemDecoration);
     }
 
-// Más adelante tocará añadir que el precio se lo pueda especificar el restaurante. Entonces
-// Lo obtendriamos de la firebase.
-
     public void buttonIngredient(View view) {
+        String type;
 
         switch (view.getId()) {
             case R.id.bMeat:
                 setFocus(btn_unfocus, btn[0]);
-                modifyAdapter("Carne_Pescado");
+                type = "Carne_Pescado";
+                modifyAdapter(type);
+                currentType = type;
                 ingredientPrice = 0.7;
                 break;
             case R.id.bVeggies:
                 setFocus(btn_unfocus, btn[1]);
-                modifyAdapter("Verduras");
+                type = "Verduras;"
+                modifyAdapter(type);
+                currentType = type;
                 ingredientPrice = 0.7;
                 break;
             case R.id.bCheese:
                 setFocus(btn_unfocus, btn[2]);
-                modifyAdapter("Queso");
+                type = "Queso";
+                modifyAdapter(type);
+                currentType = type;
                 ingredientPrice = 0.4;
                 break;
             case R.id.bSpecial:
                 setFocus(btn_unfocus, btn[3]);
-                modifyAdapter("Especial");
+                type = "Especial";
+                modifyAdapter(type);
+                currentType = type;
                 ingredientPrice = 0.6;
                 break;
             case R.id.bSauces:
                 setFocus(btn_unfocus, btn[4]);
-                modifyAdapter("Salsas");
+                type = "Salsas";
+                modifyAdapter(type);
+                currentType = type;
                 ingredientPrice = 0.4;
                 break;
         }
@@ -295,23 +319,23 @@ public class SandwitchCreator extends AppCompatActivity {
     }
 
     public void modifyAdapter(String condition) {
-        AdapterData adapter = new AdapterData();
+        SandwichCreatorAdapter adapter = new SandwichCreatorAdapter();
 
         switch (condition) {
             case "Carne_Pescado":
-                adapter = new AdapterData(listDataCarne);
+                adapter = new SandwichCreatorAdapter(listDataCarne, this, this);
                 break;
             case "Verduras":
-                adapter = new AdapterData(listDataVerdura);
+                adapter = new SandwichCreatorAdapter(listDataVerdura, this, this);
                 break;
             case "Queso":
-                adapter = new AdapterData(listDataQueso);
+                adapter = new SandwichCreatorAdapter(listDataQueso, this, this);
                 break;
             case "Salsas":
-                adapter = new AdapterData(listDataSalsas);
+                adapter = new SandwichCreatorAdapter(listDataSalsas, this, this;
                 break;
             case "Especial":
-                adapter = new AdapterData(listDataEspecial);
+                adapter = new SandwichCreatorAdapter(listDataEspecial, this, this);
                 break;
         }
         recycler.setAdapter(adapter);
@@ -340,20 +364,24 @@ public class SandwitchCreator extends AppCompatActivity {
             startActivity(popUp);
         }
     }
-
-
     public double obtainPrice() {
-        double res = 0;
+        if (totalprice < 2) totalprice = 2;
+        return totalprice;
+    }
+
+    public String obtainPrice() {
+        String res;
         DecimalFormat twoDForm = new DecimalFormat("#.##");
         for (int i = 0; i < listPrice.size(); i++) {
-            res += listPrice.get(i);
-            String reslog = "res " + i;
+            res = listSandwich.get(i);
+
         }
         if (res < 2) res = 2;
         DecimalFormat decimalFormat = new DecimalFormat("#.00");
         res = Double.parseDouble(decimalFormat.format(res));
         return res;
     }
+
 
     public void declareDatabase() {
         database = FirebaseDatabase.getInstance();
@@ -409,34 +437,4 @@ public class SandwitchCreator extends AppCompatActivity {
         modifyAdapter("Carne_Pescado");
     }
 
-    /*
-    public void generateIngredients() {
-
-
-        for (int i = 0; i < listIngredientsFireBase.size(); i++) {
-            Ingredient ing = listIngredientsFireBase.get(i);
-
-            String condition = ing.getType();
-
-            switch (condition) {
-                case "Carne_Pescado":
-                    listDataCarne.add(ing.getName());
-                    break;
-                case "Verduras":
-                    listDataVerdura.add(ing.getName());
-                    break;
-                case "Queso":
-                    listDataQueso.add(ing.getName());
-                    break;
-                case "Salsas":
-                    listDataSalsas.add(ing.getName());
-                    break;
-                case "Especial":
-                    listDataEspecial.add(ing.getName());
-                    break;
-            }
-        }
-
-        modifyAdapter("Carne_Pescado");
-    }*/
 }

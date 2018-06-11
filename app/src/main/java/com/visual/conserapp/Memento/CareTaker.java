@@ -21,4 +21,5 @@ public class CareTaker {
     public int getSize(){
         return mementoList.size();
     }
+
 }
