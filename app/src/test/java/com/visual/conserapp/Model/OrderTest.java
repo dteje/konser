@@ -55,7 +55,7 @@ public class OrderTest {
     @Test
     public void setProductName() throws Exception {
         order.setProductID("Bocadillo irlandes");
-        assertEquals("Bocadillo asd", order.getProductName());
+        assertEquals("Bocadillo irlandes", order.getProductName());
     }
 
     @Test
