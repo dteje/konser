@@ -31,7 +31,6 @@ class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClick
 
 
     public TextView txt_menuName, txt_platos;
-    Button btn_detalles;
     android.support.design.widget.FloatingActionButton btn_anyadir;
 
 
@@ -58,17 +57,13 @@ class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClick
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder>{
 
     private ArrayList<MenuDia> listMenu = new ArrayList<>();
-    private FirebaseDatabase database;
-    private DatabaseReference menu_table;
-    private Context context;
+   // private Context context;
     Order orderRes;
     private Home home;
 
-    public HomeRecyclerAdapter(ArrayList<MenuDia> listMenu, FirebaseDatabase database, DatabaseReference menu_table, Context context, Home home) {
+    public HomeRecyclerAdapter(ArrayList<MenuDia> listMenu, Context context, Home home) {
         this.listMenu = listMenu;
-        this.database = database;
-        this.menu_table = menu_table;
-        this.context = context;
+        //this.context = context;
         this.home = home;
 
     }
@@ -85,25 +80,19 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         String name = listMenu.get(position).getName();
         final Double menuPrice = listMenu.get(position).getPrice();
         String platos = listMenu.get(position).getPlatosOrdenados();
-
-
         holder.txt_menuName.setText(name);
-        //holder.txt_platos.setText(platos);
-
-        final Context context3 = this.context;
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context3, DetailMenu.class);
+                Intent intent = new Intent(home, DetailMenu.class);
                 Gson gson = new Gson();
                 intent.putExtra("menu", gson.toJson(listMenu.get(position)));
                 home.startActivity(intent);
             }
         });
 
-        final Context context2 = this.context;
+        //final Context context2 = this.context;
         final String name2 = listMenu.get(position).getName();
 
         holder.btn_anyadir.setOnClickListener(new View.OnClickListener() {
@@ -117,12 +106,11 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                 AlertFactory alertFactory = new AlertFactory();
                 AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
 
-                if (listMenu.isEmpty()) alertParent.printAlert(context);
+                if (listMenu.isEmpty()) alertParent.printAlert(home);
                 else {
                     orderRes = new Order(orderId, name2, quantity, price, discount);
-
-                    new Database(context2).addToCart(orderRes);
-                    Toast.makeText(context2, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
+                    new Database(home).addToCart(orderRes);
+                    Toast.makeText(home, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
