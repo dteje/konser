@@ -156,9 +156,6 @@
 
                     <Button
                         android:id="@+id/undoLastIngredient"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:clickable="false"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -167,9 +164,6 @@
 
                     <Button
                         android:id="@+id/redoLastIngredients"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:clickable="false"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -179,9 +173,6 @@
 
                 <Button
                     android:id="@+id/removeAllButton"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:clickable="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

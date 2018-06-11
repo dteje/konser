@@ -32,7 +32,7 @@ class SandwichCreatorViewHolder extends RecyclerView.ViewHolder implements  View
     public SandwichCreatorViewHolder(View itemView){
         super(itemView);
         txt_ingredient_name = (TextView) itemView.findViewById(R.id.sc_adapter_ing_name);
-        btn_add = (Button) itemView.findViewById(R.id.sc_adapter_ing_name);
+        btn_add = (Button) itemView.findViewById(R.id.sc_adapter_btn_add);
     }
 
     @Override
@@ -64,14 +64,14 @@ public class SandwichCreatorAdapter extends RecyclerView.Adapter<SandwichCreator
 
     @Override
     public void onBindViewHolder(final SandwichCreatorViewHolder holder, final int position) {
-        String name = listIngredients.get(position);
+        final String name = listIngredients.get(position);
 
         holder.txt_ingredient_name.setText(name);
 
         holder.btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sandwitchCreator.addToSandwitch(view);
+                sandwitchCreator.addToSandwitch(view, name);
             }
         });
     }

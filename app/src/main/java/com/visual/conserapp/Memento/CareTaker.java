@@ -22,4 +22,8 @@ public class CareTaker {
         return mementoList.size();
     }
 
+    public void cleanMementoList(){
+        mementoList = new ArrayList<Memento>();
+    }
+
 }

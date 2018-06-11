@@ -2,6 +2,7 @@ package com.visual.conserapp.Views;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -105,16 +106,7 @@ public class SandwitchCreator extends AppCompatActivity {
 
         recycler = (RecyclerView) findViewById(R.id.recyclerIngredientesId);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
         recycleDividerManager();
-
-        recycler.addOnItemTouchListener(
-                new RecyclerClickListener(this, new RecyclerClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        addToSandwitch(view, position);
-                    }
-                }));
 
         for (int i = 0; i < btn.length; i++) {
             btn[i] = (Button) findViewById(btn_id[i]);
@@ -124,10 +116,10 @@ public class SandwitchCreator extends AppCompatActivity {
         btn_unfocus = btn[0];
         setFocus(btn_unfocus, btn[0]);
 
-        saveMementoState();
-
-        // Añadir el primer precio de los ingredientes, ya que no clickamos en el botón de Carne y por lo tanto no se cambia automaticamente
         ingredientPrice = 0.7;
+
+
+        saveMementoState();
 
 
         obtainDataFirebase();
@@ -158,9 +150,7 @@ public class SandwitchCreator extends AppCompatActivity {
         this.btn_unfocus = btn_focus;
     }
 
-    public void addToSandwitch(View view) {
-        TextView textView = (TextView) view.findViewById(R.id.idData);
-        String ingredientName = textView.getText().toString();
+    public void addToSandwitch(View view, String ingredientName) {
         String type = currentType;
 
 
@@ -171,7 +161,7 @@ public class SandwitchCreator extends AppCompatActivity {
             alertParent.printAlert(this);
         } else {
             listSandwich.add(ingredientName);
-            listPriceTypes.add(currentType);
+            listPriceTypes.add(type);
 
             manageIngredientPrice(ingredientPrice, "add");
 
@@ -179,42 +169,15 @@ public class SandwitchCreator extends AppCompatActivity {
 
             saveMementoState();
 
+
         }
     }
-
-    public void manageIngredientPrice(double price, String operation){
-        switch (operation){
-            case "add": totalprice += price; break;
-            case "subs": totalprice -= price; break;
-            case "clear" : totalprice = 0; break;
-        }
-    }
-
-    public void saveMementoState() {
-        originator.setState((ArrayList<String>) listSandwich.clone());
-        careTaker.add(originator.saveStateToMemento());
-        saveFiles++;
-        currentFiles++;
-
-    }
-
-    public boolean maxRepetitionIngredient(String ingredient) {
-        int numRepetitions = 0;
-        int maxRepetitions = 2;
-        for (int i = 0; i < listSandwich.size(); i++) {
-            String res = listSandwich.get(i);
-            if (ingredient == res) numRepetitions++;
-            if (numRepetitions == maxRepetitions) return true;
-        }
-        return false;
-    }
-
 
     public void addToCart(View view) {
 
         String orderId = "Order " + String.valueOf(System.currentTimeMillis());
         String quantity = "1";
-        String price = String.valueOf(obtainPrice());
+        String price = obtainPrice();
         String discount = "0";
 
         AlertFactory alertFactory = new AlertFactory();
@@ -228,10 +191,71 @@ public class SandwitchCreator extends AppCompatActivity {
             Toast.makeText(SandwitchCreator.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
         }
 
-        Log.d("totalprice", String.valueOf(obtainPrice()));
+        Log.d("totalprice", obtainPrice());
 
     }
 
+    public void addToFavs(View view) {
+
+        AlertFactory alertFactory = new AlertFactory();
+        AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
+
+        if (listSandwich.size() == 0) alertParent.printAlert(this);
+        else {
+
+            Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
+
+            String nameSandwichOfficial = listSandwich.toString();
+            double price = Double.parseDouble(obtainPrice());
+            String listIngredients = listSandwich.toString();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("nameSandwichOfficial", nameSandwichOfficial);
+            bundle.putDouble("price", price);
+            bundle.putString("listIngredients", listIngredients);
+            popUp.putExtras(bundle);
+
+            startActivity(popUp);
+        }
+    }
+
+    public void manageIngredientPrice(double price, String operation) {
+        switch (operation) {
+            case "add":
+                totalprice += price;
+                break;
+            case "subs":
+                totalprice -= price;
+                break;
+            case "clear":
+                totalprice = 0;
+                break;
+        }
+    }
+
+    public void saveMementoState() {
+        originator.setState((ArrayList<String>) listSandwich.clone());
+        careTaker.add(originator.saveStateToMemento());
+        saveFiles++;
+        currentFiles++;
+    }
+
+    public void resetMemento() {
+        careTaker.cleanMementoList();
+        currentFiles = 0;
+        saveFiles = 0;
+    }
+
+    public boolean maxRepetitionIngredient(String ingredient) {
+        int numRepetitions = 0;
+        int maxRepetitions = 2;
+        for (int i = 0; i < listSandwich.size(); i++) {
+            String res = listSandwich.get(i);
+            if (ingredient == res) numRepetitions++;
+            if (numRepetitions == maxRepetitions) return true;
+        }
+        return false;
+    }
 
     public void undoLastIngredient(View view) {
         if (currentFiles >= 1) {
@@ -242,7 +266,10 @@ public class SandwitchCreator extends AppCompatActivity {
             manageIngredientPrice(ingredientPrice, "subs");
 
             finalSandwitch.setText(listSandwich.toString());
-        } else Toast.makeText(SandwitchCreator.this, "Ninguna acción para deshacer", Toast.LENGTH_SHORT).show();
+
+
+        } else
+            Toast.makeText(SandwitchCreator.this, "Ninguna acción para deshacer", Toast.LENGTH_SHORT).show();
     }
 
     public void redoLastIngredient(View view) {
@@ -254,17 +281,19 @@ public class SandwitchCreator extends AppCompatActivity {
             manageIngredientPrice(ingredientPrice, "add");
 
             finalSandwitch.setText(listSandwich.toString());
-        } else Toast.makeText(SandwitchCreator.this, "Ninguna acción para rehacer", Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(SandwitchCreator.this, "Ninguna acción para rehacer", Toast.LENGTH_SHORT).show();
     }
+
 
     public void removeAllElements(View view) {
         if (listSandwich.size() != 0) {
-                listSandwich.clear();
-                listPrice.clear();
+            listSandwich.clear();
+            listPrice.clear();
 
-                saveMementoState();
+            resetMemento();
 
-                manageIngredientPrice(ingredientPrice, "clear");
+            manageIngredientPrice(ingredientPrice, "clear");
         }
         finalSandwitch.setText(listSandwich.toString());
     }
@@ -288,7 +317,7 @@ public class SandwitchCreator extends AppCompatActivity {
                 break;
             case R.id.bVeggies:
                 setFocus(btn_unfocus, btn[1]);
-                type = "Verduras;"
+                type = "Verduras";
                 modifyAdapter(type);
                 currentType = type;
                 ingredientPrice = 0.7;
@@ -332,7 +361,7 @@ public class SandwitchCreator extends AppCompatActivity {
                 adapter = new SandwichCreatorAdapter(listDataQueso, this, this);
                 break;
             case "Salsas":
-                adapter = new SandwichCreatorAdapter(listDataSalsas, this, this;
+                adapter = new SandwichCreatorAdapter(listDataSalsas, this, this);
                 break;
             case "Especial":
                 adapter = new SandwichCreatorAdapter(listDataEspecial, this, this);
@@ -341,34 +370,14 @@ public class SandwitchCreator extends AppCompatActivity {
         recycler.setAdapter(adapter);
     }
 
-    public void addToFavs(View view) {
 
-        AlertFactory alertFactory = new AlertFactory();
-        AlertParent alertParent = alertFactory.generateAlert("EmptySandwich");
-
-        if (listSandwich.size() == 0) alertParent.printAlert(this);
-        else {
-
-            Intent popUp = new Intent(SandwitchCreator.this, popFavs.class);
-
-            String nameSandwichOfficial = listSandwich.toString();
-            double price = obtainPrice();
-            String listIngredients = listSandwich.toString();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("nameSandwichOfficial", nameSandwichOfficial);
-            bundle.putDouble("price", price);
-            bundle.putString("listIngredients", listIngredients);
-            popUp.putExtras(bundle);
-
-            startActivity(popUp);
-        }
-    }
-    public double obtainPrice() {
+    public String obtainPrice() {
         if (totalprice < 2) totalprice = 2;
-        return totalprice;
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        totalprice = Double.parseDouble(decimalFormat.format(totalprice));
+        return String.valueOf(totalprice);
     }
-
+    /*
     public String obtainPrice() {
         String res;
         DecimalFormat twoDForm = new DecimalFormat("#.##");
@@ -381,6 +390,7 @@ public class SandwitchCreator extends AppCompatActivity {
         res = Double.parseDouble(decimalFormat.format(res));
         return res;
     }
+    */
 
 
     public void declareDatabase() {
