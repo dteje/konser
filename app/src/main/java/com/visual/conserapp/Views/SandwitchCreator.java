@@ -135,7 +135,7 @@ public class SandwitchCreator extends AppCompatActivity {
         int id = menuitem.getItemId();
         Intent intent;
         if (id == R.id.cart_id) intent = new Intent(this, Cart.class);
-        else intent = new Intent(this, Offers.class);
+        else intent = new Intent(this, Home.class);
         startActivity(intent);
         return true;
     }
@@ -235,8 +235,11 @@ public class SandwitchCreator extends AppCompatActivity {
         careTaker.add(originator.saveStateToMemento());
         saveFiles++;
         currentFiles++;
-
-        Log.d("SAVE MEMETO>", "aqui llega correcamente siempre");
+        Log.d("CURRENT FILES",String.valueOf(currentFiles));
+        Log.d("SAVE FILES",String.valueOf(saveFiles));
+        for (int i = 0; i < careTaker.getSize(); i++) {
+            Log.d("MEMENTOS " + i + " >", careTaker.get(i).getState().toString());
+        }
     }
 
     public void resetMemento() {
@@ -262,6 +265,9 @@ public class SandwitchCreator extends AppCompatActivity {
             originator.getStateFromMemento(careTaker.get(currentFiles));
             listSandwich = originator.getState();
 
+            Log.d("CURRENT FILES",String.valueOf(currentFiles));
+            Log.d("SAVE FILES",String.valueOf(saveFiles));
+
             manageIngredientPrice(ingredientPrice, "subs");
 
             finalSandwitch.setText(listSandwich.toString());
@@ -271,17 +277,21 @@ public class SandwitchCreator extends AppCompatActivity {
             Toast.makeText(SandwitchCreator.this, "Ninguna acción para deshacer", Toast.LENGTH_SHORT).show();
     }
 
+
     public void redoLastIngredient(View view) {
         if ((saveFiles - 1) > currentFiles) {
             currentFiles++;
             originator.getStateFromMemento(careTaker.get(currentFiles));
             listSandwich = originator.getState();
 
+            Log.d("CURRENT FILES",String.valueOf(currentFiles));
+            Log.d("SAVE FILES",String.valueOf(saveFiles));
+
             manageIngredientPrice(ingredientPrice, "add");
 
             finalSandwitch.setText(listSandwich.toString());
         } else
-            Toast.makeText(SandwitchCreator.this, "Ninguna acción para rehacer", Toast.LENGTH_SHORT).show();
+           Toast.makeText(SandwitchCreator.this, "Ninguna acción para rehacer", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -291,6 +301,7 @@ public class SandwitchCreator extends AppCompatActivity {
             listPrice.clear();
 
             resetMemento();
+            saveMementoState();
 
             manageIngredientPrice(ingredientPrice, "clear");
         }

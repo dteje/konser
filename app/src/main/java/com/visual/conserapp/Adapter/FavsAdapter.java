@@ -2,6 +2,7 @@ package com.visual.conserapp.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,22 +10,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.AlertFactory.AlertFactory;
+import com.visual.conserapp.AlertFactory.AlertParent;
 import com.visual.conserapp.Common.Common;
+import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.IngredientesFerran.EditIngredient;
 import com.visual.conserapp.IngredientesFerran.ManageIngredients;
 import com.visual.conserapp.Model.Favs;
 import com.visual.conserapp.Model.Ingredient;
+import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.Model.User;
 import com.visual.conserapp.Model.UserFavs;
 import com.visual.conserapp.R;
 import com.visual.conserapp.Views.FavDetails;
 import com.visual.conserapp.Views.Home;
+import com.visual.conserapp.Views.SandwitchCreator;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -34,6 +41,7 @@ class FavsViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     public TextView txt_favourite_name;
     Button btn_eliminar;
     Button btn_detalles;
+    public FloatingActionButton btn_add;
 
     public void setTxt_favourite_name(TextView txt_favourite_name) {
         this.txt_favourite_name = txt_favourite_name;
@@ -45,6 +53,7 @@ class FavsViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
         txt_favourite_name = (TextView) itemView.findViewById(R.id.fav_adapter_item_name);
         btn_eliminar = (Button) itemView.findViewById(R.id.fav_adapter_btn_eliminar);
         btn_detalles = (Button) itemView.findViewById(R.id.fav_adapter_btn_details);
+        btn_add = (FloatingActionButton) itemView.findViewById(R.id.favs_addtoCart);
     }
 
     @Override
@@ -115,7 +124,28 @@ public class FavsAdapter extends RecyclerView.Adapter<FavsViewHolder> {
                 context.startActivity(i);
             }
         });
+
+        holder.btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Favs favs = listFav.get(position);
+
+                String orderId = "Order " + String.valueOf(System.currentTimeMillis());
+                String quantity = "1";
+                String price = String.valueOf(favs.getPrice());
+                String discount = "0";
+
+                Order orderRes = new Order(orderId, favs.getNameSandwichOfficial(), quantity, price, discount);
+
+                new Database(context).addToCart(orderRes);
+                Toast.makeText(context, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
+
+
 
 
     @Override
