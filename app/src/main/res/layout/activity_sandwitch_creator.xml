@@ -145,19 +145,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingRight="25dp"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/removeLastButton"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="removeLastElement"
-                    android:text="Remove Last" />
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/undoLastIngredient"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="undoLastIngredient"
+                        android:text="Undo Ingredient"/>
+
+                    <Button
+                        android:id="@+id/redoLastIngredients"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="redoLastIngredient"
+                        android:text="Redo Ingredient" />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/removeAllButton"
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="removeAllElements"

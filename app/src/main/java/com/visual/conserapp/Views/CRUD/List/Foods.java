@@ -2,9 +2,12 @@ package com.visual.conserapp.Views.CRUD.List;
 
 import android.content.Intent;
 import android.view.View;
+import android.webkit.WebStorage;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
+import com.visual.conserapp.Memento.CareTaker;
+import com.visual.conserapp.Memento.Originator;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Adapter.CRUDList.CrudFoodAdapter;
 import com.visual.conserapp.Views.CRUD.Modify.CrudEditFood;
@@ -22,6 +25,7 @@ public class Foods extends Crud {
 
     List<Food> foods;
     List<Food> foodsfiltered;
+
 
     @Override
     protected void onCreateChild() {
@@ -100,4 +104,5 @@ public class Foods extends Crud {
         displayData();
         return flag;
     }
+
 }

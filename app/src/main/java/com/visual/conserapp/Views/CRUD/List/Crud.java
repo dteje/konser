@@ -19,6 +19,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.visual.conserapp.Memento.CareTaker;
+import com.visual.conserapp.Memento.Originator;
 import com.visual.conserapp.R;
 import com.visual.conserapp.Adapter.CRUDList.CrudAdapter;
 import com.visual.conserapp.Views.AdminHome;
@@ -48,6 +50,8 @@ public abstract class Crud extends AppCompatActivity {
     protected FloatingActionButton fab;
     protected Context context;
     protected int newId = 0;
+    protected Originator originator = new Originator();
+    protected CareTaker careTaker = new CareTaker();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
