@@ -160,4 +160,8 @@ public class Cart extends AppCompatActivity {
         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
         txt_totalprice.setText(fmt.format(total));
     }
+
+    public String getTotal(){
+        return txt_totalprice.getText().toString();
+    }
 }
