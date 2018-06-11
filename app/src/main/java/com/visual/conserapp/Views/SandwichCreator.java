@@ -178,9 +178,6 @@ public class SandwichCreator extends AppCompatActivity {
 
     }
 
-    public ArrayList<String> getListSandwich() {
-        return listSandwich;
-    }
 
     public void addToFavs(View view) {
 

@@ -46,7 +46,6 @@ public class Food implements Comparable{
         this.CategoryID = CategoryID;
         this.Ingredients = Ingredients;
         this.ID = ID;
-        //this.Ingredients = new ArrayList<>();
     }
 
     public Food(String CategoryID, String Description, String Discount, String Ingredients, String Image, String Name, String Price) {
@@ -57,7 +56,6 @@ public class Food implements Comparable{
         this.Image = Image;
         this.CategoryID = CategoryID;
         this.Ingredients = Ingredients;
-        //this.Ingredientes = new ArrayList<>();
     }
 
     public Food() {
