@@ -93,7 +93,7 @@ public class FavsAdapter extends RecyclerView.Adapter<FavsViewHolder> {
 
                 database.getReference("UserFavs").child(id).setValue(userFavs);
 
-                home.setFavAdapter();
+                home.getUserFavsFromFirebaseAndSetAdapter();
             }
         });
 
@@ -116,9 +116,6 @@ public class FavsAdapter extends RecyclerView.Adapter<FavsViewHolder> {
 
 
     }
-
-
-
 
     @Override
     public int getItemCount() {

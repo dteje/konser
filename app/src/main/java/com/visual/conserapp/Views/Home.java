@@ -107,12 +107,11 @@ public class Home extends AppCompatActivity
 
 
         listMenu = new ArrayList<>();
-        obtainDataFirebase();
+        getMenusFromFirebaseAndSetAdapter();
 
 
         userFavId = Common.currentUser.getEmailAsId();
         listFavs = new ArrayList<Favs>();
-        obtainDataFirebaseUserFavs();
 
         View headerView = navigationView.getHeaderView(0);
         tv_usermail = (TextView) headerView.findViewById(R.id.nav_header_email);
@@ -249,7 +248,6 @@ public class Home extends AppCompatActivity
         });
     }
 
-
     private void displayDailyMenu(String id) {
 
         DatabaseReference p1 = database.getReference("Menu").child(id).child("listaPlatos").child("0");
@@ -282,7 +280,16 @@ public class Home extends AppCompatActivity
         });
     }
 
-    private void obtainDataFirebase() {
+    private void declareDatabase() {
+        database = FirebaseDatabase.getInstance();
+        requests_table = database.getReference("Menu");
+        userfavs_table = database.getReference("UserFavs");
+        table_foods = database.getReference("Food");
+        config_table = database.getReference("Config");
+        menu_table = database.getReference("Config");
+    }
+
+    private void getMenusFromFirebaseAndSetAdapter() {
         declareDatabase();
         listMenu = new ArrayList<>();
 
@@ -307,15 +314,78 @@ public class Home extends AppCompatActivity
              generateAdapter("Menu");
     }
 
-    private void declareDatabase() {
-        database = FirebaseDatabase.getInstance();
-        requests_table = database.getReference("Menu");
-        userfavs_table = database.getReference("UserFavs");
-        table_foods = database.getReference("Food");
-        config_table = database.getReference("Config");
-        menu_table = database.getReference("Config");
+    private void getDrinksFromFirebaseAndSetAdapter() {
+        listaDrinkFirebase = new ArrayList<>();
+        final DatabaseReference table_drinks = database.getReference("Drink");
+        table_drinks.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                obtainDrinks(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Fail" + databaseError.getCode());
+            }
+        });
     }
 
+    private void obtainDrinks(DataSnapshot dataSnapshot) {
+        for (DataSnapshot d : dataSnapshot.getChildren()) {
+            listaDrinkFirebase.add(d.getValue(Drink.class));
+        }
+        generateAdapter("Drink");
+    }
+
+    private void getFoodsFromFirebaseAndSetAdapter() {
+        declareDatabase();
+        listaFoodFirebase = new ArrayList<>();
+        table_foods.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                obtainFoods(dataSnapshot);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Fail" + databaseError.getCode());
+            }
+        });
+    }
+
+    private void obtainFoods(DataSnapshot dataSnapshot) {
+        for (DataSnapshot d : dataSnapshot.getChildren()) {
+            listaFoodFirebase.add(d.getValue(Food.class));
+        }
+        generateAdapter("Food");
+    }
+
+    public void getUserFavsFromFirebaseAndSetAdapter() {
+        declareDatabase();
+        listFavs.clear();
+
+        userfavs_table.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                obtainFavs(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+    }
+
+    public void obtainFavs(DataSnapshot dataSnapshot) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+            if (ds.getKey().equals(userFavId)) {
+                listFavs = ds.getValue(UserFavs.class).getListFavs();
+            }
+            generateAdapter("Favs");
+        }
+    }
+    
     private void carruselListener(int position) {
         switch (position) {
             case 0:
@@ -329,7 +399,7 @@ public class Home extends AppCompatActivity
                 textoCentro.setText("Menú");
                 hoy_layout.setVisibility(View.INVISIBLE);
                 homeRecycler.setVisibility(View.VISIBLE);
-                obtainDataFirebase();
+                getMenusFromFirebaseAndSetAdapter();
                 break;
 
             case 2:
@@ -340,14 +410,15 @@ public class Home extends AppCompatActivity
 
             case 3:
                 textoCentro.setText("Bebidas");
-                getDrinksFromFirebaseAndSetAdapter();
                 hoy_layout.setVisibility(View.INVISIBLE);
                 homeRecycler.setVisibility(View.VISIBLE);
+                getDrinksFromFirebaseAndSetAdapter();
                 break;
             case 4:
                 textoCentro.setText("Favoritos");
                 hoy_layout.setVisibility(View.INVISIBLE);
-                generateAdapter("Favs");
+                homeRecycler.setVisibility(View.VISIBLE);
+                getUserFavsFromFirebaseAndSetAdapter();
                 break;
         }
     }
@@ -378,73 +449,6 @@ public class Home extends AppCompatActivity
 
     }
 
-
-    private void getDrinksFromFirebaseAndSetAdapter() {
-        listaDrinkFirebase = new ArrayList<>();
-        final DatabaseReference table_drinks = database.getReference("Drink");
-        table_drinks.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    listaDrinkFirebase.add(d.getValue(Drink.class));
-                }
-                generateAdapter("Drink");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
-    private void getFoodsFromFirebaseAndSetAdapter() {
-        declareDatabase();
-        listaFoodFirebase = new ArrayList<>();
-        table_foods.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    listaFoodFirebase.add(d.getValue(Food.class));
-                }
-                generateAdapter("Food");
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void obtainDataFirebaseUserFavs() {
-        declareDatabase();
-        listFavs.clear();
-
-        userfavs_table.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                obtainFavsFromDatabase(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-    }
-
-    public void obtainFavsFromDatabase(DataSnapshot dataSnapshot) {
-        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-            if (ds.getKey().equals(userFavId)) {
-                listFavs = ds.getValue(UserFavs.class).getListFavs();
-            }
-
-        }
-    }
 
     @Override
     public void onBackPressed() {
