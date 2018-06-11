@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import com.visual.conserapp.Common.Common;
 import com.visual.conserapp.Model.User;
-import com.visual.conserapp.Views.CRUD.List.Users;
+import com.visual.conserapp.Views.CRUD.List.UserList;
 import com.visual.conserapp.Views.CRUD.Modify.CrudEditUsers;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class CrudUsersAdapter extends CrudAdapter {
 
     List<User> listData;
 
-    public CrudUsersAdapter(List<Object> objects, Users users) {
+    public CrudUsersAdapter(List<Object> objects, UserList users) {
         super(objects, users);
         this.listData = convertObjectsToUsers(listDataObjects);
     }
@@ -36,12 +36,12 @@ public class CrudUsersAdapter extends CrudAdapter {
             @Override
             public void onClick(View view) {
                 if(listData.get(position).getEmail().equals(Common.currentUser.getEmail())){
-                    Toast.makeText(crud,"No puedes editar el usuario en uso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(crudList,"No puedes editar el usuario en uso", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Intent intent = new Intent(crud, CrudEditUsers.class);
+                    Intent intent = new Intent(crudList, CrudEditUsers.class);
                     intent.putExtra("id",listData.get(position).getEmailAsId());
-                    crud.startActivity(intent);
+                    crudList.startActivity(intent);
                 }
             }
         });

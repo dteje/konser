@@ -2,15 +2,12 @@ package com.visual.conserapp.Views.CRUD.List;
 
 import android.content.Intent;
 import android.view.View;
-import android.webkit.WebStorage;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.visual.conserapp.Memento.CareTaker;
-import com.visual.conserapp.Memento.Originator;
-import com.visual.conserapp.Model.Food;
-import com.visual.conserapp.Adapter.CRUDList.CrudFoodAdapter;
-import com.visual.conserapp.Views.CRUD.Modify.CrudEditFood;
+import com.visual.conserapp.Model.User;
+import com.visual.conserapp.Adapter.CRUDList.CrudUsersAdapter;
+import com.visual.conserapp.Views.CRUD.Modify.CrudEditUsers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,28 +16,27 @@ import java.util.List;
  * Created by daniel on 29/05/2018.
  */
 
-public class Foods extends Crud {
+public class UserList extends CrudList {
 
-    String toolbarTitle = "Platos";
+    String toolbarTitle = "Usuarios";
 
-    List<Food> foods;
-    List<Food> foodsfiltered;
-
+    List<User> users;
+    List<User> usersfiltered;
 
     @Override
     protected void onCreateChild() {
-        this.foods = new ArrayList<>();
-        this.foodsfiltered = new ArrayList<>();
+        this.users = new ArrayList<>();
+        this.usersfiltered = new ArrayList<>();
     }
 
     @Override
     Object getDataFromSnapshot(DataSnapshot dataSnapshot) {
-        return dataSnapshot.getValue(Food.class);
+        return dataSnapshot.getValue(User.class);
     }
 
     @Override
     DatabaseReference createTable() {
-        return database.getReference("Food");
+        return database.getReference("User");
     }
 
     @Override
@@ -48,9 +44,9 @@ public class Foods extends Crud {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, CrudEditFood.class);
-                intent.putExtra("id", "new");
-                intent.putExtra("newid", newId + "");
+                Intent intent = new Intent(context, CrudEditUsers.class);
+                intent.putExtra("id","new");
+                intent.putExtra("newid","0");
                 startActivity(intent);
             }
         });
@@ -58,7 +54,7 @@ public class Foods extends Crud {
 
     @Override
     void displayData() {
-        crudAdapter = new CrudFoodAdapter(objects, this); //S
+        crudAdapter = new CrudUsersAdapter(objects, this); //S
         recyclerView.setAdapter(crudAdapter);
     }
 
@@ -66,13 +62,10 @@ public class Foods extends Crud {
     protected void collectDataCrud(DataSnapshot dataSnapshot) {
         clearData(true);
         for (DataSnapshot d : dataSnapshot.getChildren()) {
-            Food f = d.getValue(Food.class);
-            foods.add(f);
-            objects.add((Object) f);
-            System.out.println(f.toString());
-            newId = Integer.parseInt(f.getID());
+            User user = d.getValue(User.class);
+            users.add(user);
+            objects.add((Object) user);
         }
-        newId++;
         objectsfiltered = objects;
         displayData();
     }
@@ -83,10 +76,10 @@ public class Foods extends Crud {
     }
 
     void clearData(boolean all) {
-        foodsfiltered.clear();
+        usersfiltered.clear();
         objectsfiltered.clear();
         objects.clear();
-        if(all)foods.clear();
+        if(all)users.clear();
     }
 
     @Override
@@ -94,15 +87,14 @@ public class Foods extends Crud {
         clearData(false);
         s = s.toLowerCase();
         boolean flag = false;
-        for (Food f : foods) {
-            if (f.getName().toLowerCase().contains(s) || f.getPrice().contains(s) || f.getID().contains(s)) {
-                foodsfiltered.add(f);
-                objectsfiltered.add((Object) f);
+        for (User u : users) {
+            if (u.getName().toLowerCase().contains(s) || u.getEmail().toLowerCase().contains(s)) {
+                usersfiltered.add(u);
+                objectsfiltered.add((Object) u);
                 flag = true;
             }
         }
         displayData();
         return flag;
     }
-
 }

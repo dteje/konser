@@ -22,7 +22,7 @@ import com.visual.conserapp.Adapter.RequestAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminHome extends AppCompatActivity {
+public class AdminOrders extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -67,13 +67,13 @@ public class AdminHome extends AppCompatActivity {
         int id = menuitem.getItemId();
         Intent intent;
         if (id == R.id.admin_top_menu_item_client_view) intent = new Intent(this, Home.class);
-        else if (id == R.id.admin_top_menu_item_pending_requests) intent = new Intent(this, AdminHome.class);
+        else if (id == R.id.admin_top_menu_item_pending_requests) intent = new Intent(this, AdminOrders.class);
         else intent = new Intent(this, AdminPanel.class);
         startActivity(intent);
         return true;
     }
 
-    public void loadRequests(final AdminHome ah) {
+    public void loadRequests(final AdminOrders ah) {
 
         requests_table.addValueEventListener(new ValueEventListener() {
             @Override

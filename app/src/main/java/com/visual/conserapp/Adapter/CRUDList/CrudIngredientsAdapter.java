@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.visual.conserapp.Model.Ingredient;
-import com.visual.conserapp.Views.CRUD.List.Ingredients;
+import com.visual.conserapp.Views.CRUD.List.IngredientList;
 import com.visual.conserapp.Views.CRUD.Modify.CrudEditIngredients;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class CrudIngredientsAdapter extends CrudAdapter {
 
     List<Ingredient> listData;
 
-    public CrudIngredientsAdapter(List<Object> objects, Ingredients ingredients) {
+    public CrudIngredientsAdapter(List<Object> objects, IngredientList ingredients) {
         super(objects, ingredients);
         this.listData = convertObjectsToIngredients(listDataObjects);
     }
@@ -32,9 +32,9 @@ public class CrudIngredientsAdapter extends CrudAdapter {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(crud, CrudEditIngredients.class);
+                Intent intent = new Intent(crudList, CrudEditIngredients.class);
                 intent.putExtra("id",listData.get(position).getId());
-                crud.startActivity(intent);
+                crudList.startActivity(intent);
             }
         });
     }

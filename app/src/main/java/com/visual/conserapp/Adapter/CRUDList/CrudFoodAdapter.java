@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.visual.conserapp.Model.Food;
-import com.visual.conserapp.Views.CRUD.List.Foods;
+import com.visual.conserapp.Views.CRUD.List.FoodList;
 import com.visual.conserapp.Views.CRUD.Modify.CrudEditFood;
 
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ public class CrudFoodAdapter extends CrudAdapter {
 
     List<Food> listData;
 
-    public CrudFoodAdapter(List<Object> objects, Foods foods) {
-        super(objects, foods);
+    public CrudFoodAdapter(List<Object> objects, FoodList foodList) {
+        super(objects, foodList);
         this.listData = convertObjectsToFoods(listDataObjects);
     }
 
@@ -33,9 +33,9 @@ public class CrudFoodAdapter extends CrudAdapter {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(crud, CrudEditFood.class);
+                Intent intent = new Intent(crudList, CrudEditFood.class);
                 intent.putExtra("id", listData.get(position).getID());
-                crud.startActivity(intent);
+                crudList.startActivity(intent);
             }
         });
     }

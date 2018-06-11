@@ -3,13 +3,11 @@ package com.visual.conserapp.Views;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -31,7 +29,7 @@ import java.util.Map;
  * Created by daniel on 08/06/2018.
  */
 
-public class AdminOfertasSemana extends AppCompatActivity{
+public class AdminDailyEdit extends AppCompatActivity{
 
     Map<String, Object> map = new HashMap<>();
     List<String> previousdays, foodnames;
@@ -152,7 +150,7 @@ public class AdminOfertasSemana extends AppCompatActivity{
         Intent intent;
         if (id == R.id.admin_top_menu_item_client_view) intent = new Intent(this, Home.class);
         else if (id == R.id.admin_top_menu_item_pending_requests)
-            intent = new Intent(this, AdminHome.class);
+            intent = new Intent(this, AdminOrders.class);
         else intent = new Intent(this, AdminPanel.class);
         startActivity(intent);
         return true;
