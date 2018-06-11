@@ -63,7 +63,7 @@ public class SandwitchCreator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sandwitch_creator);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Sandwitch Creator");
+        toolbar.setTitle("Crear mi bocadillo");
         toolbar.setTitleTextColor(Color.rgb(255, 255, 255));
         setSupportActionBar(toolbar);
 
@@ -165,7 +165,7 @@ public class SandwitchCreator extends AppCompatActivity {
 
     public void addToCart(View view) {
 
-        String orderId = "Order " + String.valueOf(System.currentTimeMillis());
+        String productID = "Order " + String.valueOf(System.currentTimeMillis());
         String quantity = "1";
         String price = String.valueOf(obtainPrice());
         String discount = "0";
@@ -175,7 +175,7 @@ public class SandwitchCreator extends AppCompatActivity {
 
         if (listSandwich.isEmpty()) alertParent.printAlert(this);
         else {
-            orderRes = new Order(orderId, listSandwich.toString(), quantity, price, discount);
+            orderRes = new Order(productID, listSandwich.toString(), quantity, price, discount);
 
             new Database(getBaseContext()).addToCart(orderRes);
             Toast.makeText(SandwitchCreator.this, "Añadido al carrito!", Toast.LENGTH_SHORT).show();

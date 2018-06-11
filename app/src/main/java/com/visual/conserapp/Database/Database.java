@@ -100,7 +100,7 @@ public class Database extends SQLiteAssetHelper {
             String query = String.format("SELECT * FROM OrderDetail WHERE ProductId = " + productid);
             c = db.rawQuery(query, null);
         } catch (Exception e) {
-            e.printStackTrace();
+            c = null;
         }
         return c;
     }

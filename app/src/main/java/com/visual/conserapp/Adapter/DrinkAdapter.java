@@ -104,14 +104,14 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkHolder> {
                 Toast.makeText(home, "Añadido al carrito!", Toast.LENGTH_SHORT).show();
             }
         });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(home, Detail.class);
                 intent.putExtra("id",listData.get(position).getID());
                 home.startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override
