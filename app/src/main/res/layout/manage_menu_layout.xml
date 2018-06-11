@@ -40,28 +40,13 @@
                     android:text="Platos"
                     android:textStyle="bold"/>
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
             </LinearLayout>
 
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/home_adapter_btn_anyadir"
@@ -71,11 +56,6 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 app:srcCompat="@drawable/cart" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
 
 
         </LinearLayout>
