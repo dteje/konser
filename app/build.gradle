@@ -47,5 +47,21 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
 
 }
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+task deleteJar(type: Delete) {
+    delete 'libs/Conserapp.jar'
+}
 
+task createJar(type: Copy) {
+    from('build/intermediates/bundles/release/')
+    into('libs/')
+    include('classes.jar')
+    rename('classes.jar', 'Conserapp.jar')
+}
+
+createJar.dependsOn(deleteJar, build)
 apply plugin: 'com.google.gms.google-services'
