@@ -77,7 +77,7 @@ public class Login extends AppCompatActivity {
                     User user = dataSnapshot.child(email).getValue(User.class);
                     if (user.getPassword().equals(pwd)) {
                         Intent intent = new Intent(Login.this, Home.class);
-                        Common.currentUser = user;
+                        Common.getInstance().currentUser = user;
                         startActivity(intent);
                         finish();
                     } else {

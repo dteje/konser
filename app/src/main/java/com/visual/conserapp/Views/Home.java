@@ -85,7 +85,7 @@ public class Home extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        if (Common.currentUser.getAdmin()) {
+        if (Common.getInstance().currentUser.getAdmin()) {
             setContentView(R.layout.activity_home_admin);
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -108,14 +108,14 @@ public class Home extends AppCompatActivity
         getMenusFromFirebaseAndSetAdapter();
 
 
-        userFavId = Common.currentUser.getEmailAsId();
+        userFavId = Common.getInstance().currentUser.getEmailAsId();
         listFavs = new ArrayList<Favs>();
 
         View headerView = navigationView.getHeaderView(0);
         tv_usermail = (TextView) headerView.findViewById(R.id.nav_header_email);
         tv_username = (TextView) headerView.findViewById(R.id.nav_header_name);
-        tv_usermail.setText(Common.currentUser.getEmail());
-        tv_username.setText(Common.currentUser.getName());
+        tv_usermail.setText(Common.getInstance().currentUser.getEmail());
+        tv_username.setText(Common.getInstance().currentUser.getName());
 
         textoCentro = (TextView) findViewById(R.id.carruselText);
         textoCentro.setText("Hoy");
@@ -439,7 +439,7 @@ public class Home extends AppCompatActivity
                 homeRecycler.setAdapter(foodAdapter);
                 break;
             case "Favs":
-                UserFavs userFavs = new UserFavs(Common.currentUser.getName(), listFavs, userFavId);
+                UserFavs userFavs = new UserFavs(Common.getInstance().currentUser.getName(), listFavs, userFavId);
                 FavsAdapter favsAdapter = new FavsAdapter(userFavs, getApplicationContext(), listFavs, database, this);
                 homeRecycler.setAdapter(favsAdapter);
                 break;

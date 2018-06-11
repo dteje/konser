@@ -35,7 +35,7 @@ public class CrudUsersAdapter extends CrudAdapter {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(listData.get(position).getEmail().equals(Common.currentUser.getEmail())){
+                if(listData.get(position).getEmail().equals(Common.getInstance().currentUser.getEmail())){
                     Toast.makeText(crudList,"No puedes editar el usuario en uso", Toast.LENGTH_SHORT).show();
                 }
                 else{

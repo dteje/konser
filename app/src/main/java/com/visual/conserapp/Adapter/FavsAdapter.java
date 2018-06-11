@@ -57,7 +57,7 @@ public class FavsAdapter extends RecyclerView.Adapter<FavsViewHolder> {
     private FirebaseDatabase database;
     private DatabaseReference userfavs_table;
     private Context context;
-    private String id = Common.currentUser.getEmailAsId();
+    private String id = Common.getInstance().currentUser.getEmailAsId();
     private UserFavs userFavs;
 
     public FavsAdapter(UserFavs userFavs, Context context, ArrayList<Favs> listFav, FirebaseDatabase database, Home home) {

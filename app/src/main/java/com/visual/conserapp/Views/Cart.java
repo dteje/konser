@@ -107,7 +107,7 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String key = String.valueOf(System.currentTimeMillis());
-                Request request = new Request(key, Common.currentUser.getName(), txt_totalprice.getText().toString(), cart, timePicker.getHour() + ":" + timePicker.getMinute());
+                Request request = new Request(key, Common.getInstance().currentUser.getName(), txt_totalprice.getText().toString(), cart, timePicker.getHour() + ":" + timePicker.getMinute());
                 requests_table.child(key).setValue(request);
                 Toast.makeText(Cart.this, "Gracias! Pedido realizado", Toast.LENGTH_SHORT).show();
                 new Database(getBaseContext()).cleanCart();

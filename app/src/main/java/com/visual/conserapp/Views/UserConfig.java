@@ -47,7 +47,7 @@ public class UserConfig extends AppCompatActivity{
         txtold = (TextView) findViewById(R.id.txt_old);
         txtnew = (TextView) findViewById(R.id.txt_new);
 
-        user = Common.currentUser;
+        user = Common.getInstance().currentUser;
 
         txtname.setText(user.getName());
         txtmail.setText(user.getEmail());
@@ -66,7 +66,7 @@ public class UserConfig extends AppCompatActivity{
         }
         map.put(user.getEmailAsId(),user);
         table_user.updateChildren(map);
-        Common.currentUser = user;
+        Common.getInstance().currentUser = user;
         finish();
     }
 

@@ -65,7 +65,7 @@ public class SignIn extends AppCompatActivity {
                             user.setEmail(encodeUserEmail(edtEmail.getText().toString()));
                             if (user.getPassword().equals(edtPassword.getText().toString())) {
                                 Intent intent = new Intent(SignIn.this,Home.class);
-                                Common.currentUser = user;
+                                Common.getInstance().currentUser = user;
                                 startActivity(intent);
                                 finish();
                             } else {

@@ -64,7 +64,7 @@ public class FavsPopWindow extends Activity {
 
         textInputLayout = (EditText) findViewById(R.id.textInputNombre);
 
-        User user = Common.currentUser;
+        User user = Common.getInstance().currentUser;
         String id = user.getEmailAsId();
         String username = user.getName();
         userFavs = new UserFavs(username, listFavs, id);
@@ -129,7 +129,7 @@ public class FavsPopWindow extends Activity {
 
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-            if(ds.getKey().equals(Common.currentUser.getEmailAsId())){
+            if(ds.getKey().equals(Common.getInstance().currentUser.getEmailAsId())){
                 listFavs = ds.getValue(UserFavs.class).getListFavs();
             }
         }
