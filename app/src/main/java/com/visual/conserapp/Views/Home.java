@@ -24,12 +24,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 import com.visual.conserapp.Adapter.DrinkAdapter;
 import com.visual.conserapp.Adapter.FavsAdapter;
 import com.visual.conserapp.Adapter.FoodAdapter;
@@ -237,7 +237,7 @@ public class Home extends AppCompatActivity
                 txt_dailysandwich_name.setText(f.getName() + " y bebida");
                 txt_dailysandwich_price.setText("3.00 €");
                 if (!f.getImage().isEmpty())
-                    Picasso.with(getBaseContext()).load(f.getImage()).into(img_dailysandiwch);
+                    Glide.with(getBaseContext()).load(f.getImage()).into(img_dailysandiwch);
             }
 
             @Override
@@ -256,7 +256,7 @@ public class Home extends AppCompatActivity
                 f1 = dataSnapshot.getValue(Food.class);
                 txt_n1.setText(f1.getName());
                 if (!f1.getImage().isEmpty())
-                    Picasso.with(getBaseContext()).load(f1.getImage()).into(img1);
+                    Glide.with(getBaseContext()).load(f1.getImage()).into(img1);
             }
 
             @Override
@@ -269,7 +269,7 @@ public class Home extends AppCompatActivity
                 f2 = dataSnapshot.getValue(Food.class);
                 txt_n2.setText(f2.getName());
                 if (!f2.getImage().isEmpty())
-                    Picasso.with(getBaseContext()).load(f2.getImage()).into(img2);
+                    Glide.with(getBaseContext()).load(f2.getImage()).into(img2);
             }
 
             @Override

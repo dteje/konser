@@ -13,13 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Ingredient;
@@ -92,7 +92,7 @@ public class Detail extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 food = (dataSnapshot.child(foodid)).getValue(Food.class);
                 if(!food.getImage().isEmpty())
-                Picasso.with(getBaseContext()).load(food.getImage()).into(image);
+                Glide.with(getBaseContext()).load(food.getImage()).into(image);
                 collapsingToolbarLayout.setTitle(food.getName());
                 if(food.getDescription().isEmpty())ingredientsToDescription(food.getListOfIngredients());
                 else tv_desc.setText(food.getDescription());

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.visual.conserapp.Database.Database;
 import com.visual.conserapp.Interface.ItemClickListener;
 import com.visual.conserapp.Model.Drink;
@@ -94,7 +94,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkHolder> {
         holder.setPrice(drink.getPrice() + " €");
         String url = drink.getImage();
         if (!url.isEmpty())
-            Picasso.with(home).load(url).into(holder.img);
+            Glide.with(home).load(url).into(holder.img);
         holder.btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

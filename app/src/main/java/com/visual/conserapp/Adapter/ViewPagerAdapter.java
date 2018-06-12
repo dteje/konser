@@ -15,7 +15,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.visual.conserapp.Model.Food;
 import com.visual.conserapp.Model.Order;
 import com.visual.conserapp.R;
@@ -77,7 +77,7 @@ public class ViewPagerAdapter extends PagerAdapter {
        final TextView name = (TextView) view.findViewById(R.id.adapter_slider_tv_foodname);
        final String url = foods.get(position).getImage();
        if(url != ""){
-           Picasso.with(context).load(url).into(imagen);
+           Glide.with(context).load(url).into(imagen);
        }
        else{
            imagen.setAlpha((float)0);
