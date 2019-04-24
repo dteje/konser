@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.visual.conserapp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Views.Login"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Views.FavsPopWindow"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity android:name=".Views.Cart" />
+        <activity android:name=".Views.Home" />
+        <activity android:name=".Views.AdminMenuEdit"/>
+        <activity android:name=".Views.UserConfig"/>
+        <activity android:name=".Views.SignIn" />
+        <activity android:name=".Views.Detail" />
+        <activity android:name=".Views.DetailMenu" />
+        <activity android:name=".Views.SignUp" />
+        <activity android:name=".Views.AdminOrders" />
+        <activity android:name=".Views.SandwichCreator" />
+        <activity android:name=".Views.AdminPanel" />
+        <activity android:name=".Views.AdminDailyEdit" />
+        <activity android:name=".Views.CRUD.List.IngredientList" />
+        <activity android:name=".Views.CRUD.List.FoodList" />
+        <activity android:name=".Views.CRUD.List.UserList" />
+        <activity android:name=".Views.CRUD.Modify.CrudEditFood"/>
+        <activity android:name=".Views.CRUD.Modify.CrudEditUsers"/>
+        <activity android:name=".Views.CRUD.Modify.CrudEditIngredients"/>
+        <activity
+            android:name=".Views.RequestDetails"
+            android:label="@string/title_activity_request_details"
+            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".IngredientesFerran.ManageIngredients"/>
+        <activity android:name=".IngredientesFerran.uploadIngredients"/>
+        <activity android:name=".IngredientesFerran.AdminIngredientsMenu"/>
+        <activity android:name=".IngredientesFerran.EditIngredient"></activity>
+    </application>
+
+</manifest>

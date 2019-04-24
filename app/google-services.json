@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "100884546607",
+    "firebase_url": "https://conserapp-fb.firebaseio.com",
+    "project_id": "conserapp-fb",
+    "storage_bucket": "conserapp-fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100884546607:android:dcb808570d18c01f",
+        "android_client_info": {
+          "package_name": "com.visual.conserapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100884546607-o1ab8v6btpcd5vbgf72d2aulioauji2g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.visual.conserapp",
+            "certificate_hash": "77b807a84e8bf734ba9381c02c225883e3ff11de"
+          }
+        },
+        {
+          "client_id": "100884546607-qmm39v6l4gaqr8d66gaa0q40gnk5dsg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtysHojhD7YP0U-_f8MP4NoU3bi_eCIqM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100884546607-qmm39v6l4gaqr8d66gaa0q40gnk5dsg6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
